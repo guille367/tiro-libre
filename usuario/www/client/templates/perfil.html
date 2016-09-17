@@ -1,29 +1,60 @@
 <ion-view title="Perfil">
-    <ion-content>
-        <div class="row">
-            <div class="col-25"></div>
-            <div class="col-50">
-                <div class="row">
-                    <img class="img-perfil" src="img/VTrEvT4I.jpeg">
+    <ion-content scroll="false">
+            <div class="row">
+                <div class="col-25"></div>
+                <div class="col-50">
+                    <div class="row">
+                        <img class="img-perfil" src="img/VTrEvT4I.jpeg">
+                    </div>
+                    <div style="text-align:center;">
+                        <h2>Miguel Piñeyro</h2>
+                    </div>
                 </div>
-                <div style="text-align:center;">
-                    <h2>Miguel Piñeyro</h2>
-                </div>
+                <div class="col-25"></div>
             </div>
-            <div class="col-25"></div>
-        </div>
-        <div class="row" style="padding-top:50px;">
-            <ion-tabs class="tabs-positive tabs-icon-top">
-                <ion-tab title="Datos" icon="ion-android-list" href="#/perfil/misdatos">
-                    <ion-nav-view name="misdatos-tab"></ion-nav-view>
-                </ion-tab>
-                <ion-tab title="Mis Equipos" icon="ion-ionic" href="#/perfil/misequipos">
-                    <ion-nav-view name="misequipos-tab"></ion-nav-view>
-                </ion-tab>
-                <ion-tab title="Mis Grupos" icon="ion-android-people" href="#/perfil/misgrupos">
-                    <ion-nav-view name="misgrupos-tab"></ion-nav-view>
-                </ion-tab>
-            </ion-tabs>
-        </div>
+        
+            <div class="row">            
+                <ion-tabs class="tabs-positive tabs-icon-bottom" >
+                    <ion-tab title="Datos" icon="ion-android-list" href="#/perfil/misdatos">
+                        <ion-nav-view name="misdatos-tab"></ion-nav-view>
+                    </ion-tab>
+                    <ion-tab title="Mis Equipos" icon="ion-ionic" href="#/perfil/misequipos">
+                        <ion-nav-view name="misequipos-tab"></ion-nav-view>
+                    </ion-tab>
+                    <ion-tab title="Mis Grupos" icon="ion-android-people" href="#/perfil/misgrupos">
+                        <ion-nav-view name="misgrupos-tab"></ion-nav-view>
+                    </ion-tab>
+                </ion-tabs>
+            </div>
     </ion-content>
 </ion-view>		
+
+<style type="text/css">
+    h2{
+        color:white;
+    }
+    .tabs-striped.tabs-positive .tabs {
+        color: white;
+        background-color: rgba(0,0,0,0.5);
+        margin-top: 200px;  
+        font-weight: bolder;
+    }
+    .pane, .view {
+        background-image: url("./img/1.jpg");
+    }
+    .img-perfil{
+        margin-top: 50px;
+        width: 90px;
+        height: 90px;
+    }
+    .scroll {
+        height: auto;
+        margin-top: 80px;
+    }
+    .scroll-content {
+        position: initial;
+        
+
+    }
+
+</style>

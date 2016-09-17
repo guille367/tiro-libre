@@ -3,7 +3,6 @@ angular.module('myApp', ['ui.bootstrap']);
 var modalControl = function ($scope, $modal, $log) {
 
   var key = 1000;
-  $scope.items = ['item1', 'item2', 'item3'];
 
   $scope.open = function (person) {
 

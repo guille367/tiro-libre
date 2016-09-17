@@ -1,0 +1,8 @@
+git init
+git clone git://github.com/nlmancuso/tiro-libre
+git add .
+git commit -m "prueba"
+git remote add tirolibre https://github.com/nlmancuso/tiro-libre
+git pull tirolibre master
+git push tirolibre master
+

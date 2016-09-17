@@ -6,7 +6,7 @@
 </ion-view>	
  -->
  <ion-view view-title={{viewTitle}}>
-    <ion-nav-buttons side="right">
+    <ion-nav-buttons side="right" class="prueba">
         <button class="button" ng-click="changeMode('month')">M</button>
         <button class="button" ng-click="loadEvents()">^</button>
     </ion-nav-buttons>
@@ -18,3 +18,21 @@
                   time-selected="onTimeSelected(selectedTime, events)" step="30"></calendar>
     </ion-content>
 </ion-view>
+
+<style type="text/css">
+
+  tbody  {
+    background-color: white;
+      
+    }
+  .scroll-content .ionic-scroll{
+    background-image: url("./img/1.jpg");
+  }
+  .scroll{
+    margin-top: 0;
+  }
+  .monthview-slide {
+    height: 260px;
+  }
+
+</style>

@@ -1,9 +1,149 @@
 <h1>Canchas</h1>
-  
+<div class="col-md-4" >
+<button type="button" data-toggle="modal" data-target="#canchaNuevo" class="btn btn-info btn-sm">Nueva Cancha</button>
+</div>
+
+<form>
+    <div class="form-group">
+      <div class="input-group">
+        <div class="input-group-addon"><i class="fa fa-search"></i></div>
+        <input type="text" class="form-control" placeholder="Buscar" ng-model="search">
+      </div>      
+    </div>
+</form>
+
+<table class="table table-striped table-bordered table-hover">
+	<thead>
+		<tr class='danger'>
+			<td align="center"><B>Nombre</B></td>
+			<td align="center" width=50px><B>Jugadores</B></td>
+			<td align="center" width=40px><B>Piso</B></td>
+			<td align="center" width=30px><B>Techo</B></td>
+			<td align="center"><B>Foto</B></td>
+            <td align="center" width=35px><B>$ D</B></td>
+            <td align="center" width=35px><B>$ N</B></td>
+			<td align="center" width=60px><B>Estado</B></td>
+			<td class="col-sm-2" align="center"><B>Editar</B></td>
+		</tr>
+	</thead>
+	<tbody>
+		<tr ng-repeat="cancha in canchas | filter:search" class='info'>
+			<td>{{cancha.nombre}}</td>
+			<td align="center">{{cancha.cantJug}}</td>
+			<td align="center">{{cancha.piso}}</td>
+			<td align="center">{{cancha.techo}}</td>
+			<td align="center">{{cancha.imagen}}</td>
+			<td align="center">{{cancha.pdiurno}}</td>
+			<td align="center">{{cancha.pnocturno}}</td>            
+			<td align="center">{{cancha.estado}}</td>
+			<td align="center"><button ng-click="searchPerson(person._id);" data-toggle="modal" data-target="#personEditModal" class="btn btn-info btn-sm" >Edit</button>
+			<button ng-click="searchPerson(person._id);" data-toggle="modal" data-target="" class="btn btn-danger btn-sm" >Eliminar</button>
+
+		</tr>
+			
+	</tbody>
+</table>
 
 
 
 
 
 
-
+<!-- Modal Torneo -->
+<div id="canchaNuevo" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <!-- Modal content-->
+    <div class="modal-content" style="width:550px">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title" align="center">Nueva Cancha</h4>
+      </div>
+      <div class="modal-body">
+        <div class="container">
+          <div class="row">
+            <div class='col-sm-6'>
+              <label>Nombre de la cancha</label>
+            </div>
+          </div>
+          <div class="row">
+            <div class='col-sm-6'>
+              <input type="text" class="form-control" id="nombreCancha" name="nombreCancha" required="" style="width:500px">
+            </div>
+          </div>
+          <div class="row" style="padding-top:15px">
+            <div class='col-sm-2'>
+              <div class="form-group">
+                <label for="sel1">Cantidad de Jugadores:</label>
+                <select class="form-control" id="sel1">
+                  <option>10</option>
+                  <option>12</option>
+                  <option>14</option>
+                  <option>16</option>
+                  <option>18</option>
+                  <option>20</option>
+                  <option>22</option>
+                </select>
+              </div>
+            </div>
+            <div class='col-sm-2'>
+              <div class="form-group">
+                <label for="textPDiurno">Precio Diurno</label>
+		    	<input type="number" class="form-control" id="textPDiurno" ng-model='cancha.pdiurno' style="width:100px;height:30px">
+              </div>
+            </div>
+            <div class='col-sm-2'>
+              <div class="form-group">
+                <label for="textPNocturno">Precio Nocturno</label>
+		    	<input type="number" class="form-control" id="textPNocturno" ng-model='cancha.pnocturno' style="width:100px;height:30px">
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class='col-sm-2'>
+              <div class="form-group">
+			    <label for="textTechada">Techada</label>
+			    <input type="checkbox" ng-model="checkboxTecho.true">
+			  </div>
+            </div>
+            <div class='col-sm-2'>
+              <label for="textLuz">Luz
+		    	<input type="checkbox" ng-model="checkboxLuz.true">
+		  	  </label>
+            </div>
+          </div>
+          <div class="row">
+            <div class='col-sm-2'>
+              <div class="form-group">
+                <label for="textPiso">Piso</label>
+				<select class="form-control" id="sel1" style="width:150px">
+                  <option>Pasto</option>
+                  <option>Sintectico</option>
+                </select>
+                </div>
+              </div>
+            </0div>
+            <div class='col-sm-3'>
+              <div class="form-group">
+                <label for="sel1">Estado:</label>
+                <select class="form-control" id="sel1" style="width:150px">
+                  <option>Disponible</option>
+                  <option>Reparción</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <div class="row">
+          <div class="col-sm-offset-3 col-sm-6 text-center">
+            <button type="submit" class="btn btn-success"  data-ng-click="" data-dismiss="modal">Crear</button>
+            <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+          </div>
+        </div>      
+      </div>
+    </div>
+    <!-- Modal content-->
+  </div>
+</div>
+<!-- Modal Torneo -->

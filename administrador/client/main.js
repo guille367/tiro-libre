@@ -1,4 +1,11 @@
-var myApp = angular.module('myApp', ["ui.router"]);
+var myApp = angular.module('myApp', ['ui.router', 'credit-cards']);
+
+myApp.filter('yesNo', function () {
+  return function (boolean) {
+    return boolean ? 'Ok' : 'No';
+  }
+});
+
 
 myApp.config(function ($stateProvider, $urlRouterProvider) {
 
@@ -14,7 +21,6 @@ myApp.config(function ($stateProvider, $urlRouterProvider) {
     .state("home.index",{
       url: "/inicio",
       templateUrl: 'templates/index.html',
-      controller:'schedulerController',
       access: {restricted: true}
 
     })
@@ -22,7 +28,7 @@ myApp.config(function ($stateProvider, $urlRouterProvider) {
     .state("home.canchas",{
       url: "/canchas",
       templateUrl: 'templates/canchas.html',
-      controller:'profileCtrl',
+      controller:'canchaController',
       access: {restricted: true}
 
     })
@@ -37,6 +43,7 @@ myApp.config(function ($stateProvider, $urlRouterProvider) {
     .state("home.torneos",{
       url: "/torneos",
       templateUrl: 'templates/torneos.html',
+      controller:'torneoController',
       access: {restricted: true}
     })
 
