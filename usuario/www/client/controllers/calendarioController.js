@@ -3,49 +3,13 @@ angular.module('app.controllers', ['ionic', 'ngAnimate', 'ui.rCalendar'])
         'use strict';
         $animate.enabled(false);
     })
-    .config(function ($stateProvider, $urlRouterProvider) {
-        'use strict';
-        $stateProvider
-            .state('tabs', {
-                url: '/tab',
-                abstract: true,
-                templateUrl: 'templates/tabs.html'
-            })
-            .state('tabs.home', {
-                url: '/home',
-                views: {
-                    'home-tab': {
-                        templateUrl: 'templates/home.html',
-                        controller: 'CalendarDemoCtrl'
-                    }
-                }
-            })
-            .state('tabs.about', {
-                url: '/about',
-                views: {
-                    'about-tab': {
-                        templateUrl: 'templates/about.html'
-                    }
-                }
-            })
-            .state('tabs.contact', {
-                url: '/contact',
-                views: {
-                    'contact-tab': {
-                        templateUrl: 'templates/contact.html'
-                    }
-                }
-            });
-
-        $urlRouterProvider.otherwise('/tab/home');
-    })
-
+    
     .controller('CalendarDemoCtrl', function ($scope) {
         'use strict';
         $scope.calendar = {};
-        $scope.changeMode = function (mode) {
+        /*$scope.changeMode = function (mode) {
             $scope.calendar.mode = mode;
-        };
+        };*/
 
         $scope.loadEvents = function () {
             $scope.calendar.eventSource = createRandomEvents();
@@ -72,8 +36,8 @@ angular.module('app.controllers', ['ionic', 'ngAnimate', 'ui.rCalendar'])
             return today.getTime() === currentCalendarDate.getTime();
         };
 
-        $scope.onTimeSelected = function (selectedTime, events) {
-            console.log('Selected time: ' + selectedTime + ', hasEvents: ' + (events !== undefined && events.length !== 0));
+        $scope.onTimeSelected = function (selectedTime) {
+            console.log('Selected time: ' + selectedTime);
         };
 
         function createRandomEvents() {
