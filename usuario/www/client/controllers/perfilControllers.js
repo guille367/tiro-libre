@@ -60,6 +60,40 @@ angular.module('app.controllers', ['ionic', 'ngAnimate', 'ui.rCalendar'])
 
 }])
 
+.controller('misReservasController', ['$scope','$ionicPopup','$ionicModal',function($scope,$ionicPopup,$ionicModal){
+
+    $ionicModal.fromTemplateUrl('client/templates/dialogs/detallereserva.html',{
+        scope: $scope,
+        animation:'slide-in-up',
+    }).then(function(modal){
+        $scope.modalReserva = modal;
+    });
+
+    $scope.openReserva = function () {
+
+        $scope.reserva = {
+            fechaInicio: new Date(),
+            fechaFin: new Date(),
+            cancha: '',
+            permanente: false,
+            precio: 150,
+            pagado: 15
+        };
+
+        $scope.reserva.importeAdeudado = ($scope.reserva.precio - $scope.reserva.pagado)
+
+        $scope.modalReserva.show();
+
+      
+    }
+
+    $scope.closeReserva = function () {
+        $scope.modalReserva.hide();
+    }
+
+}])
+
+
 .controller('misEquiposCtroller', ['$scope','$ionicModal', '$stateParams',function($scope,$ionicModal,$stateParams){
     
     $ionicModal.fromTemplateUrl('client/templates/dialogs/integrantes.html',{

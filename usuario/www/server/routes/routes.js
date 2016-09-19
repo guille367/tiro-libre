@@ -35,13 +35,18 @@ angular.module('app.routes', [])
   
   .state('misreservas', {
     url: '/misreservas',
-    controller:'CalendarDemoCtrl',
-    templateUrl:'client/templates/reservas.html'
+    controller:'misReservasController',
+    templateUrl:'client/templates/misreservas.html'
   })
   
   .state('perfil', {
     url: '/perfil',
     templateUrl:'client/templates/perfil.html'
+  })
+
+    .state('perfilNo', {
+    url: '/perfilNo',
+    templateUrl:'client/templates/perfilNo.html'
   })
   
   .state('perfil.misdatos', {

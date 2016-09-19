@@ -3,7 +3,7 @@
         <h1>Reservas</h1>
         <calendar calendar-mode="week" event-source="eventSource">
     </ion-content>
-</ion-view>	
+</ion-view> 
  -->
  <ion-view view-title={{viewTitle}}>
     <ion-nav-buttons side="right" class="prueba">
@@ -20,19 +20,33 @@
 </ion-view>
 
 <style type="text/css">
-
-  tbody  {
+thead{
+  background-color: white;
+}
+  
+  tbody {
     background-color: white;
       
+    }
+    .dayview-allday-table{
+      background-color: white;
+    }
+        .pane, .view {
+        background-image: url("./img/1.jpg");
+
     }
   .scroll-content .ionic-scroll{
     background-image: url("./img/1.jpg");
   }
   .scroll{
     margin-top: 0;
+    background-color: white;
   }
   .monthview-slide {
     height: 260px;
   }
+  .scroll-content{
+    position: absolute;
+}
 
 </style>

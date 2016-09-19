@@ -1,5 +1,7 @@
 <ion-view title="Perfil">
-    <ion-content scroll="false">
+<tr>
+<td>
+    <ion-content scroll="true">
             <div class="row">
                 <div class="col-25"></div>
                 <div class="col-50">
@@ -12,7 +14,8 @@
                 </div>
                 <div class="col-25"></div>
             </div>
-        
+</td>
+<td>
             <div class="row">            
                 <ion-tabs class="tabs-positive tabs-icon-bottom" >
                     <ion-tab title="Datos" icon="ion-android-list" href="#/perfil/misdatos">
@@ -27,7 +30,9 @@
                 </ion-tabs>
             </div>
     </ion-content>
-</ion-view>		
+    </td>        
+    </tr>
+</ion-view>     
 
 <style type="text/css">
     h2{
@@ -36,25 +41,25 @@
     .tabs-striped.tabs-positive .tabs {
         color: white;
         background-color: rgba(0,0,0,0.5);
-        margin-top: 200px;  
+        margin-top: 170px;  
         font-weight: bolder;
     }
     .pane, .view {
         background-image: url("./img/1.jpg");
+
     }
     .img-perfil{
-        margin-top: 50px;
+        margin-top: 20px;
         width: 90px;
         height: 90px;
     }
-    .scroll {
-        height: auto;
-        margin-top: 80px;
-    }
-    .scroll-content {
-        position: initial;
-        
+.scroll-content{
+    position: absolute;
+}
+.scroll{
+    height: 310px;
+}
 
-    }
+
 
 </style>
