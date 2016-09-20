@@ -42,5 +42,8 @@ angular.module('app.controllers')
         $scope.modalReserva.hide();
     }
 
+    $scope.closePago = function () {
+        $scope.modalPago.hide();
+    }
 
 }])
