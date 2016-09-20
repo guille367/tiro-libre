@@ -1,15 +1,11 @@
-angular.module('app.controllers', ['ionic', 'ngAnimate', 'ui.rCalendar'])
-    .run(function ($ionicPlatform, $animate) {
-        'use strict';
-        $animate.enabled(false);
-    })
-    
-    .controller('CalendarDemoCtrl', function ($scope) {
+angular.module('app.controllers')
+
+.controller('calendarioCtroller',['$scope', function ($scope) {
         'use strict';
         $scope.calendar = {};
-        /*$scope.changeMode = function (mode) {
+        $scope.changeMode = function (mode) {
             $scope.calendar.mode = mode;
-        };*/
+        };
 
         $scope.loadEvents = function () {
             $scope.calendar.eventSource = createRandomEvents();
@@ -36,8 +32,8 @@ angular.module('app.controllers', ['ionic', 'ngAnimate', 'ui.rCalendar'])
             return today.getTime() === currentCalendarDate.getTime();
         };
 
-        $scope.onTimeSelected = function (selectedTime) {
-            console.log('Selected time: ' + selectedTime);
+        $scope.onTimeSelected = function (selectedTime, events) {
+            console.log('Selected time: ' + selectedTime + ', hasEvents: ' + (events !== undefined && events.length !== 0));
         };
 
         function createRandomEvents() {
@@ -76,4 +72,4 @@ angular.module('app.controllers', ['ionic', 'ngAnimate', 'ui.rCalendar'])
             }
             return events;
         }
-    });
+    }]);

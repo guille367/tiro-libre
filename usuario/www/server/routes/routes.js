@@ -33,16 +33,16 @@ angular.module('app.routes', [])
     templateUrl:'client/templates/torneos.html'
   })
   
-  .state('calendario', {
-    url: '/calendario',
-    controller:'CalendarDemoCtrl',
-    templateUrl:'client/templates/calendario.html'
-  })
-
   .state('misreservas', {
     url: '/misreservas',
     controller:'misReservasCtroller',
     templateUrl:'client/templates/misreservas.html'
+  })
+
+  .state('calendario',{
+    url:'/calendario',
+    controller: 'calendarioCtroller',
+    templateUrl:'client/templates/calendario.html'
   })
   
   .state('perfil', {

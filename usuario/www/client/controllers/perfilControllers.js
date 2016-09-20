@@ -35,64 +35,8 @@ angular.module('app.controllers', ['ionic', 'ngAnimate', 'ui.rCalendar'])
 		    ]
 		  })
 	};
-
-	/*$ionicModal.fromTemplateUrl('dialogtelefono.html',{
-    	scope: $scope,
-    	animation:'slide-in-up',
-    }).then(function(modal){
-    	$scope.dialogTel = modal;
-    });
-
-    $ionicModal.fromTemplateUrl('dialogtelefono.html',{
-    	scope: $scope,
-    	animation:'slide-in-up',
-    }).then(function(modal){
-    	$scope.dialogMail = modal;
-    });
-
-    $scope.openDialog = function (dialog) {
-    	dialog.show()
-    }
-
-    $scope.closeDialog = function (dialog) {
-    	dialog.hide();
-    }*/
-
+    
 }])
-
-.controller('misReservasCtroller', ['$scope','$ionicPopup','$ionicModal',function($scope,$ionicPopup,$ionicModal){
-
-    $ionicModal.fromTemplateUrl('client/templates/dialogs/detallereserva.html',{
-        scope: $scope,
-        animation:'slide-in-up',
-    }).then(function(modal){
-        $scope.modalReserva = modal;
-    });
-
-    $scope.openReserva = function () {
-
-        $scope.reserva = {
-            fechaInicio: new Date(),
-            fechaFin: new Date(),
-            cancha: '',
-            permanente: false,
-            precio: 150,
-            pagado: 15
-        };
-
-        $scope.reserva.importeAdeudado = ($scope.reserva.precio - $scope.reserva.pagado)
-
-        $scope.modalReserva.show();
-
-      
-    }
-
-    $scope.closeReserva = function () {
-        $scope.modalReserva.hide();
-    }
-
-}])
-
 
 .controller('misEquiposCtroller', ['$scope','$ionicModal', '$stateParams',function($scope,$ionicModal,$stateParams){
     
@@ -117,79 +61,43 @@ angular.module('app.controllers', ['ionic', 'ngAnimate', 'ui.rCalendar'])
 	
 }])
 
-    .controller('CalendarDemoCtrl', function ($scope) {
+.run(function ($ionicPlatform, $animate) {
         'use strict';
-        $scope.calendar = {};
-        $scope.changeMode = function (mode) {
-            $scope.calendar.mode = mode;
-        };
-
-        $scope.loadEvents = function () {
-            $scope.calendar.eventSource = createRandomEvents();
-        };
-
-        $scope.onEventSelected = function (event) {
-            console.log('Event selected:' + event.startTime + '-' + event.endTime + ',' + event.title);
-        };
-
-        $scope.onViewTitleChanged = function (title) {
-            $scope.viewTitle = title;
-        };
-
-        $scope.today = function () {
-            $scope.calendar.currentDate = new Date();
-        };
-
-        $scope.isToday = function () {
-            var today = new Date(),
-                currentCalendarDate = new Date($scope.calendar.currentDate);
-
-            today.setHours(0, 0, 0, 0);
-            currentCalendarDate.setHours(0, 0, 0, 0);
-            return today.getTime() === currentCalendarDate.getTime();
-        };
-
-        $scope.onTimeSelected = function (selectedTime, events) {
-
-        	//$scope.calendar.mode = 'day';
-            console.log('Selected time: ' + selectedTime + ', hasEvents: ' + (events !== undefined && events.length !== 0));
-        };
-
-        function createRandomEvents() {
-            var events = [];
-            for (var i = 0; i < 50; i += 1) {
-                var date = new Date();
-                var eventType = Math.floor(Math.random() * 2);
-                var startDay = Math.floor(Math.random() * 90) - 45;
-                var endDay = Math.floor(Math.random() * 2) + startDay;
-                var startTime;
-                var endTime;
-                if (eventType === 0) {
-                    startTime = new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate() + startDay));
-                    if (endDay === startDay) {
-                        endDay += 1;
+        $animate.enabled(false);
+    })
+    .config(function ($stateProvider, $urlRouterProvider) {
+        'use strict';
+        $stateProvider
+            .state('tabs', {
+                url: '/tab',
+                abstract: true,
+                templateUrl: 'templates/tabs.html'
+            })
+            .state('tabs.home', {
+                url: '/home',
+                views: {
+                    'home-tab': {
+                        templateUrl: 'templates/home.html',
+                        controller: 'CalendarDemoCtrl'
                     }
-                    endTime = new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate() + endDay));
-                    events.push({
-                        title: 'All Day - ' + i,
-                        startTime: startTime,
-                        endTime: endTime,
-                        allDay: true
-                    });
-                } else {
-                    var startMinute = Math.floor(Math.random() * 24 * 60);
-                    var endMinute = Math.floor(Math.random() * 180) + startMinute;
-                    startTime = new Date(date.getFullYear(), date.getMonth(), date.getDate() + startDay, 0, date.getMinutes() + startMinute);
-                    endTime = new Date(date.getFullYear(), date.getMonth(), date.getDate() + endDay, 0, date.getMinutes() + endMinute);
-                    events.push({
-                        title: 'Reserva - ' + i,
-                        startTime: startTime,
-                        endTime: endTime,
-                        allDay: false
-                    });
                 }
-            }
-            return events;
-        }
-        createRandomEvents();
-    });
+            })
+            .state('tabs.about', {
+                url: '/about',
+                views: {
+                    'about-tab': {
+                        templateUrl: 'templates/about.html'
+                    }
+                }
+            })
+            .state('tabs.contact', {
+                url: '/contact',
+                views: {
+                    'contact-tab': {
+                        templateUrl: 'templates/contact.html'
+                    }
+                }
+            });
+
+        $urlRouterProvider.otherwise('/tab/home');
+    })
