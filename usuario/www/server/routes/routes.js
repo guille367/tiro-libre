@@ -35,8 +35,14 @@ angular.module('app.routes', [])
   
   .state('misreservas', {
     url: '/misreservas',
-    controller:'misReservasController',
+    controller:'misReservasCtroller',
     templateUrl:'client/templates/misreservas.html'
+  })
+
+  .state('calendario',{
+    url:'/calendario',
+    controller: 'calendarioCtroller',
+    templateUrl:'client/templates/calendario.html'
   })
   
   .state('perfil', {
@@ -44,7 +50,7 @@ angular.module('app.routes', [])
     templateUrl:'client/templates/perfil.html'
   })
 
-    .state('perfilNo', {
+  .state('perfilNo', {
     url: '/perfilNo',
     templateUrl:'client/templates/perfilNo.html'
   })
@@ -80,13 +86,14 @@ angular.module('app.routes', [])
 
   .state('contacto', {
     url: '/contacto',
-    views:{
-        'contenido':{
-            templateUrl:'client/templates/contacto.html'
-        }
-    }
+    templateUrl:'client/templates/contacto.html'
   })
   
+  .state('instorneo', {
+    url: '/instorneo',
+    templateUrl:'client/templates/instorneo.html'
+  })
+
   $urlRouterProvider.otherwise('/canchas');
 
 });

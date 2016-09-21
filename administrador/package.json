@@ -4,6 +4,7 @@
     "start": "node server/server.js"
   },
   "dependencies": {
+    "angular-bootstrap-colorpicker": "^3.0.25",
     "bcrypt-nodejs": "0.0.3",
     "body-parser": "^1.15.0",
     "cookie-parser": "^1.4.1",

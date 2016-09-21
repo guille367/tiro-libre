@@ -1,0 +1,44 @@
+<ion-view>
+
+    <ion-content scroll="true" class="has-header">
+    	<div style="position:static;overflow:auto;height:300px">
+	       <!--  <calendar ng-model="calendar.currentDate" calendar-mode="calendar.mode"
+	                  time-selected="onTimeSelected(selectedTime, events)" step="30"
+	                  vent-source="calendar.eventSource"></calendar> -->
+	                  <calendar ng-model="calendar.currentDate" calendar-mode="calendar.mode" event-source="calendar.eventSource"
+                      range-changed="reloadSource(startTime, endTime)"
+                      event-selected="onEventSelected(event)" title-changed="onViewTitleChanged(title)"
+                      time-selected="onTimeSelected(selectedTime, events)" step="30"></calendar>
+      	</div>
+
+      	<!-- REPETIR -->
+      	<div class="row" ng-repeat="reserva in reservasDia" style="overflow:auto">
+			<div class="col-10">
+				<b>Inicio: </b>
+			</div>	
+			<div class="col-33">
+				 {{reserva.startTime | date: 'HH:mm' }}	hs			
+			</div>
+
+			<div class="col-10">
+				<b>Fin: </b>
+			</div>	
+			<div class="col-33">
+				 {{reserva.endTime | date: 'HH:mm' }}	hs			
+			</div>
+
+		</div>
+
+		<div layout="row">
+			<button class="button button-positive button-block" ng-click="changeMode('day')">Ir a día</button>
+		</div>
+		<div layout="row">
+			<button class="button button-positive button-block" ng-click="changeMode('month')">Ir a mes</button>
+		</div>
+		<div layout="row">
+			<button class="button button-positive button-block" ng-click="loadEvents()">Cargar eventos de prueba</button>
+		</div>
+
+    </ion-content>
+
+</ion-view>

@@ -20,9 +20,10 @@
 			<td align="center" width=40px><B>Piso</B></td>
 			<td align="center" width=30px><B>Techo</B></td>
 			<td align="center"><B>Foto</B></td>
-            <td align="center" width=35px><B>$ D</B></td>
-            <td align="center" width=35px><B>$ N</B></td>
+      <td align="center" width=35px><B>$ D</B></td>
+      <td align="center" width=35px><B>$ N</B></td>
 			<td align="center" width=60px><B>Estado</B></td>
+      <td align="center" width=35px><B>Color</B></td>
 			<td class="col-sm-2" align="center"><B>Editar</B></td>
 		</tr>
 	</thead>
@@ -36,8 +37,9 @@
 			<td align="center">{{cancha.pdiurno}}</td>
 			<td align="center">{{cancha.pnocturno}}</td>            
 			<td align="center">{{cancha.estado}}</td>
-			<td align="center"><button ng-click="searchPerson(person._id);" data-toggle="modal" data-target="#personEditModal" class="btn btn-info btn-sm" >Edit</button>
-			<button ng-click="searchPerson(person._id);" data-toggle="modal" data-target="" class="btn btn-danger btn-sm" >Eliminar</button>
+      <td align="center">{{cancha.color}}</td>
+			<td align="center"><button ng-click="" data-toggle="modal" data-target="#canchaNuevo" class="btn btn-info btn-sm" >Editar</button>
+			<button ng-click="" data-toggle="modal" data-target="" class="btn btn-danger btn-sm" >Eliminar</button>
 
 		</tr>
 			
@@ -53,7 +55,7 @@
 <div id="canchaNuevo" class="modal fade" role="dialog">
   <div class="modal-dialog">
     <!-- Modal content-->
-    <div class="modal-content" style="width:550px">
+    <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">&times;</button>
         <h4 class="modal-title" align="center">Nueva Cancha</h4>
@@ -67,7 +69,7 @@
           </div>
           <div class="row">
             <div class='col-sm-6'>
-              <input type="text" class="form-control" id="nombreCancha" name="nombreCancha" required="" style="width:500px">
+              <input type="text" class="form-control" id="nombreCancha" name="nombreCancha" required="true">
             </div>
           </div>
           <div class="row" style="padding-top:15px">
@@ -87,16 +89,24 @@
             </div>
             <div class='col-sm-2'>
               <div class="form-group">
-                <label for="textPDiurno">Precio Diurno</label>
-		    	<input type="number" class="form-control" id="textPDiurno" ng-model='cancha.pdiurno' style="width:100px;height:30px">
+                <label for="precio">Precio Diurno</label>
+                <div class="input-group">
+                  <span class="input-group-addon">$</span>
+                  <input type="text" class="form-control" id="precio1" ng-model='cancha.pdiurno' placeholder="precio">
+                </div>
               </div>
             </div>
+
             <div class='col-sm-2'>
               <div class="form-group">
-                <label for="textPNocturno">Precio Nocturno</label>
-		    	<input type="number" class="form-control" id="textPNocturno" ng-model='cancha.pnocturno' style="width:100px;height:30px">
+                <label for="precio">Precio Nocturno</label>
+                <div class="input-group">
+                  <span class="input-group-addon">$</span>
+                  <input type="text" class="form-control" id="precio1" ng-model='cancha.pnocturno' placeholder="precio">
+                </div>
               </div>
-            </div>
+            </div>            
+            
           </div>
           <div class="row">
             <div class='col-sm-2'>
@@ -115,22 +125,29 @@
             <div class='col-sm-2'>
               <div class="form-group">
                 <label for="textPiso">Piso</label>
-				<select class="form-control" id="sel1" style="width:150px">
+				<select class="form-control" id="sel1" >
                   <option>Pasto</option>
                   <option>Sintectico</option>
+                  <option>Cemento</option>
                 </select>
                 </div>
               </div>
             </0div>
-            <div class='col-sm-3'>
+            <div class='col-sm-2'>
               <div class="form-group">
                 <label for="sel1">Estado:</label>
-                <select class="form-control" id="sel1" style="width:150px">
+                <select class="form-control" id="sel1">
                   <option>Disponible</option>
-                  <option>Reparción</option>
+                  <option>En reparción</option>
                 </select>
               </div>
             </div>
+            <div class='col-sm-2'>
+              <div class="form-group">
+                <label for="colorpicker">Color Identificador:</label>
+                <input type="text" id="colorpicker" class="form-control" colorpicker ng-model="hexPicker.color" >
+              </div>
+            </div>  
           </div>
         </div>
       </div>

@@ -4,11 +4,11 @@
     <meta charset="utf-8">
     <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
     <title></title>
-
+ 
     <style type="text/css">
 
          .pane  {
-      background-image: url("./img/1.jpg");
+      /*background-image: url("./img/1.jpg");*/
     }
 
 
@@ -31,8 +31,9 @@
         border-right: 0px;
       }
     </style>
- 
-    <!-- Angular Material -->
+
+    
+  <!-- Angular Material -->
 
     <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.min.css">
     <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular.min.js"></script>
@@ -43,6 +44,26 @@
     
     <!-- Angular Material -->
 
+    
+    <!-- Controllers, servicios y ¿directivas? -->
+
+    <link href="lib/ionic/css/ionic.css" rel="stylesheet">
+    <link href="lib/ionic/css/styles.css" rel="stylesheet">
+    <script src="lib/ionic/js/ionic.bundle.js"></script>
+    <!-- cordova script (this will be a 404 during development) -->
+    <script src="cordova.js"></script>
+      
+    <script src="./server/app.js"></script>
+    <script src="./client/controllers/perfilControllers.js"></script>
+    <script src="./client/controllers/calendarioController.js"></script>
+    <script src="./client/controllers/reservasController.js"></script>
+    <script src="./client/controllers/pagoTarjetaController.js"></script>
+    <script src="./server/routes/routes.js"></script>
+    <script src="./client/directives/directives.js"></script>
+    <script src="./client/services/services.js"></script>
+    
+    <!-- Controllers, servicios y ¿directivas? -->
+     
 
     <!-- Jquery/bootstrap -->
 
@@ -51,33 +72,15 @@
 
     <!-- Jquery/bootstrap -->
 
-    <!-- Ionic -->
 
-    <!-- cordova script (this will be a 404 during development) -->
-    <script src="lib/ionic/js/ionic.bundle.js"></script>
-
-    <script src="cordova.js"></script>
-    <link href="lib/ionic/css/ionic.css" rel="stylesheet">
-    <link href="lib/ionic/css/styles.css" rel="stylesheet">
-    
+    <!-- Otros scripts --> 
     <link rel="stylesheet" href="http://code.ionicframework.com/1.1.1/css/ionic.min.css">
     <link rel="stylesheet" href="./client/bower_components/ionic-calendar/dist/css/calendar.min.css">
     <script src="http://code.ionicframework.com/1.1.1/js/ionic.bundle.min.js"></script>
-    <script src="./client/bower_components/ionic-calendar/dist/js/calendar-tpls.min.js"></script>
-        
-    <!-- Ionic -->
+    <script src="./client/bower_components/ionic-calendar/dist/js/calendar-tpls.js"></script>
+    <!-- Otros scripts -->
 
 
-    <!-- Controllers, servicios y ¿directivas? -->
-
-    <script src="./server/app.js"></script>
-    <script src="./client/controllers/perfilControllers.js"></script>
-    <script src="./server/routes/routes.js"></script>
-    <script src="./client/directives/directives.js"></script>
-    <script src="./client/services/services.js"></script>
-
-    <!-- Controllers, servicios y ¿directivas? -->
-     
   </head>
   <body ng-app="app" animation="slide-left-right-ios7">
   <div>
@@ -98,31 +101,28 @@
             </ion-header-bar>
             <ion-content padding="false" class="side-menu-left has-header">
                 <ion-list id="listItems" data-componentid="list2">
-                    <ion-item menu-close="" class="item-icon-left" id="menu-list-item-noticias" data-componentid="list-item-noticias" href="#/noticias">
-                        <i class="icon ion-ios-paper-outline"></i>Noticias</ion-item>
-                    <ion-item menu-close="" class="item-icon-left" id="menu-list-item-eventos" data-componentid="list-item-eventos" href="#/eventos">
-                        <i class="icon ion-android-clipboard"></i>Eventos</ion-item>
                     <ion-item menu-close="" class="item-icon-left" id="menu-list-item-canchas" data-componentid="list-item-canchas" href="#/canchas">
                         <i class="icon ion-ios-football-outline"></i>Canchas</ion-item>
                     <ion-item menu-close="" class="item-icon-left" id="menu-list-item-torneos" data-componentid="list-item-torneos" href="#/perfil">
                         <i class="icon ion-android-contact"></i>Perfil</ion-item>
                     <ion-item menu-close="" class="item-icon-left" id="menu-list-item-torneos" data-componentid="list-item-torneos" href="#/perfilNo">
-                        <i class="icon ion-android-contact"></i>Perfil No</ion-item>
+                        <i class="icon ion-android-contact"></i>Perfil NO</ion-item>                        
                     <ion-item menu-close="" class="item-icon-left" id="menu-list-item-torneos" data-componentid="list-item-torneos" href="#/torneos">
                         <i class="icon ion-trophy"></i>Torneos</ion-item>
                     <ion-item menu-close="" class="item-icon-left" id="menu-list-item-reservas" data-componentid="list-item-reservas" href="#/misreservas" ng-click="schedulear()">
                         <i class="icon ion-calendar"></i>Mis reservas</ion-item>
-                    <!-- <ion-item class="item-icon-left" id="menu-list-item-grupos" data-componentid="list-item-grupos" href="#/tirolibre/misgrupos">
-                        <i class="icon ion-android-people"></i>Mis grupos</ion-item>
-                    <ion-item class="item-icon-left" id="menu-list-item-equipos" data-componentid="list-item-equipos" href="#/tirolibre/misequipos">
-                        <i class="icon ion-ios-list"></i>Mis equipos</ion-item> -->
                     <ion-item menu-close="" class="item-icon-left" id="menu-list-item-contacto" data-componentid="list-item-contacto" href="#/contacto">
                         <i class="icon ion-ios-telephone"></i>Contacto</ion-item>
+                    <ion-item menu-close="" class="item-icon-left" id="menu-list-item-instorneo" data-componentid="list-item-instorneo" href="#/instorneo">
+                        <i class="icon ion-ios-telephone"></i>Inscrpcion Torneo</ion-item>
                 </ion-list>
+
             </ion-content>
         </ion-side-menu>
     </ion-side-menus>
+
   </div>
+
   </body>
     
 </html>

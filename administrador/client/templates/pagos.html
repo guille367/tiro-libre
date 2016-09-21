@@ -1,0 +1,284 @@
+<script>
+var app = angular.module('myApp', []);
+myApp.filter('yesNo', function () {
+  return function (boolean) {
+    return boolean ? 'Ok' : 'No';
+  }
+});
+</script>
+
+<h1>Pagos</h1>
+<div class="container">
+	<div class="row">
+		<div class='col-sm-4'>
+			<div class="well" style="max-height: 500px;overflow: auto;">
+				<div class="text-center"><label>Usuarios</label></div>
+				<div class="form-group">
+      				<div class="input-group">
+        				<div class="input-group-addon"><span class="glyphicon glyphicon-search"></span><i class="fa fa-search"></i>
+        				</div>
+        				<input type="text" class="form-control" placeholder="Buscar" ng-model="search">
+      				</div>      
+    			</div>
+				<div class="list-group small">
+          			<a ng-repeat="color in colors | filter:search " ng-click="$parent.selected = color" class="list-group-item" ng-class="{active:selected==color}">{{color.name}}</a>
+        		</div>
+			</div>   
+    
+		</div>
+		<div class='col-sm-7'>
+			<div class="well" style="max-height: 500px;overflow: auto;">
+				<h4>Torneos en los que participa: <B>{{selected.name }}</B></h4>
+				<table class="table table-striped table-bordered table-hover">
+  					<thead>
+    					<tr class='success'>
+      						<td align="center"><B>Nombre</B></td>
+      						<td align="center" class="col-sm-2"><B>Acción</B></td>
+      					</tr>
+  					</thead>
+  					<tbody>
+    					<tr ng-repeat="torneo in torneos" class='info'>
+      						<td>{{torneo.nombre}}</td>
+      						<td align="center">
+      							<button ng-click="" ng-model="torneo" data-toggle="modal" data-target="#nuevoPago" class="btn btn-info btn-sm">Pagar</button>
+      						</td>
+      					</tr>
+      				</tbody>
+				</table>
+				<div align="right">
+					<button ng-click="" data-toggle="modal" data-target="#otroPago" class="btn btn-warning btn-sm" >Otros pagos</button>
+				</div>				
+			</div>
+		</div>
+	</div>
+</div>
+
+<div id="nuevoPago" class="modal fade" role="dialog">
+  	<div class="modal-dialog modal-sm">
+    <!-- Modal content-->
+    	<div class="modal-content">
+      		<div class="modal-header">
+        		<button type="button" class="close" data-dismiss="modal">&times;</button>
+        		<h4 class="modal-title" align="center">Pagos</h4>
+      		</div>
+      		<div class="modal-body">
+        		<div class="container">
+        			<div class="row">
+            			<div class="col-lg-3">
+              				<label>Usuario: </label>
+            			</div>
+          			</div>
+          			<div class="row">
+            			<div class="col-lg-2">
+              				<input type="text" class="form-control" id="usuario" value="Usuario X" name="nombreTorneo" readonly="true">
+            			</div>
+          			</div>
+          			<div class="row">
+            			<div class="col-lg-3">
+              				<label>Nombre del torneo</label>
+            			</div>
+          			</div>
+          			<div class="row">
+            			<div class="col-lg-2">
+              				<input type="text" class="form-control" id="nombreTorneo" value="Torneo Relámpago" name="nombreTorneo" readonly="true">
+            			</div>
+          			</div>
+          			<div class="row">
+            			<div class='col-lg-1'>
+                			<label for="fecha">N° Fecha</label>
+                			<div class="input-group">
+                 				<input type="number" class="form-control" id="fecha" >
+                			</div>
+            			</div>
+            			<div class='col-lg-2'>
+              				<div class="form-group">
+                				<label for="precio">Importe</label>
+                				<div class="input-group">
+                  					<span class="input-group-addon">$</span>
+                  					<input type="text" class="form-control" id="precio" placeholder="precio">
+                				</div>
+              				</div>
+            			</div>
+          			</div>
+          			<div class="row">
+            			
+          			</div>
+        		</div>
+    		</div>
+      		<div class="modal-footer">
+            	<div class="row">
+            		<div class="col-sm-offset-3 col-sm-6 text-center">
+                		<button class="btn btn-primary" id="get-checked-data" data-toggle="modal" data-target="#pagoTarjeta">Pagar</button>
+              	</div>
+            </div>      
+        </div>
+    	</div>
+    <!-- Modal content-->
+  	</div>
+</div>
+<!-- Modal Torneo -->
+
+
+
+<!-- Modal Pago -->
+<div  class="modal fade" role="dialog" id="pagoTarjeta">
+    <div class="modal-dialog" type="text/x-kendo-template" >
+  <!-- Modal content-->
+    <div class="modal-content" >
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title" align="center">PAGO - TARJETA</h4>
+      </div>
+      <div class="modal-body">
+        <div class="container">
+          <form name="ccForm">
+            <div class="form-group">           
+              <div class="container">
+                <div class="col-sm-6">
+                  <fieldset>
+                    <form name="ccForm">
+                      <div class="control-group">
+                        <label label-default="" class="control-label">NOMBRE TITULAR</label>
+                        <div class="controls">
+                          <div class="row">
+                            <div class="col-md-8">
+                              <input type="text" class="form-control" pattern="\w+ \w+.*" title="Nombre y apellido" required="">
+                              </div>
+                          </div>  
+                        </div>
+                      </div>
+                      <div class="control-group">
+                        <label label-default="" class="control-label">Número de Tarjeta</label>
+                        <div class="controls">
+                          <div class="row">
+                            <div class="col-md-8">
+                              <input type="text" class="form-control" id="cardNumber" cc-number cc-eager-type name="ccNumber" ng-model="card.number" cc-format>
+                            </div>
+                            <div class="col-xs-3">
+                              <label label-default="" class="control-label">{{ccForm.ccNumber.$ccEagerType || 'Unknown'}} : {{ccForm.ccNumber.$valid | yesNo}}</label>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label for="card-number">Expira</label>
+                        <div class="row" cc-exp>
+                          <div class="col-xs-3">
+                            <input placeholder="MM" type="text" class="form-control" cc-exp-month name="ccExpMonth" ng-model="card.expiration.month">
+                          </div>
+                          <div class="col-xs-2">
+                            <input type="text" class="form-control" value="{{ccForm.ccExpMonth.$valid | yesNo}}" readonly>                   
+                          </div>
+                          <div class="col-xs-3">
+                            <input placeholder="AA" type="text" class="form-control" cc-exp-year name="ccExpYear" ng-model="card.expiration.year">
+                          </div>
+                          <div class="col-xs-2">
+                            <input type="text" class="form-control" value="{{ccForm.ccExpYear.$valid | yesNo}}" readonly>                   
+                          </div>
+                        </div>
+                      </div>
+                      <div class="control-group">
+                        <label label-default="" class="control-label">Código Seguridad</label>
+                        <div class="controls">
+                          <div class="row">
+                            <div class="col-md-3">
+                              <input type="text" autocomplete="off" class="form-control" id="cvc" cc-cvc cc-type="ccForm.ccNumber.$ccType" name="ccCvc" ng-model="card.cvc">
+                            </div>
+                            <div class="col-xs-2">
+                              <input type="text" class="form-control" value="{{ccForm.ccCvc.$valid | yesNo}}" readonly>                   
+                            </div>
+                            <div class="col-md-8">
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="control-group">
+                      <label label-default="" class="control-label"></label>
+                      <div class="controls">
+                        <button type="submit" class="btn btn-success">Pagar</button> 
+                        <button type="button" class="btn btn-danger">Cancelar</button>
+                      </div>
+                    </div>
+                  </form>
+                </fieldset>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>  
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+<div id="otroPago" class="modal fade" role="dialog">
+  	<div class="modal-dialog">
+    <!-- Modal content-->
+    	<div class="modal-content">
+      		<div class="modal-header">
+        		<button type="button" class="close" data-dismiss="modal">&times;</button>
+        		<h4 class="modal-title" align="center">Otros pagos</h4>
+      		</div>
+      		<div class="modal-body">
+        		<div class="container">
+          			<div class="row">
+            			<div class="col-lg-2">
+            			<label for="Usuario">Usuario</label>
+              				<input type="text" class="form-control" id="usuario" value="Usuario X" name="nombreTorneo" readonly="true">
+            			</div>
+            			<div class="col-lg-2">
+            				<label for="datepicker">Usuario</label>
+              				<input id="datepicker"/>
+            			</div>
+          			</div>
+          			
+          			<div class="row">
+            			<div class='col-lg-2'>
+                			<label for="Concepto">Concepto</label>
+                			<div class="input-group">
+                 				<input type="text" class="form-control" id="fecha" >
+                			</div>
+            			</div>
+            			<div class='col-lg-2'>
+              				<div class="form-group">
+                				<label for="precio">Importe</label>
+                				<div class="input-group">
+                  					<span class="input-group-addon">$</span>
+                  					<input type="text" class="form-control" id="precio" placeholder="precio">
+                				</div>
+              				</div>
+            			</div>
+          			</div>
+          			<div class="row">
+            			<div class='col-lg-6'>
+            				<label for="Descripción">Descripción</label>
+            				<textarea class="form-control" rows="3" id="Descripción"></textarea>
+            			</div>
+            		</div>
+        		</div>
+    		</div>
+      		<div class="modal-footer">
+            	<div class="row">
+            		<div class="col-sm-offset-3 col-sm-6 text-center">
+                		<button class="btn btn-primary" id="get-checked-data" data-toggle="modal" data-target="#pagoTarjeta">Pagar</button>
+              	</div>
+            </div>      
+        </div>
+    	</div>
+    <!-- Modal content-->
+  	</div>
+</div>
+<!-- Modal Torneo -->
+
+<script type="text/javascript">
+	$("#datepicker").kendoDatePicker();
+	var datePicker = $("#datepicker").data("kendoDatePicker");
+	var tomorrow = new Date();
+	datePicker.value(tomorrow);
+	datePicker.readonly();
+</script>
