@@ -3,11 +3,14 @@ angular.module('app.controllers')
 .controller('calendarioCtroller',['$scope', function ($scope) {
         'use strict';
         $scope.calendar = {};
+        $scope.reservasDia = {};
 
         $scope.reserva = {
             fechaInicio : new Date(),
             fechaFin : new Date()
         }
+
+        $scope.diaSeleccionado = 
 
         $scope.changeMode = function (mode) {
             $scope.calendar.mode = mode;
@@ -40,6 +43,10 @@ angular.module('app.controllers')
 
         $scope.onTimeSelected = function (selectedTime, events) {
             console.log('Selected time: ' + selectedTime + ', hasEvents: ' + (events !== undefined && events.length !== 0));
+            
+            $scope.reservasDia = events;
+
+            console.log($scope.reservasDia);
         };
 
         function createRandomEvents() {
@@ -78,4 +85,7 @@ angular.module('app.controllers')
             }
             return events;
         }
+
+
+
     }]);
