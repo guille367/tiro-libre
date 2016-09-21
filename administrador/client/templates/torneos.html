@@ -1,20 +1,15 @@
-<script>
-var app = angular.module('myApp', []);
-myApp.filter('yesNo', function () {
-  return function (boolean) {
-    return boolean ? 'Ok' : 'No';
-  }
-});
-</script>
+<div class="container">
+  <div class="row">
+    <div class='col-sm-3 form-group-conf'>
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#nuevoTorneo">Nuevo Torneo</button>
+    <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#nuevaInvitacion">Invitar a Torneo</button>
+    </div>
+  </div>
+  <div class="row">
+    <h1></h1>
+  </div>
+</div>  
 
-
-<h1>Torneos</h1>
-
-<button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#pagoTarjeta">Pagar</button>
-
-<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#nuevoTorneo">Nuevo Torneo</button>
-
-<button type="button" class="btn btn-warning" data-toggle="modal" data-target="#nuevaInvitacion">Invitar a Torneo</button>
 
 <!-- Invitación a torneos -->
 <div id="nuevaInvitacion" class="modal fade" role="dialog">
@@ -29,7 +24,7 @@ myApp.filter('yesNo', function () {
         <div class="container">
           <div class="row">
             <div class="col-xs-6">
-              <button class="btn btn-info" id="">Seleccionar todo</button>
+              <a class="list-group-item active"><span></span>Marcar/Desmarcar todos<input title="toggle all" type="checkbox" class="all pull-right"></a>
             </div>
           </div>
           <div class="row">
@@ -55,10 +50,10 @@ myApp.filter('yesNo', function () {
               </div>
             </div>
           </div>
-          <div class="row">
+          <div class="row"> 
             <div class="col-xs-6">
               <label class="control-label">Seleccionar flyer</label>
-                <input id="input-1" type="file" class="file">
+                <input id="input-1" accept=".jpg,.gif,.png" type="file" class="file">
             </div>
           </div>
         </div>
@@ -78,9 +73,11 @@ myApp.filter('yesNo', function () {
 
 <!-- Manejo de inputs -->
 <script type="text/javascript">
-  $("#input-1").fileinput(
-    {'showUpload':true,
-     'previewFileType':'any'});
+  $("#input-1").fileinput({
+    language: "es",
+    uploadUrl: "/file-upload-batch/2",
+    'showUpload':true,
+    'previewFileType':'any'});
 
 </script>
 
@@ -107,9 +104,9 @@ myApp.filter('yesNo', function () {
       <td align="center">{{torneo.estado}}</td>
       <td align="center">{{torneo.anotados}}</td>
       <td align="center">
-        <button ng-click="searchPerson(person._id);" data-toggle="modal" data-target="#personEditModal" class="btn btn-info btn-sm" >Detalles</button>
-        <button ng-click="searchPerson(person._id);" data-toggle="modal" data-target="#personEditModal" class="btn btn-primary btn-sm" >Edit</button>
-        <button ng-click="searchPerson(person._id);" data-toggle="modal" data-target="" class="btn btn-danger btn-sm" >Eliminar</button>
+        <button ng-click="" data-toggle="modal" data-target="#detalleTorneo" class="btn btn-info btn-sm" >Detalles</button>
+        <button ng-click="" data-toggle="modal" data-target="#editarTorneo" class="btn btn-primary btn-sm" >Editar</button>
+        <button ng-click="" data-toggle="modal" data-target="" class="btn btn-danger btn-sm" >Eliminar</button>
       </td>
 
     </tr>
@@ -169,16 +166,6 @@ myApp.filter('yesNo', function () {
           <div class="row">
             <div class='col-sm-3'>
               <div class="form-group">
-                <label for="time1">Horario de inicio</label>
-                <div class="input-group clockpicker" id="time1" data-placement="right" data-align="top" data-autoclose="true">
-                  <input type="text" class="form-control" value="15:00">
-                  <span class="input-group-addon">
-                  <span class="glyphicon glyphicon-time"></span></span>
-                </div>
-              </div>
-            </div>
-            <div class='col-sm-3'>
-              <div class="form-group">
                 <label for="sel1">Formato del Torneo:</label>
                 <select class="form-control" id="sel1">
                   <option>Eliminación</option>
@@ -186,9 +173,7 @@ myApp.filter('yesNo', function () {
                 </select>
               </div>
             </div>
-          </div>
-          <div class="row">
-            <div class='col-sm-2'>
+            <div class='col-sm-3'>
               <div class="form-group">
                 <label for="sel1">Cantidad de equipos:</label>
                 <select class="form-control" id="sel1">
@@ -200,6 +185,8 @@ myApp.filter('yesNo', function () {
                 </select>
               </div>
             </div>
+          </div>
+          <div class="row">
             <div class='col-sm-2'>
               <div class="form-group">
                 <label for="sel1">Jugadores por equipo:</label>
@@ -214,7 +201,16 @@ myApp.filter('yesNo', function () {
             </div>
             <div class='col-sm-2'>
               <div class="form-group">
-                <label for="precio">Precio del torneo</label>
+                <label for="precio">Precio de inscripción</label>
+                <div class="input-group">
+                  <span class="input-group-addon">$</span>
+                  <input type="text" class="form-control" id="precio1" placeholder="precio">
+                </div>
+              </div>
+            </div>
+            <div class='col-sm-2'>
+              <div class="form-group">
+                <label for="precio">Precio por fecha</label>
                 <div class="input-group">
                   <span class="input-group-addon">$</span>
                   <input type="text" class="form-control" id="precio1" placeholder="precio">
@@ -264,101 +260,6 @@ $('.clockpicker').clockpicker();
 
 
 
-
-
-
-
-<!-- Modal Pago -->
-<div id="pagoTarjeta" class="modal fade" role="dialog">
-	<div class="modal-dialog">
-  <!-- Modal content-->
-   	<div class="modal-content">
-    	<div class="modal-header">
-     		<button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title" align="center">PAGO - TARJETA</h4>
-      </div>
-      <div class="modal-body">
-        <div class="container">
-          <form name="ccForm">
-            <div class="form-group">           
-              <div class="container">
-                <div class="col-sm-6">
-                  <fieldset>
-                    <form name="ccForm">
-                      <div class="control-group">
-                        <label label-default="" class="control-label">NOMBRE TITULAR</label>
-                        <div class="controls">
-                          <div class="row">
-                            <div class="col-md-8">
-                              <input type="text" class="form-control" pattern="\w+ \w+.*" title="Nombre y apellido" required="">
-                              </div>
-                          </div>  
-                        </div>
-                      </div>
-                      <div class="control-group">
-                        <label label-default="" class="control-label">Número de Tarjeta</label>
-                        <div class="controls">
-                          <div class="row">
-                            <div class="col-md-8">
-                              <input type="text" class="form-control" id="cardNumber" cc-number cc-eager-type name="ccNumber" ng-model="card.number" cc-format>
-                            </div>
-                            <div class="col-xs-3">
-                              <label label-default="" class="control-label">{{ccForm.ccNumber.$ccEagerType || 'Unknown'}} : {{ccForm.ccNumber.$valid | yesNo}}</label>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="form-group">
-                        <label for="card-number">Expira</label>
-                        <div class="row" cc-exp>
-                          <div class="col-xs-3">
-                            <input placeholder="MM" type="text" class="form-control" cc-exp-month name="ccExpMonth" ng-model="card.expiration.month">
-                          </div>
-                          <div class="col-xs-2">
-                            <input type="text" class="form-control" value="{{ccForm.ccExpMonth.$valid | yesNo}}" readonly>                   
-                          </div>
-                          <div class="col-xs-3">
-                            <input placeholder="AA" type="text" class="form-control" cc-exp-year name="ccExpYear" ng-model="card.expiration.year">
-                          </div>
-                          <div class="col-xs-2">
-                            <input type="text" class="form-control" value="{{ccForm.ccExpYear.$valid | yesNo}}" readonly>                   
-                          </div>
-                        </div>
-                      </div>
-                      <div class="control-group">
-                        <label label-default="" class="control-label">Código Seguridad</label>
-                        <div class="controls">
-                          <div class="row">
-                            <div class="col-md-3">
-                              <input type="text" autocomplete="off" class="form-control" id="cvc" cc-cvc cc-type="ccForm.ccNumber.$ccType" name="ccCvc" ng-model="card.cvc">
-                            </div>
-                            <div class="col-xs-2">
-                              <input type="text" class="form-control" value="{{ccForm.ccCvc.$valid | yesNo}}" readonly>                   
-                            </div>
-                            <div class="col-md-8">
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="control-group">
-                      <label label-default="" class="control-label"></label>
-                      <div class="controls">
-                        <button type="submit" class="btn btn-success">Submit</button> 
-                        <button type="button" class="btn btn-danger">Cancel</button>
-                      </div>
-                    </div>
-                  </form>
-                </fieldset>
-              </div>
-            </div>
-          </form>
-        </div>	
-      </div>
-    </div>
-  </div>
-</div>
-
-
 <script type="text/javascript">
   
   $(function () {
@@ -390,7 +291,29 @@ $('.clockpicker').clockpicker();
         $checkbox.on('change', function () {
             updateDisplay();
         });
+
+        
+        $('.all').click(function(e){
+
+            e.stopPropagation();
+            var $this = $(this);
+            if($this.is(":checked")) {
+              $('.list-group.checked-list-box .list-group-item').each(function () {
+              $widget.addClass(style + color + ' active');
+              $widget.find('.state-icon').removeClass().addClass('state-icon glyphicon glyphicon-check');
+              $widget.find('input').prop('checked', true);
+              });              
+            }
+            else {
+              $('.list-group.checked-list-box .list-group-item').each(function () {
+              $widget.removeClass(style + color + ' active');
+              $widget.find('.state-icon').removeClass().addClass('state-icon glyphicon glyphicon-unchecked');
+              $widget.find('input').prop('checked', false);
+              });
+            }
+
           
+        });          
 
         // Actions
         function updateDisplay() {
@@ -439,7 +362,6 @@ $('.clockpicker').clockpicker();
         $('#display-json').html(JSON.stringify(checkedItems, null, '\t'));
         $('#nuevaInvitacion').modal('toggle');
     });
-    
 
 });
 
@@ -447,8 +369,278 @@ $('.clockpicker').clockpicker();
 
 
 
+<!-- Modal editar Torneo -->
+<div id="editarTorneo" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title" align="center">Edición de torneo</h4>
+      </div>
+      <div class="modal-body">
+        <div class="container">
+          <div class="row">
+            <div class='col-sm-6'>
+              <label>Nombre del torneo</label>
+            </div>
+          </div>
+          <div class="row">
+            <div class='col-sm-6'>
+              <input type="text" class="form-control" id="nombreTorneo" name="nombreTorneo" required="">
+            </div>
+          </div>
+          <div class="row">
+            <div class='col-sm-3'>
+              <label>Fecha inicio</label>
+            </div>
+            <div class='col-sm-3'>
+              <label>Fecha Finalización</label>
+            </div>
+          </div>
+          <div class="row">
+            <div class='col-sm-3'>
+              <div class="form-group">
+                <div class='input-group date' id='datetimepicker1'>
+                  <input type='text' class="form-control" />
+                  <span class="input-group-addon">
+                  <span class="glyphicon glyphicon-calendar"></span></span>
+                </div>
+              </div>
+            </div>
+            <div class='col-sm-3'>
+              <div class="form-group">
+                <div class='input-group date' id='datetimepicker2'>
+                  <input type='text' class="form-control" />
+                  <span class="input-group-addon">
+                  <span class="glyphicon glyphicon-calendar"></span></span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class='col-sm-3'>
+              <div class="form-group">
+                <label for="sel1">Formato del Torneo:</label>
+                <select class="form-control" id="sel1">
+                  <option>Eliminación</option>
+                  <option>Liga</option>
+                </select>
+              </div>
+            </div>
+            <div class='col-sm-3'>
+              <div class="form-group">
+                <label for="sel1">Cantidad de equipos:</label>
+                <select class="form-control" id="sel1">
+                  <option>6</option>
+                  <option>8</option>
+                  <option>10</option>
+                  <option>12</option>
+                  <option>16</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class='col-sm-2'>
+              <div class="form-group">
+                <label for="sel1">Jugadores por equipo:</label>
+                <select class="form-control" id="sel1">
+                  <option>5</option>
+                  <option>6</option>
+                  <option>7</option>
+                  <option>9</option>
+                  <option>11</option>
+                </select>
+              </div>
+            </div>
+            <div class='col-sm-2'>
+              <div class="form-group">
+                <label for="sel1">Estado</label>
+                <select class="form-control" id="estado">
+                  <option>En curso</option>
+                  <option>En inscripción</option>
+                  <option>Suspendido</option>
+                </select>
+              </div>
+            </div>
+            
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <div class="row">
+          <div class="col-sm-offset-3 col-sm-6 text-center">
+            <button type="submit" class="btn btn-success"  data-ng-click="" data-dismiss="modal">Guardar</button>
+            <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+          </div>
+        </div>      
+      </div>
+    </div>
+    <!-- Modal content-->
+  </div>
+</div>
+<!-- Modal Torneo -->
 
 
+
+
+
+<!-- Modal Detalle Torneo -->
+<div id="detalleTorneo" class="modal fade" role="dialog">
+  <div class="modal-dialog modal-lg">
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title" align="center">Detalles torneo</h4>
+      </div>
+      <div class="modal-body">
+        <div class="container">
+  <div class="row">
+        <div class="dual-list list-left col-md-4">
+            <div class="well text-right">
+                <div class="row">
+                    <div class="col-md-12" align="center">
+                        <label for="SearchDualList">Equipos disponibles</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="input-group">
+                            <span class="input-group-addon glyphicon glyphicon-search"></span>
+                            <input type="text" name="SearchDualList" class="form-control" placeholder="search" />
+                        </div>
+                    </div>
+                </div>
+                    <ul class="list-group" style="max-height: 200px;overflow: auto;">
+                      <li class="list-group-item">Equipo 1</li>
+                      <li class="list-group-item">Equipo 2</li>
+                      <li class="list-group-item">Equipo 3</li>
+                      <li class="list-group-item">Equipo 4</li>
+                      <li class="list-group-item">Equipo 5</li>
+                      <li class="list-group-item">Equipo 11</li>
+                      <li class="list-group-item">Equipo 12</li>
+                      <li class="list-group-item">Equipo 13</li>
+                      <li class="list-group-item">Equipo 14</li>
+                    </ul>
+            </div>
+        </div>
+
+        <div class="list-arrows col-md-1 text-center">
+            <button class="btn btn-default btn-sm move-left">
+                <span class="glyphicon glyphicon-chevron-left"></span>
+            </button>
+
+            <button class="btn btn-default btn-sm move-right">
+                <span class="glyphicon glyphicon-chevron-right"></span>
+            </button>
+        </div>
+
+        <div class="dual-list list-right col-md-4">
+            <div class="well">
+                <div class="row">
+                    <div class="col-md-12" align="center">
+                        <label for="SearchDualList">Equipos inscriptos</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="input-group">
+                            <input type="text" name="SearchDualList" class="form-control" placeholder="search" />
+                            <span class="input-group-addon glyphicon glyphicon-search"></span>
+                        </div>
+                    </div>
+                </div>
+                <ul class="list-group" style="max-height: 200px;overflow: auto;">
+                    <li class="list-group-item">Equipo 6</li>
+                    <li class="list-group-item">Equipo 7</li>
+                    <li class="list-group-item">Equipo 8</li>
+                    <li class="list-group-item">Equipo 9</li>
+                    <li class="list-group-item">Equipo 10</li>
+                </ul>
+            </div>
+        </div>
+
+  </div>
+</div>
+      <div class="modal-footer">
+        <div class="row">
+          <div class="col-sm-offset-3 col-sm-6 text-center">
+            <button type="submit" class="btn btn-success"  data-ng-click="" data-dismiss="modal">Guardar</button>
+            <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+          </div>
+        </div>      
+      </div>
+    </div>
+    <!-- Modal content-->
+  </div>
+</div>
+<!-- Modal Torneo -->
+
+
+
+<style type="text/css">
+  .dual-list .list-group {
+            margin-top: 8px;
+        }
+
+        .list-left li, .list-right li {
+            cursor: pointer;
+        }
+
+        .list-arrows {
+            padding-top: 100px;
+        }
+
+            .list-arrows button {
+                margin-bottom: 20px;
+            }
+</style>
+
+<script type="text/javascript">
+  $(function () {
+
+            $('body').on('click', '.list-group .list-group-item', function () {
+                $(this).toggleClass('active');
+            });
+            $('.list-arrows button').click(function () {
+                var $button = $(this), actives = '';
+                if ($button.hasClass('move-left')) {
+                    actives = $('.list-right ul li.active');
+                    actives.clone().appendTo('.list-left ul');
+                    actives.remove();
+                } else if ($button.hasClass('move-right')) {
+                    actives = $('.list-left ul li.active');
+                    actives.clone().appendTo('.list-right ul');
+                    actives.remove();
+                }
+            });
+            $('.dual-list .selector').click(function () {
+                var $checkBox = $(this);
+                if (!$checkBox.hasClass('selected')) {
+                    $checkBox.addClass('selected').closest('.well').find('ul li:not(.active)').addClass('active');
+                    $checkBox.children('i').removeClass('glyphicon-unchecked').addClass('glyphicon-check');
+                } else {
+                    $checkBox.removeClass('selected').closest('.well').find('ul li.active').removeClass('active');
+                    $checkBox.children('i').removeClass('glyphicon-check').addClass('glyphicon-unchecked');
+                }
+            });
+            $('[name="SearchDualList"]').keyup(function (e) {
+                var code = e.keyCode || e.which;
+                if (code == '9') return;
+                if (code == '27') $(this).val(null);
+                var $rows = $(this).closest('.dual-list').find('.list-group li');
+                var val = $.trim($(this).val()).replace(/ +/g, ' ').toLowerCase();
+                $rows.show().filter(function () {
+                    var text = $(this).text().replace(/\s+/g, ' ').toLowerCase();
+                    return !~text.indexOf(val);
+                }).hide();
+            });
+
+        });
+
+</script>
 
 
 
