@@ -1,22 +1,29 @@
 <ion-view>
 
     <ion-content scroll="true" class="main-content has-header">
-    	<div class="row">
-	        <calendar ng-model="calendar.currentDate" calendar-mode="calendar.mode"
+    	<div class="row" >
+	        <calendar style="background-image:none !important" ng-model="calendar.currentDate" calendar-mode="calendar.mode"
 	                  time-selected="onTimeSelected(selectedTime, events)" step="30"></calendar>
       	</div>
 
       	<!-- REPETIR -->
-      	<div layout="row" layout-align="center center" style="background-color:white">
-			<div class="col-25" style="text-align:center">
+      	<div layout="row"  style="background-color:white">
+			<div layout="column" flex="25">
 				<b>Inicio</b>
-			</div>
-			<div class="col">
+			</div>	
+			<div layout="column" flex="25">
 				<md-datepicker ng-model="reserva.fechaInicio" disabled></md-datepicker>
+			</div>
+
+			<div layout="column" flex="25">
+				<b>Fin</b>
+			</div>
+			<div layout="column" flex="25">
+				<md-datepicker ng-model="reserva.fechaFin" disabled></md-datepicker>
 			</div>
 		</div>
 
-		<div layout="row" layout-align="center center" style="background-color:white">
+		<div layout="row">
 			<button class="button button-positive button-block" ng-click="loadEvents()">Ir a día</button>
 		</div>
 

@@ -3,6 +3,12 @@ angular.module('app.controllers')
 .controller('calendarioCtroller',['$scope', function ($scope) {
         'use strict';
         $scope.calendar = {};
+
+        $scope.reserva = {
+            fechaInicio : new Date(),
+            fechaFin : new Date()
+        }
+
         $scope.changeMode = function (mode) {
             $scope.calendar.mode = mode;
         };
