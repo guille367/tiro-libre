@@ -1,0 +1,31 @@
+<ion-view title="Iniciar Sesion" class="fondo">
+    <ion-content padding="true" class="has-header">
+        <div class="col-md-4 loginText">
+          <h1 class="loginText">Resetear Contraseña</h1>
+            <div ng-show="error" class="alert alert-danger">{{errorMessage}}</div>
+            <form class="form">
+                <br>
+                <div class="form-group-conf">
+                    <label><B>Mail</B></label>
+                    <input type="text" class="form-control input" name="username" ng-model="loginForm.username" required>
+                </div>
+                <br>
+                <div align="right">
+                    <h1></h1>
+                    <button type="submit" class="button button-positive" ng-disabled="disabled">Resetear</button>
+                </div>    
+            </form>
+        </div>
+
+    </ion-content>
+</ion-view>
+
+<style type="text/css">
+    .loginText{
+        color: white;
+
+    }
+    .input{
+        width: 300px;
+    }
+</style>

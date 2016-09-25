@@ -1,0 +1,85 @@
+<ion-modal-view>
+	<ion-content>
+
+			<md-subheader class="md-no-sticky">Fecha</md-subheader>
+			<div layout="row" layout-align="center center" class="padding">
+				<b>Día: </b>
+				<md-datepicker ng-model="reserva.fechaInicio" disabled ></md-datepicker>
+			</div>
+
+			<div layout="row" layout-align="center center"  class="padding">
+
+				<div layout="column" layout-align="center center">
+					<label>Inicio: </label>
+				</div>
+				<div layout="column" layout-align="center center">
+			        <input required type="number" min="9" max="24"/>
+				</div>
+				<div layout="column" layout-align="center center">
+					<label>hs</label>
+				</div>
+
+				<div layout="column" flex="33" layout-align="center center">
+					
+				</div>
+
+				<div layout="column" layout-align="center center">
+					<label>Fín: </label>
+				</div>
+				<div layout="column" layout-align="center center">
+			        <input required type="number" min="9" max="24"/>
+				</div>
+				<div layout="column" layout-align="center center">
+					<label>hs</label>
+				</div>
+      		</div>
+
+      		<md-subheader class="md-no-sticky">Cancha</md-subheader>
+  			<!-- Cancha [Nombre,tipo,jugadores,luz (s/n)] -->
+  			<div layout="row" class="padding">
+  				<div layout="column" flex="50">
+					<md-input-container>
+				        <label>Cancha</label>
+				        <input disabled value="Cancha 3">
+			      	</md-input-container>
+  				</div>
+  				<div layout="column"  flex="50">
+  					<md-input-container>
+				        <label>Tipo</label>
+				        <input disabled value="Césped sintético">
+			      	</md-input-container>
+  				</div>
+  			</div>
+  			<div layout="row" class="padding">
+  				<div layout="column" flex="50">
+					<md-input-container>
+				        <label>Cantidad de jugadores</label>
+				        <input disabled value="7">
+			      	</md-input-container>
+  				</div>
+  				<div layout="column"  flex="50">
+			        <label>Iluminación</label>
+			        <md-checkbox aria-label="Close" class="dotted" disabled checked="true"></md-checkbox>
+  				</div>
+  			</div>
+
+  			<md-subheader class="md-no-sticky">Pago</md-subheader>
+  			<div layout="row" class="padding">
+  				<div layout="column" flex="33">
+					<md-input-container>
+				        <label>Importe total</label>
+				        <input disabled value="$500.00">
+			      	</md-input-container>
+  				</div>
+  				<div layout="column"  flex="33"></div>
+
+  				<div layout="column" flex="33">
+					<button style="margin-top:15px" 
+						class="button button-positive" ng-click="modalPago.show()">Pagar</button>
+  				</div>
+  			</div>
+
+			<button class="button button-assertive button-block" ng-click="closeReserva()">Cerrar</button>
+
+	</ion-content>
+</ion-modal-view>

@@ -1,0 +1,119 @@
+<ion-modal-view>
+	<ion-content scroll="true" class="fondo colorText">
+
+		<md-divider></md-divider>
+		<md-subheader class="md-no-sticky fondoDReserva">Datos Torneo</md-subheader>
+		<div layout="row" layout-align="center center">
+			<div class="col-25" style="text-align:center">
+				<b>Inicio</b>
+			</div>
+			<div class="col">
+				<md-datepicker ng-model="reserva.fechaInicio" disabled ></md-datepicker>
+			</div>
+		</div>
+
+		<div class="row" layout="row" layout-align="center center">
+			<div class="col-25" layout="column" style="text-align:center">
+				<b>Fín</b>
+			</div>
+			<div class="col" layout="column">
+				<md-datepicker ng-model="reserva.fechaFin" disabled></md-datepicker>
+			</div>
+		</div>
+
+		<md-divider></md-divider>
+		<md-subheader class="md-no-sticky fondoDReserva">Reglas</md-subheader>
+
+		<div class="row" layout="row" layout-align="center center">
+
+			<div class="col-25" style="text-align:center" layout="column">
+				<b>Nombre</b>
+			</div>
+			<div class="col" layout="column">
+				Cancha Nro 3
+			</div>
+
+		</div>
+
+		<div class="row" layout="row" layout-align="center center" >
+
+			<div class="col-25" style="text-align:center" layout="column">
+				<label>Tipo</label>
+			</div>
+			<div class="col" layout="column">
+				Césped sintético
+			</div>
+
+		</div>
+
+		<div class="row" layout="row" layout-align="center center">
+
+			<div class="col-25" style="text-align:center" layout="column">
+				<b>Tamaño</b>
+			</div>
+			<div class="col" layout="column">
+				7 Jugadores
+			</div>
+
+		</div>
+
+		<md-divider></md-divider>
+		<md-subheader class="md-no-sticky fondoDReserva">Pago</md-subheader>
+
+		<div class="row" layout="row" layout-align="center center">
+
+			<div class="col-25" style="text-align:center" layout="column">
+				<b>Importe Total</b>
+			</div>
+			<div class="col" layout="column">
+				{{reserva.precio}}
+			</div>
+
+		</div>
+
+		<div class="row" layout="row" layout-align="center center">
+
+			<div class="col-25" style="text-align:center" layout="column">
+				<b>Pagado</b>
+			</div>
+			<div class="col" layout="column">
+				{{reserva.pagado}}
+			</div>
+
+		</div>
+
+		<div class="row" layout="row" layout-align="center center" ng-hide="reserva.importeAdeudado <= 0">
+
+			<div class="col-25" style="text-align:center" layout="column">
+				<b>Deuda:</b>
+			</div>
+			<div class="col" layout="column">
+				{{reserva.importeAdeudado}}
+			</div>
+
+			<div class="col" layout="column">
+				<button class="button button-positive" ng-click="openPago()">Pagar</button>
+			</div>
+
+		</div>
+
+		<div class="row" layout="row" layout-align="center center">
+			<button class="button button-block button-assertive" ng-click="closeReserva()">Cerrar</button>
+		</div>
+	</ion-content>
+</ion-view>
+
+<style type="text/css">
+	.fondoDReserva{
+        background-color: green;
+        color:white;
+        size:100px;
+	}
+	.colorText{
+	color:white;	
+	}
+	.dotted {
+		background-color: white;
+		width: 10px;
+	}
+</style>

@@ -17,6 +17,11 @@ angular.module('app.routes', [])
     url: '/noticias',
     templateUrl:'client/templates/noticias.html'
   })
+
+  .state('resetcontraseña', {
+    url: '/resetcontraseña',
+    templateUrl:'client/templates/resetcontraseña.html'
+  })
   
   .state('eventos', {
     url: '/eventos',
@@ -55,6 +60,12 @@ angular.module('app.routes', [])
     templateUrl:'client/templates/perfilNo.html'
   })
   
+
+  .state('login', {
+    url: '/login',
+    templateUrl:'client/templates/login.html'
+  })
+
   .state('perfil.misdatos', {
     url:'/misdatos',
         views:{

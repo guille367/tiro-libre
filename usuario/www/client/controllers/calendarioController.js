@@ -1,19 +1,37 @@
 angular.module('app.controllers')
 
-.controller('calendarioCtroller',['$scope', function ($scope) {
+.controller('calendarioCtroller',['$scope','$ionicModal', function ($scope,$ionicModal) {
         'use strict';
         $scope.calendar = {};
         $scope.reservasDia = {};
+        $scope.modo = 'mes';
+        $scope.fechaSeleccionada;
+        $scope.habilitarReserva = false;
 
         $scope.reserva = {
             fechaInicio : new Date(),
             fechaFin : new Date()
         }
 
-        $scope.diaSeleccionado = 
+        $ionicModal.fromTemplateUrl('client/templates/dialogs/reserva.html', {
+                scope: $scope,
+                animation: 'slide-in-up',
+                title:'Reserva',
+            }).then(function(modal) {
+                $scope.modalReserva = modal;
+        });
 
-        $scope.changeMode = function (mode) {
-            $scope.calendar.mode = mode;
+        $ionicModal.fromTemplateUrl('client/templates/dialogs/pagotarjeta.html',{
+            scope: $scope,
+            animation:'slide-in-up',
+        }).then(function(modal){
+            $scope.modalPago = modal;
+        });
+
+        $scope.changeMode = function () {
+            $scope.calendar.mode = $scope.calendar.mode == 'month' ? 'day' : 'month';
+            $scope.modo = $scope.calendar.mode === 'day' ? 'día' : 'mes';
+            console.log($scope.modo)
         };
 
         $scope.loadEvents = function () {
@@ -43,49 +61,38 @@ angular.module('app.controllers')
 
         $scope.onTimeSelected = function (selectedTime, events) {
             console.log('Selected time: ' + selectedTime + ', hasEvents: ' + (events !== undefined && events.length !== 0));
-            
-            $scope.reservasDia = events;
-
-            console.log($scope.reservasDia);
+            $scope.fechaSeleccionada = selectedTime;
+            $scope.habilitarReserva = (events !== undefined && events.length !== 0);
         };
 
         function createRandomEvents() {
             var events = [];
             for (var i = 0; i < 50; i += 1) {
                 var date = new Date();
-                var eventType = Math.floor(Math.random() * 2);
                 var startDay = Math.floor(Math.random() * 90) - 45;
-                var endDay = Math.floor(Math.random() * 2) + startDay;
                 var startTime;
                 var endTime;
-                if (eventType === 0) {
-                    startTime = new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate() + startDay));
-                    if (endDay === startDay) {
-                        endDay += 1;
-                    }
-                    endTime = new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate() + endDay));
-                    events.push({
-                        title: 'All Day - ' + i,
-                        startTime: startTime,
-                        endTime: endTime,
-                        allDay: true
-                    });
-                } else {
-                    var startMinute = Math.floor(Math.random() * 24 * 60);
-                    var endMinute = Math.floor(Math.random() * 180) + startMinute;
-                    startTime = new Date(date.getFullYear(), date.getMonth(), date.getDate() + startDay, 0, date.getMinutes() + startMinute);
-                    endTime = new Date(date.getFullYear(), date.getMonth(), date.getDate() + endDay, 0, date.getMinutes() + endMinute);
-                    events.push({
-                        title: 'Event - ' + i,
-                        startTime: startTime,
-                        endTime: endTime,
-                        allDay: false
-                    });
-                }
+                var startHour = Math.floor(Math.random() * 24);
+                var endHour = startHour + 1;
+                startTime = new Date(date.getFullYear(), date.getMonth(), startDay, startHour);
+                endTime = new Date(date.getFullYear(), date.getMonth(), startDay, endHour);
+                events.push({
+                    title: 'Reserva - ' + i,
+                    startTime: startTime,
+                    endTime: endTime,
+                    allDay: false
+                })
             }
             return events;
         }
 
+        $scope.closeReserva = function() {
+            $scope.modalReserva.hide();
+        }
 
+        $scope.closePago = function() {
+            $scope.modalPago.hide();
+        }
 
     }]);
+

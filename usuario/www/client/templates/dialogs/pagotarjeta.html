@@ -1,19 +1,20 @@
 <ion-modal-view>
-	<ion-content class ="has-header" scroll="true" ng-controller="pagoTarjetaCtroller">
+	<ion-content class ="has-header fondo" scroll="true" ng-controller="pagoTarjetaCtroller">
 		
 
+		<md-subheader class="md-no-sticky fondoDReserva">Pagar con tarjeta</md-subheader>
 		<div layout="row" layout-align="center center">
-			<md-input-container>
-		        <label>Nombre del titular</label>
-		        <input required ng-model="user.title">
+			<md-input-container class="fondoPago">
+		        <label >Nombre del titular</label>
+		        <input required ng-model="user.nombretitular">
 		        <div ng-message="required">Campo obligatorio</div>
 	      	</md-input-container>
 		</div>
 
 		<div layout="row" layout-align="center center">
-			<md-input-container>
-		        <label>Número de tarjeta</label>
-		        <input md-maxlength="20" required ng-model="user.title">
+			<md-input-container class="fondoPago">
+		        <label >Número de tarjeta</label>
+		        <input md-maxlength="20" required ng-model="user.numero" >
 		        <div ng-message="required">Campo obligatorio</div>
 	      	</md-input-container>
 		</div>
@@ -21,30 +22,37 @@
 		<div layout="row" layout-align="center center" layout-margin>
 
 			<div layout="column" flex="33">
-				<md-input-container>
-			        <label>MM</label>
-			        <input md-maxlength="2" required ng-model="user.title">
+				<md-input-container class="fondoPago">
+			        <label >MM</label>
+			        <input md-maxlength="2" required ng-model="user.mm" >
 			        <div ng-message="required">Campo obligatorio</div>
 		      	</md-input-container>
 	      	</div>
 	      		/
 	      	<div layout="column" flex="33">
-				<md-input-container>
-			        <label>AA</label>
-			        <input md-maxlength="2" required ng-model="user.title">
+				<md-input-container class="fondoPago">
+			        <label >AA</label>
+			        <input md-maxlength="2" required ng-model="user.aa" >
 			        <div ng-message="required">Campo obligatorio</div>
 		      	</md-input-container>
 	      	</div>
 
 	      	<div layout="column" flex="33">
-				<md-input-container>
-			        <label>CSV</label>
-			        <input md-maxlength="4" required ng-model="user.title">
+				<md-input-container class="fondoPago">
+			        <label >CSV</label>
+			        <input md-maxlength="4" required ng-model="user.csv" >
 			        <div ng-message="required">Campo obligatorio</div>
 		      	</md-input-container>
 	      	</div>
 
 
+		</div>
+
+		<div layout="row" layout-align="center center">
+			<md-input-container class="fondoPago">
+			        <label >Importe</label>
+			        <input required ng-model="user.csv" >
+		      	</md-input-container>
 		</div>
 
 		<section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
@@ -54,3 +62,19 @@
 		
 	</ion-content>
 </ion-view>
+
+<style type="text/css">
+	.fondoPago{
+		background-color: green;
+	}
+	.fondoDReserva{
+        background-color: green;
+        color:white;
+        size:100px;
+	}
+
+.fondoPago{
+	background-color: white;
+	border-radius: 15px;
+}
+</style>

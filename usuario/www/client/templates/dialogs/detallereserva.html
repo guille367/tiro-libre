@@ -1,14 +1,14 @@
 <ion-modal-view>
-	<ion-content scroll="true">
+	<ion-content scroll="true" class="fondo colorText">
 
 		<md-divider></md-divider>
-		<md-subheader class="md-no-sticky">Datos</md-subheader>
+		<md-subheader class="md-no-sticky fondoDReserva">Datos</md-subheader>
 		<div layout="row" layout-align="center center">
 			<div class="col-25" style="text-align:center">
 				<b>Inicio</b>
-			</div>
+			</div>	
 			<div class="col">
-				<md-datepicker ng-model="reserva.fechaInicio" disabled></md-datepicker>
+				<md-datepicker ng-model="reserva.fechaInicio" disabled ></md-datepicker>
 			</div>
 		</div>
 
@@ -27,13 +27,13 @@
 				Permanente
 			</div>
 			<div class="col" layout="column">
-		 		<md-checkbox ng-model="reserva.permanente" class="dotted" disabled></md-checkbox>
+		 		<md-checkbox ng-model="reserva.permanente" aria-label="Close" class="dotted" disabled></md-checkbox>
 			</div>
 
 		</div>
 
 		<md-divider></md-divider>
-		<md-subheader class="md-no-sticky">Cancha</md-subheader>
+		<md-subheader class="md-no-sticky fondoDReserva">Cancha</md-subheader>
 
 		<div class="row" layout="row" layout-align="center center">
 
@@ -46,10 +46,10 @@
 
 		</div>
 
-		<div class="row" layout="row" layout-align="center center">
+		<div class="row" layout="row" layout-align="center center" >
 
 			<div class="col-25" style="text-align:center" layout="column">
-				<b>Tipo</b>
+				<label>Tipo</label>
 			</div>
 			<div class="col" layout="column">
 				Césped sintético
@@ -69,7 +69,7 @@
 		</div>
 
 		<md-divider></md-divider>
-		<md-subheader class="md-no-sticky">Pago</md-subheader>
+		<md-subheader class="md-no-sticky fondoDReserva">Pago</md-subheader>
 
 		<div class="row" layout="row" layout-align="center center">
 
@@ -111,5 +111,21 @@
 		<div class="row" layout="row" layout-align="center center">
 			<button class="button button-block button-assertive" ng-click="closeReserva()">Cerrar</button>
 		</div>
+
 	</ion-content>
 </ion-view>
+
+<style type="text/css">
+	.fondoDReserva{
+        background-color: green;
+        color:white;
+        size:100px;
+	}
+	.colorText{
+	color:white;	
+	}
+	.dotted {
+		background-color: white;
+		width: 10px;
+	}
+</style>

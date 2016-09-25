@@ -8,6 +8,10 @@
 angular.module('app', ['ionic', 'app.controllers', 'app.routes', 'app.directives','app.services',
   'ui.rCalendar','ngMaterial','ngAnimate'])
 
+.config(function( $mdGestureProvider ) {
+          $mdGestureProvider.skipClickHijack();
+      })/* SOLUCIONA EL PROBLEMA QUE HABÍA CON EL DOBLE CLICK*/
+
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
