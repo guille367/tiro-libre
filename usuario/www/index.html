@@ -31,6 +31,11 @@
         border-right: 0px;
       }
      .fondo{
+        background: url("./img/1.jpg") no-repeat center center fixed;
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+        -o-background-size: cover;
+        background-size: cover;
         /*background-image: url("./img/1.jpg");*/
     }
         .fondoBlanco{
@@ -63,7 +68,10 @@ background-color: white;
     <script src="./client/controllers/perfilControllers.js"></script>
     <script src="./client/controllers/calendarioController.js"></script>
     <script src="./client/controllers/reservasController.js"></script>
+    <script src="./client/controllers/torneoController.js"></script>
     <script src="./client/controllers/pagoTarjetaController.js"></script>
+    <script src="./client/controllers/loginController.js"></script>
+    <script src="./client/controllers/indexController.js"></script>
     <script src="./server/routes/routes.js"></script>
     <script src="./client/directives/directives.js"></script>
     <script src="./client/services/services.js"></script>
@@ -88,9 +96,9 @@ background-color: white;
 
 
   </head>
-  <body ng-app="app" animation="slide-left-right-ios7">
+  <body ng-app="app" ng-controller="indexCtroller" animation="slide-left-right-ios7">
   <div>
-    <ion-side-menus enable-menu-with-back-views="false">
+    <ion-side-menus enable-menu-with-back-views="true">
         <ion-side-menu-content>
             <ion-nav-bar class="bar-stable">
                 <ion-nav-buttons side="left">
@@ -109,18 +117,20 @@ background-color: white;
                 <ion-list id="listItems" data-componentid="list2">
                     <ion-item menu-close="" class="item-icon-left" id="menu-list-item-canchas" data-componentid="list-item-canchas" href="#/canchas">
                         <i class="icon ion-ios-football-outline"></i>Canchas</ion-item>
-                    <ion-item menu-close="" class="item-icon-left" id="menu-list-item-torneos" data-componentid="list-item-torneos" href="#/perfil">
+                    <ion-item menu-close="" ng-show="loggeado" class="item-icon-left" id="menu-list-item-torneos" data-componentid="list-item-torneos" href="#/perfil">
                         <i class="icon ion-android-contact"></i>Perfil</ion-item>
-                    <ion-item menu-close="" class="item-icon-left" id="menu-list-item-torneos" data-componentid="list-item-torneos" href="#/perfilNo">
-                        <i class="icon ion-android-contact"></i>Perfil NO</ion-item>                        
+                    <!-- <ion-item menu-close="" class="item-icon-left" id="menu-list-item-torneos" data-componentid="list-item-torneos" href="#/perfilNo">
+                        <i class="icon ion-android-contact"></i>Perfil NO</ion-item>     -->                    
                     <ion-item menu-close="" class="item-icon-left" id="menu-list-item-torneos" data-componentid="list-item-torneos" href="#/torneos">
                         <i class="icon ion-trophy"></i>Torneos</ion-item>
-                    <ion-item menu-close="" class="item-icon-left" id="menu-list-item-reservas" data-componentid="list-item-reservas" href="#/misreservas" ng-click="schedulear()">
+                    <ion-item menu-close="" ng-show="loggeado" class="item-icon-left" id="menu-list-item-reservas" data-componentid="list-item-reservas" href="#/misreservas" ng-click="schedulear()">
                         <i class="icon ion-calendar"></i>Mis reservas</ion-item>
                     <ion-item menu-close="" class="item-icon-left" id="menu-list-item-contacto" data-componentid="list-item-contacto" href="#/contacto">
                         <i class="icon ion-ios-telephone"></i>Contacto</ion-item>
-                    <ion-item menu-close="" class="item-icon-left" id="menu-list-item-login" data-componentid="list-item-login" href="#/login">
+                    <ion-item menu-close="" ng-hide="loggeado" class="item-icon-left" id="menu-list-item-login" data-componentid="list-item-login" href="#/login">
                         <i class="icon ion-ios-login"></i>Login</ion-item>
+                    <ion-item menu-close="" ng-show="loggeado" class="item-icon-left" id="menu-list-item-login" data-componentid="list-item-login" ng-click="cerrarSesion()">
+                        <i class="icon ion-ios-login"></i>Cerrar Sesión</ion-item>
                 </ion-list>
 
             </ion-content>

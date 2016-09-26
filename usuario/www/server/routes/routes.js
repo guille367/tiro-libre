@@ -6,6 +6,12 @@ angular.module('app.routes', [])
   // Learn more here: https://github.com/angular-ui/ui-router
   // Set up the various states which the app can be in.
   // Each state's controller can be found in controllers.js
+
+/*storage.set('name', 'Max');
+storage.get('name').then(function (name){
+  console.log(name);
+});
+*/
   $stateProvider
 
   // .state('tirolibre', {
@@ -13,19 +19,16 @@ angular.module('app.routes', [])
   //   templateUrl: 'client/templates/default.html'
   // })
 
+
+
   .state('noticias', {
     url: '/noticias',
     templateUrl:'client/templates/noticias.html'
   })
 
-  .state('resetcontraseña', {
+  .state('resetpass', {
     url: '/resetcontraseña',
     templateUrl:'client/templates/resetcontraseña.html'
-  })
-  
-  .state('eventos', {
-    url: '/eventos',
-    templateUrl:'client/templates/eventos.html'
   })
   
   .state('canchas', {
@@ -35,6 +38,7 @@ angular.module('app.routes', [])
   
   .state('torneos', {
     url: '/torneos',
+    controller:'miTorneoCtroller',
     templateUrl:'client/templates/torneos.html'
   })
   
@@ -63,6 +67,7 @@ angular.module('app.routes', [])
 
   .state('login', {
     url: '/login',
+    controller: 'loginCtroller',
     templateUrl:'client/templates/login.html'
   })
 
@@ -99,12 +104,10 @@ angular.module('app.routes', [])
     url: '/contacto',
     templateUrl:'client/templates/contacto.html'
   })
-  
-  .state('instorneo', {
-    url: '/instorneo',
-    templateUrl:'client/templates/instorneo.html'
-  })
 
-  $urlRouterProvider.otherwise('/canchas');
+  if(localStorage.getItem('usuario') !== null)
+    $urlRouterProvider.otherwise('/canchas');
+  else
+    $urlRouterProvider.otherwise('/login');
 
 });
