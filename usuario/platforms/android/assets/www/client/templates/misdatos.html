@@ -1,0 +1,88 @@
+<ion-view>
+	<ion-content>
+		<div class="lista">
+
+			<div class="item item-divider" style="text-align:center;">
+			   Datos Personales
+			</div>
+	
+		    <a class="item item-icon-left">
+		      <i class="icon ion-ios-contact"></i>
+		      <h2>Nombre</h2>
+		      <p>{{perfil.nombre}}</p>
+		    </a>
+		    <a class="item item-icon-left">
+		      <i class="icon ion-ios-telephone"></i>
+		      	<div class="row">
+		      		<div class="col-90">
+		      			<h2>Teléfono</h2>
+		      			<p>{{perfil.telefono}}</p>
+		      		</div>
+		      		<div class="col-10">
+		      			<button class="button button-small button-positive" ng-click="openPopUp('telefono','teléfono')">
+						    Editar
+			    		</button>
+		      		</div>
+		      	</div>
+		    </a>
+
+		    <a class="item item-icon-left">
+		      <i class="icon ion-ios-email"></i>
+		      	<div class="row">
+		      		<div class="col-90">
+		      			<h2>Mail</h2>
+		      			<p>{{perfil.mail}}</p>
+		      		</div>
+		      		<div class="col-10">
+		      			<button class="button button-small button-positive" ng-click="openPopUp('mail','mail')">
+						    Editar
+			    		</button>
+		      		</div>
+		      	</div>
+		    </a>
+
+			<div class="item item-divider" style="text-align:center;">
+			   Preferencias
+			</div>
+
+			<a class="item item-icon-left">
+		      <i class="icon ion-heart"></i>
+		      <h2>Equipo</h2>
+		      <p>{{perfil.club}}</p>
+		    </a>
+		    <a class="item item-icon-left">
+		      <i class="icon ion-star"></i>
+		      <h2>Jugador Preferido</h2>
+		      <p>{{perfil.jugadorPref}}</p>
+		    </a>
+		    <a class="item item-icon-left">
+		      <i class="icon ion-easel"></i>
+		      <h2>Posición</h2>
+		      <p>{{perfil.posicion}}</p>
+		    </a>
+
+		</div>
+	</ion-content>
+</ion-view>
+
+<!-- <script id="dialogtelefono.html" type="text/ng-template">
+   <ion-modal-view style="width:300px;height:auto;">
+      <ion-header-bar>
+         <h1 class="title">Ingrese el nuevo teléfono</h1>
+      </ion-header-bar>
+		
+      <ion-content>
+         <input type="text" ng-model="perfil.telefono"></input>
+            <div class="button-bar">
+			  <a class="button button-positive" ng-click="modTel()">Confirmar</a>
+			  <a class="button button-assertive" ng-click="closeDialog(dialogtel)">Cerrar</a>
+			</div>
+      </ion-content>
+   </ion-modal-view>
+</script> -->
+
+<style type="text/css">
+	.list{
+		height: auto;
+	}
+</style>

@@ -1,0 +1,79 @@
+<ion-view class="fondo">
+
+    <ion-content scroll="false" class="has-header">
+    	<div style="position:static;overflow:auto;height:310px" class="fondoBlanco">
+	       <!--  <calendar ng-model="calendar.currentDate" calendar-mode="calendar.mode"
+	                  time-selected="onTimeSelected(selectedTime, events)" step="30"
+	                  vent-source="calendar.eventSource"></calendar> -->
+	                  <calendar ng-model="calendar.currentDate" calendar-mode="calendar.mode" event-source="calendar.eventSource"
+                      range-changed="reloadSource(startTime, endTime)"
+                      event-selected="onEventSelected(event)" title-changed="onViewTitleChanged(title)"
+                      time-selected="onTimeSelected(selectedTime, events)" step="30"></calendar>
+      	</div>
+
+      	<!-- REPETIR -->
+      	<div class="row" ng-show="modo=='mes'" ng-repeat="reserva in reservasDia" style="overflow:auto;position:static">
+			<div class="col-10">
+				<b>Inicio: </b>
+			</div>	
+			<div class="col-33">
+				 {{reserva.startTime | date: 'HH:mm' }}	hs			
+			</div>
+
+			<div class="col-10">
+				<b>Fin: </b>
+			</div>	
+			<div class="col-33">
+				 {{reserva.endTime | date: 'HH:mm' }}	hs			
+			</div>
+
+		</div>
+
+			<!-- <div style="background-color:red;height:100px;position:static">
+
+			</div> -->
+<!-- <div id="botonera">
+		<div layout="fondoDIV" align="center">
+			<button class="button button-positive2 button-block fondoButton" ng-click="changeMode()">Ir a {{modo}}</button>
+		</div>
+		<div layout="row fondoButton">
+			<button class="button button-positive2 button-block" ng-click="changeMode('month')">Ir a mes</button>
+		</div>
+		<div layout="fondoDIV">
+			<button class="button button-positive2 button-block fondoButton" ng-click="loadEvents()">Cargar eventos de prueba</button>
+		</div>
+<div> -->
+
+<div class="button-bar botonera">
+  <a class="button button-balanced" ng-click="changeMode()">Ir a {{modo}}</a>
+  <a class="button button-balanced" ng-click="modalReserva.show()" ng-show="modo=='día'" ng-disabled="habilitarReserva">Reservar</a>
+  <a class="button button-balanced" ng-click="loadEvents()" ng-show="modo=='día'">Cargar eventos de prueba</a>
+</div>
+    </ion-content>
+
+</ion-view>
+
+
+<style type="text/css">
+.fondoButton{
+	background-color: green;
+	bottom:0px;
+	/*position:absolute;*/
+	width:100%;
+}
+.fondoDIV{
+	background-color: white;
+}
+.button.button-positive2.button-block{
+background-color: green;
+opacity: 0.8;
+border: none;
+color:white;
+}
+
+.botonera{
+	bottom:0px;
+	position:absolute;
+}
+
+</style>
