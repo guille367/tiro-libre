@@ -4,7 +4,7 @@
 			<md-subheader class="md-no-sticky colorText fondoReserva">Fecha</md-subheader>
 			<div layout="row" layout-align="center center" class="padding">
 				<b>Día: </b>
-				<md-datepicker ng-model="reserva.fechaInicio" disabled ></md-datepicker>
+				<md-datepicker ng-model="reserva.fecha" disabled ></md-datepicker>
 			</div>
 
 			<div layout="row" layout-align="center center"  class="padding">
@@ -13,7 +13,7 @@
 					<label class="colorText">Inicio: </label>
 				</div>
 				<div layout="column" layout-align="center center">
-			        <input requiwhite type="number" min="9" max="24" style="border-color: white; color: white; background-color: transparent" />
+			        <input requiwhite type="number" min="9" max="24" ng-model="reserva.horaInicio" style="border-color: white; color: white; background-color: transparent" />
 				</div>
 				<div layout="column" layout-align="center center">
 					<label class="colorText">hs</label>
@@ -27,7 +27,7 @@
 					<label class="colorText">Fín: </label>
 				</div>
 				<div layout="column" layout-align="center center">
-			        <input requiwhite type="number" min="9" max="24" style="border-color: white; color: white; background-color: transparent" />
+			        <input requiwhite type="number" min="9" max="24" ng-model="reserva.horaFin" style="border-color: white; color: white; background-color: transparent" />
 				</div>
 				<div layout="column" layout-align="center center">
 					<label class="colorText">hs</label>

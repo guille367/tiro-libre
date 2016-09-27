@@ -1,6 +1,6 @@
 angular.module('app.controllers')
 
-.controller('miTorneoCtroller', ['$scope','$ionicPopup','$ionicModal',function($scope,$ionicPopup,$ionicModal){
+.controller('miTorneoCtroller', ['$scope','$rootScope','$state','$ionicPopup','$ionicModal',function($scope,$rootScope,$state,$ionicPopup,$ionicModal){
 
     $ionicModal.fromTemplateUrl('client/templates/dialogs/detalletorneo.html',{
         scope: $scope,
@@ -40,7 +40,13 @@ angular.module('app.controllers')
     }
 
     $scope.closeTorneo = function () {
+        
         $scope.modalTorneo.hide();
+        
+        if(!$rootScope.loggeado){
+            $state.go('login');
+        }
+        
     }
 
     $scope.closePago = function () {

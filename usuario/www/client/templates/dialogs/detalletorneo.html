@@ -79,6 +79,9 @@
 			</div>
 
 		</div>
+        
+<div ng-show="loggeado">
+            
 		<md-divider></md-divider>
 		<md-subheader class="md-no-sticky fondoDTorneo"><b>Jugadores</b></md-subheader>
 		<div class="row" layout="row" layout-align="center center">
@@ -186,16 +189,18 @@
 			</div>
 
 		</div>
-
+</div>
+        
 		<div class="row" layout="row" layout-align="center center">
 			<button class="button button-block button-positive3" ng-click="closeTorneo()"><b>Anotarse</b></button>
 		</div>
-
+            
 		<div class="row" layout="row" layout-align="center center">
 			<button class="button button-block button-assertive" ng-click="closeTorneo()">Cerrar</button>
 		</div>
 	</ion-content>
-</ion-view>
+    
+</ion-modal-view>
 
 <style type="text/css">
 	.fondoDTorneo{

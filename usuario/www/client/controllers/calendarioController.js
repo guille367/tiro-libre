@@ -8,10 +8,7 @@ angular.module('app.controllers')
         $scope.fechaSeleccionada;
         $scope.habilitarReserva = false;
 
-        $scope.reserva = {
-            fechaInicio : new Date(),
-            fechaFin : new Date()
-        }
+        $scope.reserva = {}
 
         $ionicModal.fromTemplateUrl('client/templates/dialogs/reserva.html', {
                 scope: $scope,
@@ -61,6 +58,13 @@ angular.module('app.controllers')
 
         $scope.onTimeSelected = function (selectedTime, events) {
             console.log('Selected time: ' + selectedTime + ', hasEvents: ' + (events !== undefined && events.length !== 0));
+            
+            $scope.reserva = {
+                fecha: selectedTime,
+                horaInicio: selectedTime.getHours(),
+                horaFin: (selectedTime.getHours() + 1)
+            }
+            
             $scope.fechaSeleccionada = selectedTime;
             $scope.habilitarReserva = (events !== undefined && events.length !== 0);
         };
