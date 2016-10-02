@@ -1,12 +1,15 @@
 <h1>Canchas</h1>
+
+
 <div class="col-md-4" >
-<button type="button" data-toggle="modal" data-target="#canchaNuevo" class="btn btn-info btn-sm">Nueva Cancha</button>
+<button type="button" data-toggle="modal" ng-click="open()" class="btn btn-info btn-sm">Nueva Cancha</button>
 </div>
 
 <form>
     <div class="form-group">
       <div class="input-group">
-        <div class="input-group-addon"><i class="fa fa-search"></i></div>
+        <div><i class="fa fa-search"></i></div>
+        <span class="input-group-addon glyphicon glyphicon-search"></span>
         <input type="text" class="form-control" placeholder="Buscar" ng-model="search">
       </div>      
     </div>
@@ -47,17 +50,11 @@
 </table>
 
 
-
-
-
-
-<!-- Modal Torneo -->
-<div id="canchaNuevo" class="modal fade" role="dialog">
-  <div class="modal-dialog">
-    <!-- Modal content-->
-    <div class="modal-content">
+     
+<script type="text/ng-template" id="canchaNuevo.html">
+  
       <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <button type="button" ng-click="cancel()" class="close" data-dismiss="modal">&times;</button>
         <h4 class="modal-title" align="center">Nueva Cancha</h4>
       </div>
       <div class="modal-body">
@@ -69,7 +66,7 @@
           </div>
           <div class="row">
             <div class='col-sm-6'>
-              <input type="text" class="form-control" id="nombreCancha" name="nombreCancha" required="true">
+              <input type="text" class="form-control" id="nombreCancha" required="true" ng-model="newCancha.nombre">
             </div>
           </div>
           <div class="row" style="padding-top:15px">
@@ -92,7 +89,7 @@
                 <label for="precio">Precio Diurno</label>
                 <div class="input-group">
                   <span class="input-group-addon">$</span>
-                  <input type="text" class="form-control" id="precio1" ng-model='cancha.pdiurno' placeholder="precio">
+                  <input type="text" class="form-control" id="precio1" ng-model='newCancha.pdiurno' placeholder="precio">
                 </div>
               </div>
             </div>
@@ -102,7 +99,7 @@
                 <label for="precio">Precio Nocturno</label>
                 <div class="input-group">
                   <span class="input-group-addon">$</span>
-                  <input type="text" class="form-control" id="precio1" ng-model='cancha.pnocturno' placeholder="precio">
+                  <input type="text" class="form-control" id="precio1" ng-model='newCancha.pnocturno' placeholder="precio">
                 </div>
               </div>
             </div>            
@@ -112,12 +109,12 @@
             <div class='col-sm-2'>
               <div class="form-group">
 			    <label for="textTechada">Techada</label>
-			    <input type="checkbox" ng-model="checkboxTecho.true">
+			    <input type="checkbox" ng-model="newCancha.checkboxTecho">
 			  </div>
             </div>
             <div class='col-sm-2'>
               <label for="textLuz">Luz
-		    	<input type="checkbox" ng-model="checkboxLuz.true">
+		    	<input type="checkbox" ng-model="newCancha.checkboxLuz">
 		  	  </label>
             </div>
           </div>
@@ -125,7 +122,7 @@
             <div class='col-sm-2'>
               <div class="form-group">
                 <label for="textPiso">Piso</label>
-				<select class="form-control" id="sel1" >
+				        <select class="form-control" id="sel1" ng-model="newCancha.piso">
                   <option>Pasto</option>
                   <option>Sintectico</option>
                   <option>Cemento</option>
@@ -135,8 +132,8 @@
             </0div>
             <div class='col-sm-2'>
               <div class="form-group">
-                <label for="sel1">Estado:</label>
-                <select class="form-control" id="sel1">
+                <label for="estado">Estado:</label>
+                <select class="form-control" id="estado" ng-model="newCancha.estado">
                   <option>Disponible</option>
                   <option>En reparción</option>
                 </select>
@@ -145,22 +142,73 @@
             <div class='col-sm-2'>
               <div class="form-group">
                 <label for="colorpicker">Color Identificador:</label>
-                <input type="text" id="colorpicker" class="form-control" colorpicker ng-model="hexPicker.color" >
+                <input type="text" id="colorpicker" class="form-control" colorpicker ng-model="newCancha.color" >
               </div>
             </div>  
+          </div>
+          <div class="row">
+                  <div class='col-sm-2'>
+                    <label for="horaapertura">Horario de apertura</label>
+                    <div class="input-group clockpicker col-sm-10" data-placement="right" data-align="top" data-autoclose="true">
+                      <input type="text" class="form-control" ng-model="newCancha.horaApertura" value="09:00">
+                      <span class="input-group-addon">
+                      <span class="glyphicon glyphicon-time"></span>
+                      </span>
+                    </div>
+                  </div>
+                  <div class='col-sm-2'>
+                    <label for="horaapertura">Horario de cierre</label>
+                    <div class="input-group clockpicker2 col-sm-10" data-placement="right" data-align="top" data-autoclose="true" >
+                      <input type="text" value="23:00" class="form-control" ng-model="newCancha.horaCierre">
+                      <span class="input-group-addon">
+                      <span class="glyphicon glyphicon-time"></span>
+                      </span>
+                    </div>
+                  </div>
+          </div>
+          <div class="row">
+              <div class='col-sm-6'>
+                    <label class="control-label">Imagen de la cancha</label>
+                    <input id="input-1" type="file" class="file" data-show-preview="false" fileread="newCancha.uploadme">
+              </div> 
           </div>
         </div>
       </div>
       <div class="modal-footer">
         <div class="row">
           <div class="col-sm-offset-3 col-sm-6 text-center">
-            <button type="submit" class="btn btn-success"  data-ng-click="" data-dismiss="modal">Crear</button>
-            <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+            <button type="submit" class="btn btn-success"  ng-click="guardar(newCancha)" data-dismiss="modal">Crear</button>
+            <button type="button" class="btn btn-danger" ng-click="cancel()" data-dismiss="modal">Cancelar</button>
           </div>
         </div>      
       </div>
-    </div>
-    <!-- Modal content-->
-  </div>
-</div>
-<!-- Modal Torneo -->
+
+
+      <script type="text/javascript">
+        $("#input-1").fileinput({
+        language: "es",
+        uploadUrl: "/",
+        previewFileType: "image",
+        browseClass: "btn btn-success",
+        browseLabel: "Elegir foto",
+        browseIcon: "<i class=\"glyphicon glyphicon-picture\"></i> ",
+        removeClass: "btn btn-danger",
+        removeLabel: "Borrar",
+        removeIcon: "<i class=\"glyphicon glyphicon-trash\"></i> ",
+        uploadClass: "btn btn-info",
+        uploadLabel: "Upload",
+        uploadIcon: "<i class=\"glyphicon glyphicon-upload\"></i> "
+         });
+
+        $('.clockpicker').clockpicker();
+        $('.clockpicker2').clockpicker();
+
+
+        </script>
+
+</script>
+
+
+
+
+

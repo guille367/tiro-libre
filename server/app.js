@@ -9,18 +9,31 @@ var hash = require('bcrypt-nodejs');
 var path = require('path');
 var passport = require('passport');
 var localStrategy = require('passport-local' ).Strategy;
+var cors = require('cors');
 
 // mongoose
 mongoose.connect('mongodb://localhost/prueba');
 
 // user schema/model
 var User = require('./models/user.js');
+// cancha schema/model
+var Cancha = require('./models/cancha.js');
 
 // create instance of express
 var app = express();
 
 // require routes
 var routes = require('./routes/users.js');
+var canchasRoutes = require('./routes/canchas.js');
+var reservasRoutes = require('./routes/reservas.js');
+
+
+
+
+app.use(cors({
+  origin: 'http://localhost'
+}));
+
 
 // define middleware
 app.use(express.static(path.join(__dirname, '../client')));
@@ -44,6 +57,8 @@ passport.deserializeUser(User.deserializeUser());
 
 // routes
 app.use('/user/', routes);
+app.use('/cancha', canchasRoutes);
+app.use('/reserva', reservasRoutes);
 
 app.get('/', function(req, res) {
   res.sendFile(path.join(__dirname, '../client', 'index.html'));

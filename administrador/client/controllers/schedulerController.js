@@ -21,8 +21,8 @@ angular.module('myApp').controller("schedulerController", function($scope){
             batch: true,
             transport: {
               read: {
-                url: "http://demos.telerik.com/kendo-ui/service/tasks",
-                dataType: "jsonp"
+                url: "http://localhost:3001/reserva/",
+                dataType: "json"
               },
               update: {
                 url: "http://demos.telerik.com/kendo-ui/service/tasks/update",
