@@ -120,6 +120,66 @@ myApp.filter('yesNo', function () {
 
 
 
+<div id="otroPago" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+    <!-- Modal content-->
+      <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title" align="center">Otros pagos</h4>
+          </div>
+          <div class="modal-body">
+            <div class="container">
+                <div class="row">
+                  <div class="col-lg-2">
+                  <label for="Usuario">Usuario</label>
+                      <input type="text" class="form-control" id="usuario" value="Usuario X" name="nombreTorneo" readonly="true">
+                  </div>
+                  <div class="col-lg-2">
+                    <label for="datepicker">Usuario</label>
+                      <input id="datepicker"/>
+                  </div>
+                </div>
+                
+                <div class="row">
+                  <div class='col-lg-2'>
+                      <label for="Concepto">Concepto</label>
+                      <div class="input-group">
+                        <input type="text" class="form-control" id="fecha" >
+                      </div>
+                  </div>
+                  <div class='col-lg-2'>
+                      <div class="form-group">
+                        <label for="precio">Importe</label>
+                        <div class="input-group">
+                            <span class="input-group-addon">$</span>
+                            <input type="text" class="form-control" id="precio" placeholder="precio">
+                        </div>
+                      </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class='col-lg-6'>
+                    <label for="Descripción">Descripción</label>
+                    <textarea class="form-control" rows="3" id="Descripción"></textarea>
+                  </div>
+                </div>
+            </div>
+        </div>
+          <div class="modal-footer">
+              <div class="row">
+                <div class="col-sm-offset-3 col-sm-6 text-center">
+                    <button class="btn btn-primary" id="get-checked-data" data-toggle="modal" data-target="#pagoTarjeta">Pagar</button>
+                </div>
+            </div>      
+        </div>
+      </div>
+    <!-- Modal content-->
+    </div>
+</div>
+<!-- Modal Torneo -->
+
+
 <!-- Modal Pago -->
 <div  class="modal fade" role="dialog" id="pagoTarjeta">
     <div class="modal-dialog" type="text/x-kendo-template" >
@@ -216,64 +276,6 @@ myApp.filter('yesNo', function () {
 
 
 
-<div id="otroPago" class="modal fade" role="dialog">
-  	<div class="modal-dialog">
-    <!-- Modal content-->
-    	<div class="modal-content">
-      		<div class="modal-header">
-        		<button type="button" class="close" data-dismiss="modal">&times;</button>
-        		<h4 class="modal-title" align="center">Otros pagos</h4>
-      		</div>
-      		<div class="modal-body">
-        		<div class="container">
-          			<div class="row">
-            			<div class="col-lg-2">
-            			<label for="Usuario">Usuario</label>
-              				<input type="text" class="form-control" id="usuario" value="Usuario X" name="nombreTorneo" readonly="true">
-            			</div>
-            			<div class="col-lg-2">
-            				<label for="datepicker">Usuario</label>
-              				<input id="datepicker"/>
-            			</div>
-          			</div>
-          			
-          			<div class="row">
-            			<div class='col-lg-2'>
-                			<label for="Concepto">Concepto</label>
-                			<div class="input-group">
-                 				<input type="text" class="form-control" id="fecha" >
-                			</div>
-            			</div>
-            			<div class='col-lg-2'>
-              				<div class="form-group">
-                				<label for="precio">Importe</label>
-                				<div class="input-group">
-                  					<span class="input-group-addon">$</span>
-                  					<input type="text" class="form-control" id="precio" placeholder="precio">
-                				</div>
-              				</div>
-            			</div>
-          			</div>
-          			<div class="row">
-            			<div class='col-lg-6'>
-            				<label for="Descripción">Descripción</label>
-            				<textarea class="form-control" rows="3" id="Descripción"></textarea>
-            			</div>
-            		</div>
-        		</div>
-    		</div>
-      		<div class="modal-footer">
-            	<div class="row">
-            		<div class="col-sm-offset-3 col-sm-6 text-center">
-                		<button class="btn btn-primary" id="get-checked-data" data-toggle="modal" data-target="#pagoTarjeta">Pagar</button>
-              	</div>
-            </div>      
-        </div>
-    	</div>
-    <!-- Modal content-->
-  	</div>
-</div>
-<!-- Modal Torneo -->
 
 <script type="text/javascript">
 	$("#datepicker").kendoDatePicker();

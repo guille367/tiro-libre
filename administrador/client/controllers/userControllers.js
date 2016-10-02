@@ -46,8 +46,8 @@ angular.module('myApp').controller('logoutController',
 }]);
 
 angular.module('myApp').controller('registerController',
-  ['$scope', '$location', 'AuthService',
-  function ($scope, $location, AuthService) {
+  ['$scope', '$location', 'AuthService', '$uibModalInstance', '$timeout', 'items',
+  function ($scope, $location, AuthService, $uibModalInstance, $timeout, items) {
 
     $scope.register = function () {
 
@@ -59,9 +59,9 @@ angular.module('myApp').controller('registerController',
       AuthService.register($scope.registerForm.username, $scope.registerForm.password, $scope.registerForm.name, $scope.registerForm.mail, $scope.registerForm.number)
         // handle success
         .then(function () {
-          $location.path('/login');
           $scope.disabled = false;
           $scope.registerForm = {};
+          $uibModalInstance.close();
         })
         // handle error
         .catch(function () {
@@ -72,6 +72,13 @@ angular.module('myApp').controller('registerController',
         });
 
     };
+
+    $scope.cancel = function () {
+    $timeout(function() {
+            $uibModalInstance.dismiss('cancel');
+        }, 100);
+    
+  };
 
 }]);
 

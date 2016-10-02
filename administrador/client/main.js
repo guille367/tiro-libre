@@ -1,4 +1,4 @@
-var myApp = angular.module('myApp', ['ui.router', 'credit-cards', 'colorpicker.module', 'kendo.directives']);
+var myApp = angular.module('myApp', ['ui.router', 'credit-cards', 'colorpicker.module', 'kendo.directives', 'ui.bootstrap']);
 
 myApp.filter('yesNo', function () {
   return function (boolean) {
@@ -22,6 +22,14 @@ myApp.config(function ($stateProvider, $urlRouterProvider) {
       url: "/inicio",
       templateUrl: 'templates/index.html',
       controller:'schedulerController',
+      access: {restricted: true}
+
+    })
+
+    .state("home.administradores",{
+      url: "/administradores",
+      templateUrl: 'templates/admin.html',
+      controller:'adminController',
       access: {restricted: true}
 
     })
@@ -61,8 +69,13 @@ myApp.config(function ($stateProvider, $urlRouterProvider) {
       templateUrl: 'templates/configuracion.html',
       access: {restricted: true}
     })
-  
     
+    .state("admin", {
+      url: "/admin",
+      templateUrl: 'templates/admin.html',
+      controller: 'loginController',
+      access: {restricted: false}
+    })  
 
     .state("login", {
       url: "/login",
