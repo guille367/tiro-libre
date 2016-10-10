@@ -1,0 +1,41 @@
+<div id="form-container">
+
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#">{{user.username | uppercase}}</a>
+    </div>
+    <div class="collapse navbar-collapse" id="myNavbar">
+      <ul class="nav navbar-nav">
+      	<li><a ui-sref-active="active" ui-sref=".index">Inicio</a></li>
+        <li><a ui-sref-active="active" ui-sref=".usuarios">Usuarios</a></li>
+        <li><a ui-sref-active="active" ui-sref=".canchas">Canchas</a></li>	
+        <li><a ui-sref-active="active" ui-sref=".torneos">Torneos</a></li>
+        <li><a ui-sref-active="active" ui-sref=".pagos">Pagos</a></li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right" ng-controller="logoutController">
+        <li><a ng-click='logout()' href=""><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
+      </ul>
+            <ul class="nav navbar-nav navbar-right">
+        <li><a ui-sref-active="active" ui-sref=".configuracion">Configuración</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+      <!-- use ng-submit to catch the form submission and use our Angular function -->
+      <form id="signup-form" ng-submit="processForm()">
+          <!-- our nested state views will be injected here -->
+          <div id="form-views" ui-view></div>
+      </form>
+  
+</div>
+
+
+
+

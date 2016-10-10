@@ -1,0 +1,100 @@
+<!doctype html>
+<html ng-app="myApp">
+
+<head>
+  <meta charset="utf-8">
+  <title>Tiro Libre</title>
+  <link rel="shortcut icon" href="./img/pelota.ico" />
+  <!-- styles -->
+  <link href="./bower_components/bootstrap-3.3.7/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="./bower_components/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css" />
+  <link href="./bower_components/bootstrap-fileinput/css/fileinput.min.css" media="all" rel="stylesheet" type="text/css"/>
+  <link href="./bower_components/angular-bootstrap-colorpicker/css/colorpicker.css" rel="stylesheet">
+
+
+
+ <style>
+    body {
+      background-image: url("./img/1.jpg");
+    }
+    h1{
+      color: #fff;
+    }
+    .form-group-conf{
+            color: #fff;
+    }
+
+ </style>
+  
+</head>
+
+
+<body >
+
+  
+  <div class="container">
+    <div ui-view></div>
+
+  </div>
+
+
+</body>
+
+
+<!-- scripts -->
+   
+  <script src="./bower_components/jquery/dist/jquery.min.js"></script>
+  <script src="./bower_components/jquery/jquery-1.9.1.min.js"></script>
+  <script src="./bower_components/moment/min/moment-with-locales.js"></script>
+  <script src="./bower_components/bootstrap-3.3.7/js/bootstrap.min.js"></script>
+  <script src="./bower_components/angular/angular.min.js"></script>
+
+  <script type="text/javascript" src="./bower_components/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js"></script>
+  
+ <script data-require="angular-credit-cards@*" data-semver="3.0.1" src="./bower_components/angular-credit-cards/release/angular-credit-cards.js"></script>
+  <script src="./bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
+  <script src="./bower_components/bootstrap-fileinput/js/fileinput.min.js"></script>
+
+  
+  <script src="./main.js"></script>
+  <script src="./services/userServices.js"></script>
+  <script src="./controllers/userControllers.js"></script>
+  <script src="./controllers/usuarioController.js"></script>
+  <script src="./controllers/canchaController.js"></script>
+  <script src="./controllers/torneoController.js"></script>
+  <script src="./controllers/schedulerController.js"></script>
+  <script src="./controllers/pagosController.js"></script>
+  
+  <link rel="stylesheet" href="./lib/styles/kendo.common.min.css"/>
+  <link rel="stylesheet" href="./lib/styles/kendo.rtl.min.css"/>
+  <link rel="stylesheet" href="./lib/styles/kendo.silver.min.css"/>
+  <link rel="stylesheet" href="./lib/styles/kendo.mobile.all.min.css"/>
+  <link rel="stylesheet" href="./lib/styles/clockpicker.css"/>
+
+  <script src="./bower_components/angular-bootstrap-colorpicker/js/bootstrap-colorpicker-module.js"></script>
+ 
+
+
+
+  
+  <script src="./lib/kendo.all.min.js"></script>
+  <script src="./lib/kendo.culture.es-AR.min.js"></script>
+  <script src="./lib/kendo.messages.es-AR.min.js"></script>
+  <script src="./lib/clockpicker.js"></script>
+
+
+  <script type="text/javascript">
+    //set the moment language
+  moment.updateLocale('es', {});
+    //set the Kendo UI culture
+  kendo.culture("es-AR");
+  
+</script>
+
+
+<script src="./bower_components/bootstrap-fileinput/js/locales/es.js"></script>
+  
+
+</html>
+
+

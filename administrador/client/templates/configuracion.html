@@ -1,0 +1,51 @@
+<h1>Configuración</h1>
+<div class="container">
+	<div class="row">
+		<div class='col-sm-3 form-group-conf'>
+    	    <label for="txtdni">Horario de apertura</label>
+		    <div class="input-group clockpicker" data-placement="right" data-align="top" data-autoclose="true">
+    			<input type="text" class="form-control" value="09:00">
+    			<span class="input-group-addon">
+        		<span class="glyphicon glyphicon-time"></span>
+    			</span>
+			</div>
+        </div>
+    </div>
+    <div class="row">
+        <div class='col-sm-3 form-group-conf'>
+    	    <label for="txtdni">Horario de cierre</label>
+		    <div class="input-group clockpicker" data-placement="right" data-align="top" data-autoclose="true">
+    			<input type="text" class="form-control" value="23:30">
+    			<span class="input-group-addon">
+        		<span class="glyphicon glyphicon-time"></span>
+    			</span>
+			</div>
+        </div>
+    </div>
+    <div class="row">    
+        <div class='col-sm-3 form-group-conf'>
+    	    <label for="txtdni">Inicio hora noctura</label>
+		    <div class="input-group clockpicker" data-placement="right" data-align="top" data-autoclose="true">
+    			<input type="text" class="form-control" value="19:00">
+    			<span class="input-group-addon">
+        		<span class="glyphicon glyphicon-time"></span>
+    			</span>
+			</div>
+        </div>
+    </div>  
+    <div class="row">
+    	<div class='col-sm-3 form-group-conf'>
+    	    <label for="btn"></label>
+		    <div class="input-group clockpicker" data-placement="right" data-align="top" data-autoclose="true">
+    			<button type="button" id="btn" data-target="#guardarConfig" class="btn btn-info btn-sm">Guardar</button></p>
+			</div>
+        </div>    
+        
+    </div>   
+</div>
+        
+
+
+<script type="text/javascript">
+$('.clockpicker').clockpicker();
+</script>

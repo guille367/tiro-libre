@@ -1,0 +1,90 @@
+<!-- <ion-view>
+    <ion-content>
+        <h1>Reservas</h1>
+        <calendar calendar-mode="week" event-source="eventSource">
+    </ion-content>
+</ion-view>	
+ -->
+ <ion-view view-title={{viewTitle}} class="fondo">
+    <!-- <ion-nav-buttons side="right" class="prueba">
+        <button class="button" ng-click="changeMode('month')">M</button>
+        <button class="button" ng-click="loadEvents()">^</button>
+    </ion-nav-buttons>
+
+    <ion-content scroll="false" class="main-content">
+        <calendar ng-model="calendar.currentDate" calendar-mode="calendar.mode" event-source="calendar.eventSource"
+                  range-changed="reloadSource(startTime, endTime)"
+                  event-selected="onEventSelected(event)" title-changed="onViewTitleChanged(title)"
+                  time-selected="onTimeSelected(selectedTime, events)" step="30"></calendar>
+    </ion-content> -->
+
+    <ion-content class="has-header">
+
+      <div class="item item-icon-left item-button-right row">
+
+        <div class="col-10">
+          <i class="icon ion-ios-football-outline"></i>
+        </div>
+
+        <div class="col">
+          <h2>Cancha 3</h2>
+          <p>15/10 - 18:00 hs</p> 
+        </div>
+
+        <div class="col"> 
+          <div class="row">
+            <div class="col">
+              <button class="button button-positive" ng-click="openReserva()">
+                Detalles
+              </button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="item item-icon-left item-button-right row">
+
+        <div class="col-10">
+          <i class="icon ion-ios-football-outline"></i>
+        </div>
+
+        <div class="col">
+          <h2>Cancha 1</h2>
+          <p>20/10 - 20:00 hs</p> 
+        </div>
+
+        <div class="col">
+          <div class="row">
+            <div class="col">
+              <button class="button button-positive" ng-click="openReserva()">
+                Detalles
+              </button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </ion-content>
+</ion-view>
+
+<style type="text/css">
+
+  tbody  {
+    background-color: white;
+      
+    }
+  .scroll-content .ionic-scroll{
+    background-image: url("./img/1.jpg");
+  }
+  .scroll{
+    margin-top: 0;
+  }
+  .monthview-slide {
+    height: 260px;
+  }
+
+  
+
+</style>

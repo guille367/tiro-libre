@@ -1,0 +1,118 @@
+<ion-modal-view class="fondo">
+	<ion-content class="colorText">
+
+			<md-subheader class="md-no-sticky colorText fondoReserva">Fecha</md-subheader>
+			<div layout="row" layout-align="center center" class="padding">
+				<b>Día: </b>
+				<md-datepicker ng-model="reserva.fechaInicio" disabled ></md-datepicker>
+			</div>
+
+			<div layout="row" layout-align="center center"  class="padding">
+
+				<div layout="column" layout-align="center center">
+					<label class="colorText">Inicio: </label>
+				</div>
+				<div layout="column" layout-align="center center">
+			        <input requiwhite type="number" min="9" max="24" style="border-color: white; color: white; background-color: transparent" />
+				</div>
+				<div layout="column" layout-align="center center">
+					<label class="colorText">hs</label>
+				</div>
+
+				<div layout="column" flex="33" layout-align="center center">
+					
+				</div>
+
+				<div layout="column" layout-align="center center">
+					<label class="colorText">Fín: </label>
+				</div>
+				<div layout="column" layout-align="center center">
+			        <input requiwhite type="number" min="9" max="24" style="border-color: white; color: white; background-color: transparent" />
+				</div>
+				<div layout="column" layout-align="center center">
+					<label class="colorText">hs</label>
+				</div>
+      		</div>
+
+      		<md-subheader class="md-no-sticky colorText fondoReserva">Cancha</md-subheader>
+  			<!-- Cancha [Nombre,tipo,jugadores,luz (s/n)] -->
+  			<div layout="row" class="padding colorText">
+  				<div layout="column" flex="50">
+					<md-input-container >
+				        <label style="border-color: white; color: white; font-weight:bold;">Cancha</label>
+				        <input style="border-color: white; color: white; background-color: transparent;font-weight:bold;" disabled value="Cancha 3">
+			      	</md-input-container>
+  				</div>
+  				<div layout="column"  flex="50">
+  					<md-input-container>
+				        <label style="border-color: white; color: white; font-weight:bold;">Tipo</label>
+				        <input style="border-color: white; color: white; background-color: transparent; font-weight:bold;" disabled value="Césped sintético">
+			      	</md-input-container>
+  				</div>
+  			</div>
+  			<div layout="row" class="padding">
+  				<div layout="column" flex="50">
+					<md-input-container>
+				        <label style="border-color: white; color: white; font-weight:bold;">Cantidad de jugadores</label>
+				        <input style="border-color: white; color: white; background-color: transparent; font-weight:bold;" disabled value="7">
+			      	</md-input-container>
+  				</div>
+  				<div layout="column"  flex="50">
+			        <label class="colorText">Iluminación</label>
+			        <md-checkbox aria-label="Close" class="dotted" disabled checked="true"></md-checkbox>
+  				</div>
+  			</div>
+
+  			<md-subheader class="md-no-sticky colorText fondoReserva">Pago</md-subheader>
+  			<div layout="row" class="padding">
+  				<div layout="column" flex="33">
+					<md-input-container>
+				        <label style="border-color: white; color: white; font-weight:bold;">Importe total</label>
+				        <input style="width: 100px; border-color: white; color: white; background-color: transparent; font-weight:bold;" disabled value="$500.00">
+			      	</md-input-container>
+  				</div>
+  				<div layout="column"  flex="33">
+  					<md-input-container>
+				        <label style="border-color: white; color: white; font-weight:bold;">Importe reserva</label>
+				        <input style="width: 100px; border-color: white; color: white; background-color: transparent; font-weight:bold;" disabled value="$100.00">
+			      	</md-input-container>
+  				</div>
+
+  				<div layout="column" flex="33">
+					<button style="margin-top:15px" 
+						class="button button-positive" ng-click="modalPago.show()">Pagar</button>
+  				</div>
+  			</div>
+
+			<button class="button button-assertive button-block" ng-click="closeReserva()">Cerrar</button>
+
+	</ion-content>
+</ion-modal-view>
+
+<style type="text/css">
+	.colorText{
+		color:white;	
+		font-weight:bold;
+	}
+	.md-datepicker-input{
+  		color: white;
+  		background-color: transparent;
+  		font-weight:bold;	
+	}
+	.md-datepicker{
+		background-color: transparent;
+	}
+	.fondoReserva{
+		background-color: green;
+	}
+	.dotted {
+		background-color: white;
+		width: 10px;
+	}
+	path{
+		color:white;
+	}
+	button[disabled], html input[disabled] {
+		background-color: transparent;	
+	}
+</style>

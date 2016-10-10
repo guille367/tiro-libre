@@ -1,0 +1,73 @@
+<ion-modal-view class ="has-header fondo textColor">
+	<ion-content  scroll="true" ng-controller="pagoTarjetaCtroller">
+		<md-subheader class="md-no-sticky fondoDReserva">Pagar con tarjeta</md-subheader>
+		<div layout="row" layout-align="center center" >
+			<md-input-container style="background-color: transparent">
+		        <label style="border-color: white; color: white; font-weight:bold;">Nombre del titular</label>
+		        <input style="border-color: white; color: white; font-weight:bold;"required ng-model="user.nombretitular">
+		        <div ng-message="required">Campo obligatorio</div>
+	      	</md-input-container>
+		</div>
+
+		<div layout="row" layout-align="center center">
+			<md-input-container style="background-color: transparent">
+		        <label style="border-color: white; color: white; font-weight:bold;">Número de tarjeta</label>
+		        <input style="border-color: white; color: white; font-weight:bold;" md-maxlength="20" required ng-model="user.numero" >
+		        <div ng-message="required">Campo obligatorio</div>
+	      	</md-input-container>
+		</div>
+
+		<div layout="row" layout-align="center center" layout-margin>
+
+			<div layout="column" flex="33">
+				<md-input-container style="background-color: transparent">
+			        <label style="border-color: white; color: white; font-weight:bold;">MM</label>
+			        <input style="border-color: white; color: white; font-weight:bold;" md-maxlength="2" required ng-model="user.mm" >
+			        <div ng-message="required">Campo obligatorio</div>
+		      	</md-input-container>
+	      	</div>
+	      		/
+	      	<div layout="column" flex="33">
+				<md-input-container style="background-color: transparent">
+			        <label style="border-color: white; color: white; font-weight:bold;">AA</label>
+			        <input style="border-color: white; color: white; font-weight:bold;" md-maxlength="2" required ng-model="user.aa" >
+			        <div ng-message="required">Campo obligatorio</div>
+		      	</md-input-container>
+	      	</div>
+
+	      	<div layout="column" flex="33">
+				<md-input-container style="background-color: transparent">
+			        <label style="border-color: white; color: white; font-weight:bold;">CSV</label>
+			        <input style="border-color: white; color: white; font-weight:bold;" md-maxlength="4" required ng-model="user.csv" >
+			        <div ng-message="required">Campo obligatorio</div>
+		      	</md-input-container>
+	      	</div>
+
+
+		</div>
+
+		<section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
+	      <md-button class="md-raised md-primary">Confirmar</md-button>
+	      <md-button class="md-raised md-warn" ng-click="closePago()">Cerrar</md-button>
+  	    </section>
+		
+	</ion-content>
+</ion-view>
+
+<style type="text/css">
+
+	.fondoDReserva{
+        background-color: green;
+        color:white;
+        size:100px;
+        font-weight:bold;
+	}
+	.textColor{
+		color: white;
+		font-weight:bold;
+	}
+	.fondoPago{
+		background-color: white;
+		border-radius: 15px;
+	}
+</style>

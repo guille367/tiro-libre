@@ -1,0 +1,52 @@
+<!-- <ion-view>
+    <ion-content>
+        <h1>Reservas</h1>
+        <calendar calendar-mode="week" event-source="eventSource">
+    </ion-content>
+</ion-view> 
+ -->
+ <ion-view view-title={{viewTitle}}>
+    <ion-nav-buttons side="right" class="prueba">
+        <button class="button" ng-click="changeMode('month')">M</button>
+        <button class="button" ng-click="loadEvents()">^</button>
+    </ion-nav-buttons>
+
+    <ion-content scroll="false" class="main-content">
+        <calendar ng-model="calendar.currentDate" calendar-mode="calendar.mode" event-source="calendar.eventSource"
+                  range-changed="reloadSource(startTime, endTime)"
+                  event-selected="onEventSelected(event)" title-changed="onViewTitleChanged(title)"
+                  time-selected="onTimeSelected(selectedTime, events)" step="30"></calendar>
+    </ion-content>
+</ion-view>
+
+<style type="text/css">
+thead{
+  background-color: white;
+}
+  
+  tbody {
+    background-color: white;
+      
+    }
+    .dayview-allday-table{
+      background-color: white;
+    }
+        .pane, .view {
+        background-image: url("./img/1.jpg");
+
+    }
+  .scroll-content .ionic-scroll{
+    background-image: url("./img/1.jpg");
+  }
+  .scroll{
+    margin-top: 0;
+    background-color: white;
+  }
+  .monthview-slide {
+    height: 260px;
+  }
+  .scroll-content{
+    position: absolute;
+}
+
+</style>

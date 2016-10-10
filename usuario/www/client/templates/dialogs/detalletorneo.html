@@ -1,0 +1,224 @@
+<ion-modal-view>
+	<ion-content scroll="true" class="fondo colorText">
+
+		<md-divider></md-divider>
+		<md-subheader class="md-no-sticky fondoDTorneo"><b>Datos Torneo</b></md-subheader>
+		<div class="row" layout="row" layout-align="center center">
+			<div class="col-25" style="text-align:center" layout="column">
+				<b>Inicio</b>
+			</div>
+			<div class="col">
+				<b>{{torneo.fechaInicio}}</b>
+			</div>
+			<div class="col-25" style="text-align:center" layout="column">
+			<b>Fín</b>
+			</div>
+			<div class="col">
+				<b>{{torneo.fechaFin}}</b>
+			</div>
+		</div>
+
+		<div class="row" layout="row" layout-align="center center">
+
+			<div class="col-25" style="text-align:center" layout="column">
+				<b>Jugadores: </b>
+			</div>
+			<div class="col" layout="column">
+				<b>{{torneo.jugadores}}</b>
+			</div>
+			<div class="col-25" style="text-align:center" layout="column">
+				<b>Inscripción: </b>
+			</div>
+			<div class="col" layout="column">
+				<b>${{torneo.inscripcion}}</b>
+			</div>
+
+		</div>
+
+		<div class="row" layout="row" layout-align="center center" >
+
+			<div class="col-25" style="text-align:center" layout="column">
+				<b>Titulares</b>
+			</div>
+			<div class="col" layout="column">
+				<b>{{torneo.titulares}}</b>
+			</div>
+			<div class="col-25" style="text-align:center" layout="column">
+				<b>Por partido: </b>
+			</div>
+			<div class="col" layout="column">
+				<b>${{torneo.partido}}</b>
+			</div>
+
+		</div>
+
+		<div class="row" layout="row" layout-align="center center">
+
+			<div class="col-25" style="text-align:center" layout="column">
+				<b>Suplentes</b>
+			</div>
+			<div class="col" layout="column">
+				<b>{{torneo.suplentes}}</b>
+			</div>
+			<div class="col-25" style="text-align:center" layout="column">
+				<b>Formato: </b>
+			</div>
+			<div class="col" layout="column">
+				<b>{{torneo.formato}}</b>
+			</div>
+
+		</div>
+
+		<div class="row" layout="row" layout-align="center center">
+
+			<div class="col-25" style="text-align:center" layout="column">
+				<b>Equipos</b>
+			</div>
+			<div class="col" layout="column">
+				<b>{{torneo.equipos}}</b>
+			</div>
+
+		</div>
+        
+<div ng-show="loggeado">
+            
+		<md-divider></md-divider>
+		<md-subheader class="md-no-sticky fondoDTorneo"><b>Jugadores</b></md-subheader>
+		<div class="row" layout="row" layout-align="center center">
+			<div class="col-20" style="text-align:center" layout="column">
+				<b>DNI</b>
+			</div>
+			<div class="col" layout="column">
+				<b>Nombre</b>
+			</div>
+		</div>
+		<div class="row" layout="row" layout-align="center center">
+			<div class="col-20" style="text-align:center" layout="column">
+				<input type="text" style="text-align:center">
+			</div>
+			<div class="col" layout="column">
+				<input type="text" style="text-align:center">
+			</div>
+		</div>
+		<div class="row" layout="row" layout-align="center center">
+			<div class="col-20" style="text-align:center" layout="column">
+				<input type="text" style="text-align:center">
+			</div>
+			<div class="col" layout="column">
+				<input type="text" style="text-align:center">
+			</div>
+		</div>
+		<div class="row" layout="row" layout-align="center center">
+			<div class="col-20" style="text-align:center" layout="column">
+				<input type="text" style="text-align:center">
+			</div>
+			<div class="col" layout="column">
+				<input type="text" style="text-align:center">
+			</div>
+		</div>
+		<div class="row" layout="row" layout-align="center center">
+			<div class="col-20" style="text-align:center" layout="column">
+				<input type="text" style="text-align:center">
+			</div>
+			<div class="col" layout="column">
+				<input type="text" style="text-align:center">
+			</div>
+		</div>
+		<div class="row" layout="row" layout-align="center center">
+			<div class="col-20" style="text-align:center" layout="column">
+				<input type="text" style="text-align:center">
+			</div>
+			<div class="col" layout="column">
+				<input type="text" style="text-align:center">
+			</div>
+		</div>
+		<div class="row" layout="row" layout-align="center center">
+			<div class="col-20" style="text-align:center" layout="column">
+				<input type="text" style="text-align:center">
+			</div>
+			<div class="col" layout="column">
+				<input type="text" style="text-align:center">
+			</div>
+		</div>
+		<div class="row" layout="row" layout-align="center center">
+			<div class="col-20" style="text-align:center" layout="column">
+				<input type="text" style="text-align:center">
+			</div>
+			<div class="col" layout="column">
+				<input type="text" style="text-align:center">
+			</div>
+		</div>
+		<div class="row" layout="row" layout-align="center center">
+			<div class="col-20" style="text-align:center" layout="column">
+				<input type="text" style="text-align:center">
+			</div>
+			<div class="col" layout="column">
+				<input type="text" style="text-align:center">
+			</div>
+		</div>
+		<div class="row" layout="row" layout-align="center center">
+			<div class="col-20" style="text-align:center" layout="column">
+				<input type="text" style="text-align:center">
+			</div>
+			<div class="col" layout="column">
+				<input type="text" style="text-align:center">
+			</div>
+		</div>
+		<div class="row" layout="row" layout-align="center center">
+			<div class="col-20" style="text-align:center" layout="column">
+				<input type="text" style="text-align:center">
+			</div>
+			<div class="col" layout="column">
+				<input type="text" style="text-align:center">
+			</div>
+		</div>
+		<md-divider></md-divider>
+		<md-subheader class="md-no-sticky fondoDTorneo"><b>Pago</b></md-subheader>
+
+
+
+		<div class="row" layout="row" layout-align="center center" ng-hide="reserva.importeAdeudado <= 0">
+			<div class="col-20" style="text-align:center" layout="column">
+				<b>Pagado</b>				
+			</div>
+			<div class="col-10" style="text-align:center" layout="column">
+				<md-checkbox ng-model="reserva.permanente" class="dotted" disabled></md-checkbox>
+			</div>
+			<div class="col" layout="column">
+				<button class="button button-positive" ng-click="openPago()">Pagar con tarjeta</button>
+			</div>
+
+		</div>
+</div>
+        
+		<div class="row" layout="row" layout-align="center center">
+			<button class="button button-block button-positive3" ng-click="closeTorneo()"><b>Anotarse</b></button>
+		</div>
+            
+		<div class="row" layout="row" layout-align="center center">
+			<button class="button button-block button-assertive" ng-click="closeTorneo()">Cerrar</button>
+		</div>
+	</ion-content>
+    
+</ion-modal-view>
+
+<style type="text/css">
+	.fondoDTorneo{
+        background-color: green;
+        color:white;
+        size:100px;
+	}
+	.colorText{
+	color:white;	
+	}
+	.dotted {
+		background-color: white;
+		width: 10px;
+	}
+	.button.button-block.button-positive3{
+		color:white;
+		background-color: #0c60ee;
+		border:0px;
+
+	}
+</style>
