@@ -73,6 +73,7 @@ storage.get('name').then(function (name){
 
   .state('registro', {
     url: '/registro',
+    controller: 'loginCtroller',
     templateUrl:'client/templates/registro.html'
   })
 

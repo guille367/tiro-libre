@@ -4,21 +4,7 @@ angular.module('app.services', [])
 
 }])
 
-.service('perfilService', [function(){
+.service('BlankService', [function(){
 
-	this.estaLoggeado = function(){
-		if(localStorage.getItem('usuario') != null)
-			return true;
-		else
-			return false;
-	}
-
-	this.loggearUsuario = function(u){
-		localStorage.setItem('usuario',u);
-	}
-
-	this.cerrarSesion = function(){
-		localStorage.removeItem('usuario');
-	}
 
 }]);
