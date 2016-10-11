@@ -1,6 +1,6 @@
 angular.module('app.controllers')
 
-.controller('misReservasCtroller', ['$scope','$ionicPopup','$ionicModal',function($scope,$ionicPopup,$ionicModal){
+.controller('misReservasCtroller', ['$scope','$ionicPopup','$ionicModal','reservaService',function($scope,$ionicPopup,$ionicModal,reservaService){
 
     $ionicModal.fromTemplateUrl('client/templates/dialogs/detallereserva.html',{
         scope: $scope,
@@ -34,8 +34,13 @@ angular.module('app.controllers')
         $scope.reserva.importeAdeudado = ($scope.reserva.precio - $scope.reserva.pagado)
 
         $scope.modalReserva.show();
+    }
 
-      
+    $scope.getReservas = function(){
+        reservaService.getReservas()
+            .then(function(d){
+                console.log(d);
+            });
     }
 
     $scope.closeReserva = function () {

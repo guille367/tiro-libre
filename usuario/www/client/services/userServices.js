@@ -1,8 +1,7 @@
 angular.module('app.services')
 
-.service('userServices',['$http',function($http){
+.service('userServices',['$http','generalServices',function($http,generalServices){
 
-	var url = "http://localhost:3003"
 	
 	this.estaLoggeado = function(){
 		if(localStorage.getItem('usuario') != null)
@@ -12,7 +11,7 @@ angular.module('app.services')
 	}
 
 	this.loggearUsuario = function(user){
-		return $http.post(url + '/user/login',user)
+		return $http.post(generalServices.urlUsuarios + '/login', user)
 			.then(function(d){
 				console.log("loggeo correcto");
 				localStorage.setItem('usuario',user);

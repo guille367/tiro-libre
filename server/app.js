@@ -21,7 +21,8 @@ var User = require('./models/user.js');
 var app = express();
 
 // require routes
-var routes = require('./routes/users.js');
+var usuariosRoutes = require('./routes/users.js');
+var reservasRoutes = require('./routes/reservas.js');
 
 // define middleware
 app.use(express.static(path.join(__dirname, '../administrador/client')));
@@ -45,7 +46,8 @@ passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
 // routes
-app.use('/user/', routes);
+app.use('/user/', usuariosRoutes);
+app.use('/reservas/', reservasRoutes);
 
 app.get('/', function(req, res) {
   res.sendFile(path.join(__dirname, '../client', 'index.html'));
