@@ -8,7 +8,7 @@ var mongoose = require('mongoose');
 var hash = require('bcrypt-nodejs');
 var path = require('path');
 var passport = require('passport');
-var localStrategy = require('passport-local' ).Strategy;
+var localStrategy = require('passport-local').Strategy;
 var cors = require('cors');
 
 // mongoose
@@ -69,3 +69,4 @@ app.use(function(err, req, res) {
 });
 
 module.exports = app;
+

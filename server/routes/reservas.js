@@ -1,42 +1,37 @@
 var express = require('express');
 var router = express.Router();
-var passport = require('passport');
 
 var Reserva = require('../models/reserva.js');
-var User = require('../models/user.js');
 
-router.get('/getAll',function(req,res){
-	Reserva.obtenerReservas(function(err,data){
-		if(err)
-			res.status(500).json({
-				status:'error interno del servidor'
-			})
 
-		console.log(data);
-	});
-	
-	var q = User.find({username:'admin'});
-	q.exec()
-		.then(function(d){
-			console.log('bien');
-			console.log(d);
-		})
-		.catch(function(e){
-			console.log('mal');
-			console.log(e);
-		});
 
-	var r = User.find({username:'pepisho'});
-	r.exec()
-		.then(function(d){
-			console.log('bien');
-			console.log(d);
-		})
-		.catch(function(e){
-			console.log('mal');
-			console.log(e);
-		});
-
+router.post('/post', function(req, res) {
+  Reserva.create(req.body.models, function(err, data){
+    res.json(data);
+	})
 });
+
+router.get('/read', function(req, res, next){
+	Reserva.find(function(err, data){
+		if(err) return next(err);
+		res.json(data);
+	})
+});
+
+router.put('/update:id', function(req, res, next) {
+  Reserva.findByIdAndUpdate(req.params.id, req.body, function (err, post) {
+    if (err) return next(err);
+    res.json(post);
+  });
+});
+
+router.delete('/delete:id', function(req, res, next) {
+  Reserva.findByIdAndRemove(req.params.id, req.body.models, function (err, post) {
+    if (err) return next(err);
+    res.json(post);
+  });
+});
+
+
 
 module.exports = router;

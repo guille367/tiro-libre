@@ -21,24 +21,26 @@ angular.module('myApp').controller("schedulerController", function($scope){
             batch: true,
             transport: {
               read: {
-                url: "http://demos.telerik.com/kendo-ui/service/tasks",
-                dataType: "jsonp"
+                url: "http://localhost:3001/reserva/read",
+                dataType: "json"
               },
               update: {
-                url: "http://demos.telerik.com/kendo-ui/service/tasks/update",
-                dataType: "jsonp"
+                url: "http://localhost:3001/reserva/update",
+                type: "put",
+                dataType: "json"
               },
               create: {
-                url: "http://demos.telerik.com/kendo-ui/service/tasks/create",
-                dataType: "jsonp"
+                url: "http://localhost:3001/reserva/post",
+                type: "post",
+                dataType: "json"
               },
               destroy: {
-                url: "http://demos.telerik.com/kendo-ui/service/tasks/destroy",
-                dataType: "jsonp"
+                url: "http://localhost:3001/reserva/delete",
+                dataType: "json"
               },
               parameterMap: function(options, operation) {
                 if (operation !== "read" && options.models) {
-                  return {models: kendo.stringify(options.models)};
+                  return {models: options.models};
                 }
               }
         },
@@ -46,7 +48,7 @@ angular.module('myApp').controller("schedulerController", function($scope){
               model: {
                 id: "taskId",
                 fields: {
-                  taskId: { from: "TaskID", type: "number" },
+                  taskId: { from: "_id", type: "string" },
                   title: { from: "Title", defaultValue: "No title", validation: { required: true } },
                   start: { type: "date", from: "Start" },
                   end: { type: "date", from: "End" },

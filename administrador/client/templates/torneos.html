@@ -78,7 +78,6 @@
     uploadUrl: "/file-upload-batch/2",
     'showUpload':true,
     'previewFileType':'any'});
-
 </script>
 
 
@@ -164,24 +163,36 @@
             </div>
           </div>
           <div class="row">
-            <div class='col-sm-3'>
+            <div class='col-sm-2'>
               <div class="form-group">
-                <label for="sel1">Formato del Torneo:</label>
+                <label for="sel1">Cantidad de equipos:</label>
+                <input type="text" class="form-control" id="sel1" placeholder="Equipos">
+              </div>
+            </div>
+            <div class='col-sm-2'>
+              <div class="form-group">
+                <label for="sel1">Jugadores titulares:</label>
                 <select class="form-control" id="sel1">
-                  <option>Eliminación</option>
-                  <option>Liga</option>
+                  <option>5</option>
+                  <option>6</option>
+                  <option>7</option>
+                  <option>8</option>
+                  <option>9</option>
+                  <option>10</option>
+                  <option>11</option>
                 </select>
               </div>
             </div>
-            <div class='col-sm-3'>
+            <div class='col-sm-2'>
               <div class="form-group">
-                <label for="sel1">Cantidad de equipos:</label>
+                <label for="sel1">Jugadores suplentes:</label>
                 <select class="form-control" id="sel1">
+                  <option>1</option>
+                  <option>2</option>
+                  <option>3</option>
+                  <option>4</option>
+                  <option>5</option>
                   <option>6</option>
-                  <option>8</option>
-                  <option>10</option>
-                  <option>12</option>
-                  <option>16</option>
                 </select>
               </div>
             </div>
@@ -189,13 +200,10 @@
           <div class="row">
             <div class='col-sm-2'>
               <div class="form-group">
-                <label for="sel1">Jugadores por equipo:</label>
+                <label for="sel1">Formato del Torneo:</label>
                 <select class="form-control" id="sel1">
-                  <option>5</option>
-                  <option>6</option>
-                  <option>7</option>
-                  <option>9</option>
-                  <option>11</option>
+                  <option>Eliminación</option>
+                  <option>Liga</option>
                 </select>
               </div>
             </div>
@@ -218,6 +226,12 @@
               </div>
             </div>
           </div>
+          <div class="row"> 
+            <div class="col-xs-6">
+              <label class="control-label">Flyer del torneo</label>
+                <input id="input-2" multiple data-show-upload="false" accept=".jpg,.gif,.png" type="file" class="file">
+            </div>
+          </div>
         </div>
       </div>
       <div class="modal-footer">
@@ -233,6 +247,16 @@
   </div>
 </div>
 <!-- Modal Torneo -->
+
+
+<script type="text/javascript">
+  $("#input-2").fileinput({
+    language: "es",
+    uploadUrl: "/file-upload-batch/2",
+    'showUpload':true,
+    'previewFileType':'any'});
+</script>
+
 
 <script type="text/javascript">
         moment.updateLocale('es', {});
@@ -376,7 +400,7 @@ $('.clockpicker').clockpicker();
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title" align="center">Edición de torneo</h4>
+        <h4 class="modal-title" align="center">Editar Torneo</h4>
       </div>
       <div class="modal-body">
         <div class="container">
@@ -419,7 +443,42 @@ $('.clockpicker').clockpicker();
             </div>
           </div>
           <div class="row">
-            <div class='col-sm-3'>
+            <div class='col-sm-2'>
+              <div class="form-group">
+                <label for="sel1">Cantidad de equipos:</label>
+                <input type="text" class="form-control" id="sel1" placeholder="Equipos">
+              </div>
+            </div>
+            <div class='col-sm-2'>
+              <div class="form-group">
+                <label for="sel1">Jugadores titulares:</label>
+                <select class="form-control" id="sel1">
+                  <option>5</option>
+                  <option>6</option>
+                  <option>7</option>
+                  <option>8</option>
+                  <option>9</option>
+                  <option>10</option>
+                  <option>11</option>
+                </select>
+              </div>
+            </div>
+            <div class='col-sm-2'>
+              <div class="form-group">
+                <label for="sel1">Jugadores suplentes:</label>
+                <select class="form-control" id="sel1">
+                  <option>1</option>
+                  <option>2</option>
+                  <option>3</option>
+                  <option>4</option>
+                  <option>5</option>
+                  <option>6</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class='col-sm-2'>
               <div class="form-group">
                 <label for="sel1">Formato del Torneo:</label>
                 <select class="form-control" id="sel1">
@@ -428,50 +487,37 @@ $('.clockpicker').clockpicker();
                 </select>
               </div>
             </div>
-            <div class='col-sm-3'>
+            <div class='col-sm-2'>
               <div class="form-group">
-                <label for="sel1">Cantidad de equipos:</label>
-                <select class="form-control" id="sel1">
-                  <option>6</option>
-                  <option>8</option>
-                  <option>10</option>
-                  <option>12</option>
-                  <option>16</option>
-                </select>
+                <label for="precio">Precio de inscripción</label>
+                <div class="input-group">
+                  <span class="input-group-addon">$</span>
+                  <input type="text" class="form-control" id="precio1" placeholder="precio">
+                </div>
+              </div>
+            </div>
+            <div class='col-sm-2'>
+              <div class="form-group">
+                <label for="precio">Precio por fecha</label>
+                <div class="input-group">
+                  <span class="input-group-addon">$</span>
+                  <input type="text" class="form-control" id="precio1" placeholder="precio">
+                </div>
               </div>
             </div>
           </div>
-          <div class="row">
-            <div class='col-sm-2'>
-              <div class="form-group">
-                <label for="sel1">Jugadores por equipo:</label>
-                <select class="form-control" id="sel1">
-                  <option>5</option>
-                  <option>6</option>
-                  <option>7</option>
-                  <option>9</option>
-                  <option>11</option>
-                </select>
-              </div>
+          <div class="row"> 
+            <div class="col-xs-6">
+              <label class="control-label">Flyer del torneo</label>
+                <input id="input-3" multiple data-show-upload="false" accept=".jpg,.gif,.png" type="file" class="file">
             </div>
-            <div class='col-sm-2'>
-              <div class="form-group">
-                <label for="sel1">Estado</label>
-                <select class="form-control" id="estado">
-                  <option>En curso</option>
-                  <option>En inscripción</option>
-                  <option>Suspendido</option>
-                </select>
-              </div>
-            </div>
-            
           </div>
         </div>
       </div>
       <div class="modal-footer">
         <div class="row">
           <div class="col-sm-offset-3 col-sm-6 text-center">
-            <button type="submit" class="btn btn-success"  data-ng-click="" data-dismiss="modal">Guardar</button>
+            <button type="submit" class="btn btn-success"  data-ng-click="" data-dismiss="modal">Crear</button>
             <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
           </div>
         </div>      
@@ -578,7 +624,13 @@ $('.clockpicker').clockpicker();
 </div>
 <!-- Modal Torneo -->
 
-
+<script type="text/javascript">
+  $("#input-3").fileinput({
+    language: "es",
+    uploadUrl: "/file-upload-batch/2",
+    'showUpload':true,
+    'previewFileType':'any'});
+</script>
 
 <style type="text/css">
   .dual-list .list-group {
