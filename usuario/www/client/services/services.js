@@ -6,7 +6,7 @@ angular.module('app.services', [])
 
 .service('generalServices', [function(){
 
-	var url = "http://localhost:3003";
+	var url = "http://localhost:3001";
 
 	this.urlUsuarios = url + '/user';
 

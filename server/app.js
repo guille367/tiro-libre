@@ -8,28 +8,37 @@ var mongoose = require('mongoose');
 var hash = require('bcrypt-nodejs');
 var path = require('path');
 var passport = require('passport');
-var localStrategy = require('passport-local').Strategy;
+var localStrategy = require('passport-local' ).Strategy;
 var cors = require('cors');
 
 // mongoose
-mongoose.connect('mongodb://admin:admin@ds049446.mlab.com:49446/heroku_5mv7k9x3');
+mongoose.connect('mongodb://admin:admin@ds049466.mlab.com:49466/tirolibredb');
 
 // user schema/model
 var User = require('./models/user.js');
+// cancha schema/model
+var Cancha = require('./models/cancha.js');
+var Reserva = require('./models/reserva.js');
 
 // create instance of express
 var app = express();
 
 // require routes
-var usuariosRoutes = require('./routes/users.js');
+var routes = require('./routes/users.js');
+var canchasRoutes = require('./routes/canchas.js');
 var reservasRoutes = require('./routes/reservas.js');
+
+
+
+
+app.use(cors());
+
 
 // define middleware
 app.use(express.static(path.join(__dirname, '../administrador/client')));
 app.use(logger('dev'));
-app.use(cors());
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(require('express-session')({
     secret: 'keyboard cat',
@@ -46,11 +55,12 @@ passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
 // routes
-app.use('/user/', usuariosRoutes);
-app.use('/reservas/', reservasRoutes);
+app.use('/user/', routes);
+app.use('/cancha/', canchasRoutes);
+app.use('/reserva/', reservasRoutes);
 
 app.get('/', function(req, res) {
-  res.sendFile(path.join(__dirname, '../client', 'index.html'));
+  res.sendFile(path.join(__dirname, '../administrador/client', 'index.html'));
 });
 
 // error hndlers
@@ -69,4 +79,3 @@ app.use(function(err, req, res) {
 });
 
 module.exports = app;
-
