@@ -14,9 +14,14 @@ angular.module('myApp').factory('AuthService',
       logout: logout,
       register: register,
       whatUser: whatUser,
-      getCurrentUser: getCurrentUser
+      getCurrentUser: getCurrentUser,
+      getAllUsers: getAllUsers
 
     });
+
+    function getAllUsers() {
+      return $http.get("http://localhost:3001/user/get");
+    };
 
   
     function getCurrentUser() {
@@ -117,14 +122,14 @@ angular.module('myApp').factory('AuthService',
 
     }
 
-    function register(username, password, name, mail, number) {
+    function register(username, password, name, mail, superAdmin) {
 
       // create a new instance of deferred
       var deferred = $q.defer();
 
       // send a post request to the server
       $http.post('/user/register',
-        {username: username, password: password, name: name, mail: mail, number: number})
+        {username: username, password: password, name: name, mail: mail, superAdmin: superAdmin})
         // handle success
         .success(function (data, status) {
           if(status === 200 && data.status){

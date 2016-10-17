@@ -1,11 +1,12 @@
 <h1>Configuración</h1>
+<form id="form" name="form" role="form" data-toggle="validator">
 <div class="container">
 	<div class="row">
 		<div class='col-sm-3 form-group-conf'>
-    	    <label for="txtdni">Horario de apertura</label>
-		    <div class="input-group clockpicker" data-placement="right" data-align="top" data-autoclose="true">
-    			<input type="text" class="form-control" value="09:00">
-    			<span class="input-group-addon">
+    	    <label for="cierre">Horario de apertura</label>
+		    <div class="input-group clockpicker1" data-placement="right" data-align="top" data-autoclose="true">
+    			<input type="text" class="form-control" value="09:00" ng-model="configuracion.horaApertura" placeholder="hora apertura" ng-disabled="read" required="">
+    			<span class="input-group-addon" ng-show="!read">
         		<span class="glyphicon glyphicon-time"></span>
     			</span>
 			</div>
@@ -14,9 +15,9 @@
     <div class="row">
         <div class='col-sm-3 form-group-conf'>
     	    <label for="txtdni">Horario de cierre</label>
-		    <div class="input-group clockpicker" data-placement="right" data-align="top" data-autoclose="true">
-    			<input type="text" class="form-control" value="23:30">
-    			<span class="input-group-addon">
+		    <div class="input-group clockpicker2" data-placement="right" data-align="top" data-autoclose="true">
+    			<input type="text" class="form-control" value="23:30" ng-model="configuracion.horaCierre" placeholder="Hora de cierre" ng-disabled="read" required="">
+    			<span class="input-group-addon" ng-show="!read">
         		<span class="glyphicon glyphicon-time"></span>
     			</span>
 			</div>
@@ -25,9 +26,9 @@
     <div class="row">    
         <div class='col-sm-3 form-group-conf'>
     	    <label for="txtdni">Inicio hora noctura</label>
-		    <div class="input-group clockpicker" data-placement="right" data-align="top" data-autoclose="true">
-    			<input type="text" class="form-control" value="19:00">
-    			<span class="input-group-addon">
+		    <div class="input-group clockpicker3"  data-placement="right" data-align="top" data-autoclose="true">
+    			<input type="text" class="form-control" value="19:00" ng-model="configuracion.horaNocturna" placeholder="Inicio hora nocturna" ng-disabled="read" required="">
+    			<span class="input-group-addon" ng-show="!read">
         		<span class="glyphicon glyphicon-time"></span>
     			</span>
 			</div>
@@ -36,51 +37,53 @@
     <div class="row">    
         <div class="col-sm-3 form-group-conf">
       <label>Mail</label>
-      <input type="mail" class="form-control" name="mail" ng-model="newConfig.mail" placeholder="Ingrese mail">
+      <input type="mail" class="form-control" name="mail" ng-model="configuracion.mail" placeholder="Ingrese mail" ng-disabled="read" required="">
     </div>
     </div>
     <div class="row">    
         <div class="col-sm-3 form-group-conf">
       <label>Teléfono</label>
-      <input type="text" class="form-control" name="teléfono" ng-model="newConfig.telefono" placeholder="Ingrese Teléfono">
+      <input type="text" class="form-control" name="teléfono" ng-model="configuracion.telefono" placeholder="Ingrese Teléfono" ng-disabled="read" required="">
     </div>
     </div>
     <div class="row">    
         <div class="col-sm-3 form-group-conf">
             <label>Dirección</label>
-            <input type="text" class="form-control" name="dirección" ng-model="newConfig.dirección" placeholder="Ingrese Dirección">
+            <input type="text" class="form-control" name="dirección" ng-model="configuracion.direccion" placeholder="Ingrese Direccion" ng-disabled="read" required="">
         </div>
     </div>
     <div class="row">    
         <div class="col-sm-3 form-group-conf">
             <label>% Reserva</label>
-            <input type="number" class="form-control" name="reserva" ng-model="newConfig.porreserva" placeholder="%">
+            <input type="number" class="form-control" name="reserva" ng-model="configuracion.porcReserva" placeholder="%" ng-disabled="read" required="">
         </div>
     </div>    
     <div class="row">
     	<div class='col-sm-1 form-group-conf'>
     	    <label for="btn"></label>
-		    <div class="input-group clockpicker" data-placement="right" data-align="top" data-autoclose="true">
-    			<button type="button" id="btn" data-target="#guardarConfig" class="btn btn-info">Guardar</button></p>
+		    <div class="input-group" data-placement="right" data-align="top">
+    			<button type="submit" id="btn" ng-click="guardar(configuracion, form)" ng-disabled="read" class="btn btn-info" >Guardar</button></p>
 			</div>
         </div> 
         <div class='col-sm-1 form-group-conf'>
             <label for="btn"></label>
             <div class="input-group clockpicker" data-placement="right" data-align="top" data-autoclose="true">
-                <button type="button" id="btn" data-target="#guardarConfig" class="btn btn-warning">Modificar</button></p>
+                <button type="button" id="btn" ng-click="modificar(configuracion)" class="btn btn-warning">Modificar</button></p>
             </div>
         </div> 
         <div class='col-sm-1 form-group-conf'>
             <label for="btn"></label>
             <div class="input-group clockpicker" data-placement="right" data-align="top" data-autoclose="true">
-                <button type="button" id="btn" data-target="#guardarConfig" class="btn btn-danger">Cancelar</button></p>
+                <button type="button" id="btn" ng-click="cancelar()" class="btn btn-danger">Cancelar</button></p>
             </div>
         </div>    
     </div>   
 </div>
-        
+</form>     
 
 
 <script type="text/javascript">
-$('.clockpicker').clockpicker();
+$('.clockpicker1').clockpicker();
+$('.clockpicker2').clockpicker();
+$('.clockpicker3').clockpicker();
 </script>

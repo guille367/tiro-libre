@@ -2,11 +2,23 @@ angular.module('app.services')
 
 .service('reservaService',['$http','generalServices','canchaService',function($http,generalServices){
 	
+	var reserva = {};
+
 	this.getReservas = function(){
-		return $http.get( generalServices.urlReservas + '/getAll')
+		
+		return $http.get( generalServices.urlReservas + '/read')
 			.then(function(d){
-				console.log(d);
-			})
+				return d.data;
+			});
 	}
+
+	this.getReserva = function(){
+		return reserva;
+	};
+
+	this.setReserva = function(r){
+		reserva = r;
+	};
+
 
 }]);

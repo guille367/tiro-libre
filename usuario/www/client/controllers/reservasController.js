@@ -2,6 +2,8 @@ angular.module('app.controllers')
 
 .controller('misReservasCtroller', ['$scope','$ionicPopup','$ionicModal','reservaService','canchaService',function($scope,$ionicPopup,$ionicModal,reservaService){
 
+    $scope.reservas = {};
+
     $ionicModal.fromTemplateUrl('client/templates/dialogs/detallereserva.html',{
         scope: $scope,
         animation:'slide-in-up'
@@ -17,6 +19,7 @@ angular.module('app.controllers')
     });
 
     $scope.openPago = function(){
+
         $scope.modalPago.show();
     }
 
@@ -39,7 +42,11 @@ angular.module('app.controllers')
     $scope.getReservas = function(){
         reservaService.getReservas()
             .then(function(d){
+                $scope.reservas = d;
                 console.log(d);
+            })
+            .catch(function(e){
+                console.log(e);
             });
     }
 

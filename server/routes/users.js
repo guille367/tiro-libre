@@ -6,7 +6,7 @@ var User = require('../models/user.js');
 
 
 router.post('/register', function(req, res) {
-  User.register(new User({ username: req.body.username, name: req.body.name, mail: req.body.mail, number: req.body.number}),
+  User.register(new User({ username: req.body.username, name: req.body.name, mail: req.body.mail, superAdmin: req.body.superAdmin}),
     req.body.password, function(err, account) {
     if (err) {
       return res.status(500).json({
@@ -52,6 +52,13 @@ router.get('/logout', function(req, res) {
   });
 });
 
+router.get('/get', function(req, res, next){
+  User.find(function(err, data){
+    if(err) return next(err);
+    res.json(data);
+  })
+});
+
 router.get('/status', function(req, res) {
   if (!req.isAuthenticated()) {
     return res.status(200).json({
@@ -60,6 +67,13 @@ router.get('/status', function(req, res) {
   }
   res.status(200).json({
     status: true,
+  });
+});
+
+router.delete('/delete:id', function(req, res, next) {
+  User.findByIdAndRemove(req.params.id, req.body.models, function (err, post) {
+    if (err) return next(err);
+    res.json(post);
   });
 });
 

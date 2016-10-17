@@ -19,7 +19,7 @@
         <li><a ui-sref-active="active" ui-sref=".pagos">Pagos</a></li>
       </ul>
       <ul class="nav navbar-nav navbar-right" ng-controller="logoutController">
-        <li><a ng-show="user.username=='admin'" ui-sref-active="active" ui-sref=".administradores">Administradores</a></li>
+        <li><a ng-show="user.superAdmin" ui-sref-active="active" ui-sref=".administradores">Administradores</a></li>
         <li><a ng-click='logout()' href=""><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
       </ul>
             <ul class="nav navbar-nav navbar-right">

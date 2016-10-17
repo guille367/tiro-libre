@@ -17,5 +17,19 @@ router.get('/get', function(req, res, next){
 	})
 });
 
+router.delete('/delete:id', function(req, res, next) {
+  Cancha.findByIdAndRemove(req.params.id, req.body.models, function (err, post) {
+    if (err) return next(err);
+    res.json(post);
+  });
+});
+
+router.put('/update:id', function(req, res, next) {
+  Cancha.findByIdAndUpdate(req.params.id, req.body, function (err, post) {
+    if (err) return next(err);
+    res.json(post);
+  });
+});
+
 
 module.exports = router;

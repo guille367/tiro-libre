@@ -10,6 +10,18 @@ var path = require('path');
 var passport = require('passport');
 var localStrategy = require('passport-local' ).Strategy;
 var cors = require('cors');
+var multer  = require('multer');
+
+var storage = multer.diskStorage({
+  destination: function (req, file, callback) {
+    callback(null, '../administrador/client/img');
+  },
+  filename: function (req, file, callback) {
+    callback(null, file.originalname);
+  }
+});
+
+var upload = multer({ storage : storage}).single('input-1');
 
 // mongoose
 mongoose.connect('mongodb://admin:admin@ds049466.mlab.com:49466/tirolibredb');
@@ -19,6 +31,8 @@ var User = require('./models/user.js');
 // cancha schema/model
 var Cancha = require('./models/cancha.js');
 var Reserva = require('./models/reserva.js');
+var Configuracion = require('./models/configuracion.js');
+var Usuario = require('./models/usuario.js');
 
 // create instance of express
 var app = express();
@@ -27,7 +41,8 @@ var app = express();
 var routes = require('./routes/users.js');
 var canchasRoutes = require('./routes/canchas.js');
 var reservasRoutes = require('./routes/reservas.js');
-
+var configuracionRoutes = require('./routes/configuracion.js');
+var usuariosRoutes = require('./routes/usuarios.js');
 
 
 
@@ -58,9 +73,23 @@ passport.deserializeUser(User.deserializeUser());
 app.use('/user/', routes);
 app.use('/cancha/', canchasRoutes);
 app.use('/reserva/', reservasRoutes);
+app.use('/configuracion/', configuracionRoutes);
+app.use('/usuario/', usuariosRoutes);
 
 app.get('/', function(req, res) {
   res.sendFile(path.join(__dirname, '../administrador/client', 'index.html'));
+});
+
+app.post('/api/photo',function(req,res){
+  upload(req,res,function(err) {
+    console.log(req.file);
+  console.log(req.body);
+  console.log(req.files);
+    if(err) {
+      return res.end("Error uploading file.");
+    }
+    res.end("File is uploaded");
+  });
 });
 
 // error hndlers

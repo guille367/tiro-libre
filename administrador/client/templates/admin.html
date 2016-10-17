@@ -13,10 +13,10 @@
 	</thead>
 	<tbody>
 		<tr ng-repeat="usuario in users | filter:search" class='info'>
-			<td>{{usuario.nombre}}</td>
+			<td>{{usuario.name}}</td>
 			<td>{{usuario.mail}}</td>
-			<td>{{usuario.user}}</td>
-			<td><input type="checkbox" ng-checked="usuario.admin" disabled="disabled">{{usuario.admin ? " SI" : " NO"}}</td>
+			<td>{{usuario.username}}</td>
+			<td><input type="checkbox" ng-checked="usuario.superAdmin" disabled="disabled">{{usuario.superAdmin ? " SI" : " NO"}}</td>
 			<td align="center"><button ng-click="searchPerson(person._id);" data-toggle="modal" data-target="#userEdit" class="btn btn-info btn-sm" >Edit</button>
 			<button ng-click="searchPerson(person._id);" data-toggle="modal" data-target="" class="btn btn-danger btn-sm" >Eliminar</button>
 			</td>
@@ -71,7 +71,7 @@
             <div class='col-sm-9'>
               <div class="form-group">
       <label>Super Admin</label>
-      <input type="checkbox" name="superadmin" ng-model="registerForm.superadmin" required>
+      <input type="checkbox" name="superadmin" ng-model="registerForm.superAdmin">
     </div>
             </div>
          	</div>

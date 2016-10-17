@@ -1,12 +1,17 @@
 angular.module('myApp').controller('adminController',
-  ['$scope', '$uibModal', '$log',
-   function ($scope, $uibModal, $log) {
+  ['$scope', '$uibModal', '$log', 'AuthService' ,
+   function ($scope, $uibModal, $log, AuthService) {
 
-    $scope.users = [
-    	{'nombre':'Marcos', 'mail': 'marekche@gmail.com', 'user': 'marek', 'admin':true},
-    	{'nombre':'Pedro', 'mail': 'pedro1255@gmail.com', 'user': 'pedro', 'admin':false},
 
-    ];
+    var getUsers = function () {
+      AuthService.getAllUsers()
+        .then(function(res){
+          $scope.users = res.data;
+          console.log($scope.users);
+        });
+    }
+
+    getUsers();
 
     $scope.open = function (size) {
     var modalInstance = $uibModal.open({

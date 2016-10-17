@@ -1,4 +1,4 @@
-var myApp = angular.module('myApp', ['ui.router', 'credit-cards', 'colorpicker.module', 'kendo.directives', 'ui.bootstrap']);
+var myApp = angular.module('myApp', ['ui.router', 'credit-cards', 'colorpicker.module', 'kendo.directives', 'ui.bootstrap', 'ngDialog']);
 
 myApp.filter('yesNo', function () {
   return function (boolean) {
@@ -67,6 +67,7 @@ myApp.config(function ($stateProvider, $urlRouterProvider) {
     .state("home.configuracion",{
       url: "/configuracion",
       templateUrl: 'templates/configuracion.html',
+      controller:'configuracionController',
       access: {restricted: true}
     })
     
@@ -115,3 +116,28 @@ myApp.run(function ($rootScope, $location, $state, AuthService) {
       });
   });
 });
+
+myApp.directive('file', function(){
+    return {
+        scope: {
+            file: '='
+        },
+        link: function(scope, el, attrs){
+            el.bind('change', function(event){
+                var files = event.target.files;
+                var file = files[0];
+                scope.file = file ? file.name : undefined;
+                scope.$apply();
+            });
+            el.bind('fileclear', function(event){
+                var files = event.target.files;
+                var file = files[0];
+                scope.file = file ? file.name : undefined;
+                scope.$apply();
+            });
+        }
+    };
+});
+function canchaController($scope){
+    $scope.newCancha = {};
+}

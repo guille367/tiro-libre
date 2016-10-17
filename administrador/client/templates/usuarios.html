@@ -1,6 +1,6 @@
 <h1>Usuarios</h1>
 <div class="col-md-4">
-<button type="button" data-toggle="modal" data-target="#personEditModal" class="btn btn-info btn-sm">Nuevo Usuario</button>
+<button type="button" data-toggle="modal" ng-click="open()" class="btn btn-info btn-sm">Nuevo Usuario</button>
 </div>
 
 <form>
@@ -33,94 +33,329 @@
 			<td>{{usuario.mail}}</td>
 			<td width=60px>{{usuario.telefono}}</td>
 			<td width=100px>{{usuario.estado}}</td>
-			<td align="center"><button ng-click="searchPerson(person._id);" data-toggle="modal" data-target="#personEditModal" class="btn btn-info btn-sm" >Edit</button>
-			<button ng-click="searchPerson(person._id);" data-toggle="modal" data-target="" class="btn btn-danger btn-sm" >Eliminar</button>
+			<td align="center"><button ng-click="editUsuario(usuario)" data-toggle="modal" data-target="" class="btn btn-info btn-sm" >Edit</button>
+			<button ng-click="deleteConfirm(usuario)" data-toggle="modal" data-target="" class="btn btn-danger btn-sm" >Eliminar</button>
 
 			</td>
 			
 	</tbody>
 </table>
 
+<script type="text/ng-template" id="modalDialogId">
+        <div class="ngdialog-message">
+            <h3 align="center"><b>AVISO</b></h3>
+            <td class="resul"><hr style="background-color: red; height: 4px;" /></td>
+            <p>¿Está seguro que desea eliminar el usuario?</p>
+            <p>Nombre: <code>{{usuarioDelete.nombre}}</code></p>
+        </div>
+        <div class="ngdialog-buttons">
+            <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="confirm(usuarioDelete)">Confirmar</button>
+            <button type="button" class="ngdialog-button ngdialog-button-secondary" ng-click="closeThisDialog('button')">Cancelar</button>
+        </div>
+</script>
+
+<script type="text/ng-template" id="modalDialogId2">
+        <div class="ngdialog-message">
+            <h3 align="center"><b>AVISO</b></h3>
+            <td class="resul"><hr style="background-color: red; height: 4px;" /></td>
+            <p>El DNI <code>{{newUsuario.dni}}</code> se encuentra registrado, por favor verifique.</p>
+        </div>
+        <div class="ngdialog-buttons">
+            <button type="button" class="ngdialog-button ngdialog-button-secondary" ng-click="closeThisDialog('button')">Salir</button>
+        </div>
+</script>
 
 
 
-
+<script type="text/ng-template" id="usuarioNuevo.html">
 <!-- Modal Torneo -->
-<div id="personEditModal" class="modal fade" role="dialog">
-  <div class="modal-dialog">
-    <!-- Modal content-->
-    <div class="modal-content col-sm-9">
+
+<form id="form" name="form" role="form" data-toggle="validator">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">&times;</button>
         <h4 class="modal-title" align="center">Nuevo usuario</h4>
       </div>
       <div class="modal-body">
-          <form class="form-horizontal">
-          	<div class="form-group" align="left">
-      			<label class="control-label col-sm-3" for="email">DNI:</label>
-      			<div class="col-sm-7">
-        			<input type="text" class="form-control" id="dni" placeholder="Ingrese DNI">
-      			</div>
-   			</div>
-          </form>
-          <form class="form-horizontal">
+          
+            <div class="form-group" align="left">
+            <label class="control-label col-sm-3" for="nombre">Usuario:</label>
+            <div class="col-sm-7">
+              <input type="text" class="form-control" id="userUsuario" ng-model="newUsuario.usuario" required>
+            </div>
+        </div>
+        <br><br>
+            <div class="form-group" align="left">
+            <label class="control-label col-sm-3" for="nombre">DNI:</label>
+            <div class="col-sm-7">
+              <input type="text" class="form-control" id="dniUsuario" ng-model="newUsuario.dni" required>
+            </div>
+        </div>
+        <br><br>
           	<div class="form-group" align="left">
       			<label class="control-label col-sm-3" for="nombre">Nombre:</label>
       			<div class="col-sm-7">
-        			<input type="text" class="form-control" id="nombre" placeholder="Ingrese nombre">
+        			<input type="text" class="form-control" id="nombreUsuario" ng-model="newUsuario.nombre" required>
       			</div>
    			</div>
-          </form>
-          <form class="form-horizontal">
+        <br><br>
           	<div class="form-group" align="left">
       			<label class="control-label col-sm-3" for="apellido">Apellido:</label>
       			<div class="col-sm-7">
-        			<input type="text" class="form-control" id="apellido" placeholder="Ingrese apellido">
+        			<input type="text" class="form-control" id="apellidoUsuario" ng-model="newUsuario.apellido" required>
       			</div>
    			</div>
-          </form>
-          <form class="form-horizontal">
+          <br><br>
           	<div class="form-group" align="left">
       			<label class="control-label col-sm-3" for="email">Email:</label>
       			<div class="col-sm-7">
-        			<input type="email" class="form-control" id="email" placeholder="Ingrese email">
+        			<input type="email" class="form-control" id="mailUsuario" ng-model="newUsuario.mail" required>
       			</div>
    			</div>
-          </form>
-          <form class="form-horizontal">
+        <br><br>
           	<div class="form-group" align="left">
       			<label class="control-label col-sm-3" for="tel">Teléfono:</label>
       			<div class="col-sm-7">
-        			<input type="text" class="form-control" id="tel" placeholder="Ingrese teléfono">
+        			<input type="number" class="form-control" id="telefonoUsuario" ng-model="newUsuario.telefono" maxlength = "3" minlength = "3" required>
       			</div>
    			</div>
-          </form>
-          <form class="form-horizontal">
-          	<div class="form-group" align="left">
-            	<label class="control-label col-sm-3" for="datepicker">Fecha Nac:</label>
-            	<div class="col-sm-7">
-              		<input class="form-control" id="datepicker">
-              	</div>
-   			</div>
-          </form>
+        <br><br>
+          
+            <div class="form-group" align="left">
+                    <label class="control-label col-sm-3" for="tel">Fecha Nacimiento:</label>
+                    <div class="col-sm-7">
+                      <div class='input-group date' id='datetimepicker1' >
+                        <input type='text' class="form-control" id="fechaNacUsuario" ng-model="newUsuario.fechaNac"/>
+                        <span class="input-group-addon"  >
+                        <span class="glyphicon glyphicon-calendar"></span></span>
+                      </div>
+                    </div>
+                
+            </div>
+            <br><br>
+          
        
       </div>
       <div class="modal-footer">
         <div class="row">
           <div class="col-sm-offset-3 col-sm-6 text-center">
-            <button type="submit" class="btn btn-success"  data-ng-click="updatePerson(usuario);" data-dismiss="modal">Guardar</button>
-        <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+            <button type="submit" class="btn btn-success"  ng-click="guardar(newUsuario,form)" data-dismiss="modal">Guardar</button>
+        <button type="button" class="btn btn-danger" ng-click="cancel()" data-dismiss="modal">Cancelar</button>
           </div>
-        </div>      
-      </div>
-    </div>
     <!-- Modal content-->
   </div>
 </div>
-<!-- Modal Torneo -->
+</form>
+
+
+
 <script type="text/javascript">
-	$("#datepicker").kendoDatePicker();
-	var datePicker = $("#datepicker").data("kendoDatePicker");
-	var tomorrow = new Date();
-	datePicker.value(tomorrow);
+
+        
+
+       moment.updateLocale('es', {});
+            console.log($('#datetimepicker1').val());
+            $(function () {
+                $('#datetimepicker1').datetimepicker({
+                  locale: 'es',
+                  format: 'DD/MM/YYYY'
+                });
+            });
+
+        $("#input-1").fileinput({
+        language: "es",
+        uploadUrl: "/api/photo",
+        uploadAsync: true,
+        previewFileType: "image",
+        browseClass: "btn btn-success",
+        browseLabel: "Elegir foto",
+        browseIcon: "<i class=\"glyphicon glyphicon-picture\"></i> ",
+        removeClass: "btn btn-danger",
+        removeLabel: "Borrar",
+        removeIcon: "<i class=\"glyphicon glyphicon-trash\"></i> ",
+        uploadClass: "btn btn-info",
+        uploadLabel: "Upload",
+        uploadIcon: "<i class=\"glyphicon glyphicon-upload\"></i> "
+         });
+
+
+        $('#input-1').on('fileclear', function(event) {
+    console.log("fileclear");
+});
+
+
+
+        $('.clockpicker').clockpicker();
+        $('.clockpicker2').clockpicker();
+
+
+        </script>
 </script>
+
+
+
+
+<script type="text/ng-template" id="editarUsuario.html">
+    <form role="form" data-toggle="validator">
+      <div class="modal-header">
+        <button type="button" ng-click="cancel()" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title" align="center">Editar Usuario</h4>
+      </div>
+      <div class="modal-body">
+        <div class="container">
+          <div class="row">
+            <div class='col-sm-2'>
+              <div class="form-group">
+                <label>Usuario:</label>
+                <input type="text" class="form-control" id="usuarioUsuario" ng-model="newUsuario.usuario" required>
+              </div>
+            </div>
+            <div class='col-sm-2'>
+              <div class="form-group">
+                <label>Nombre</label>
+                <input type="text" class="form-control" id="nombreUsuario" ng-model="newUsuario.nombre" required>
+              </div>
+            </div>
+            <div class='col-sm-2'>
+              <div class="form-group">
+                <label>Apellido</label>
+                <input type="text" class="form-control" id="apellidoUsuario" ng-model="newUsuario.apellido" required>
+              </div>
+            </div>
+          </div>
+          <div class="row" style="padding-top:15px">
+            <div class='col-sm-2'>
+              <div class="form-group">
+                <label for="precio">DNI:</label>
+                <div class="input-group" class='col-10'>
+                  <input disabled type="text" class="form-control" id="dni" ng-model='newUsuario.dni' required>
+                </div>
+              </div>
+            </div>          
+            <div class='col-sm-2'>
+              <div class="form-group">
+                <label for="sel1">Estado:</label>
+                <select class="form-control" id="sel1" ng-model="newUsuario.estado" required>
+                  <option selected disabled>{{newUsuario.estado}}</option>
+                  <option>Activo</option>
+                  <option>Lista Negra</option>
+                </select>
+              </div>
+            </div>
+            <div class='col-sm-2'>
+              <div class="form-group">
+                <label for="precio">Mail:</label>
+                <div class="input-group" class='col-10'>
+                  <input type="text" class="form-control" id="mail" ng-model='newUsuario.mail' placeholder="mail" required>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class='col-sm-2'>
+              <div class="form-group">
+                <label>Teléfono:</label>
+                <input type="text" class="form-control" id="telefonoUsuario" ng-model="newUsuario.telefono" required>          
+              </div>
+            </div>
+            <div class='col-sm-2'>
+                <label>Cant. Incump.:</label>
+                <input type="text" class="form-control" id="cantIncumplimUsuario" ng-model="newUsuario.cantIncumplim" required>  
+            </div>
+          </div>
+
+          <div class="row">
+            <div class='col-sm-2'>
+              <div class="form-group">
+                <label for="tel">Fecha Nacimiento:</label>
+                <div class='input-group date' id='datetimepicker1' >
+                  <input type='text' class="form-control" ng-model="newUsuario.fechaNac" required/>
+                  <span class="input-group-addon"  >
+                  <span class="glyphicon glyphicon-calendar"></span></span>
+                </div>
+              </div>
+            </div>
+            <div class='col-sm-2'>
+              <div class="form-group">
+                <label for="textPiso">Fecha Alta:</label>
+                <div class='input-group date' id='datetimepicker2' >
+                  <input type='text' class="form-control" date='dd-MM-yyyy' ng-model="newUsuario.fechaAlta" required />
+                  <span class="input-group-addon">
+                  <span class="glyphicon glyphicon-calendar"></span></span>
+                </div>                
+              </div>
+            </div>
+          </div>
+          
+        </div>
+      </div>
+      <div class="modal-footer">
+        <div class="row">
+          <div class="col-sm-offset-3 col-sm-6 text-center">
+            <button type="submit" class="btn btn-success"  ng-click="guardar(newUsuario)" data-dismiss="modal">Guardar</button>
+            <button type="button" class="btn btn-danger" ng-click="cancel()" data-dismiss="modal">Cancelar</button>
+          </div>
+        </div>      
+      </div>
+      </form>
+
+     
+      <script type="text/javascript">
+        moment.updateLocale('es', {});
+            console.log($('#datetimepicker1').val());
+            $(function () {
+                $('#datetimepicker1').datetimepicker({
+                  locale: 'es',
+                  format: 'DD/MM/YYYY'
+                });
+            });
+
+        moment.updateLocale('es', {});
+            console.log($('#datetimepicker2').val());
+            $(function () {
+                $('#datetimepicker2').datetimepicker({
+                  locale: 'es',
+                  format: 'dd/MM/yyyy'
+                });
+            });
+
+        $("#input-1").fileinput({
+        language: "es",
+        uploadUrl: "/api/photo",
+        uploadAsync: true,
+        previewFileType: "image",
+        browseClass: "btn btn-success",
+        browseLabel: "Elegir foto",
+        browseIcon: "<i class=\"glyphicon glyphicon-picture\"></i> ",
+        removeClass: "btn btn-danger",
+        removeLabel: "Borrar",
+        removeIcon: "<i class=\"glyphicon glyphicon-trash\"></i> ",
+        uploadClass: "btn btn-info",
+        uploadLabel: "Upload",
+        uploadIcon: "<i class=\"glyphicon glyphicon-upload\"></i> "
+         });
+
+
+        $('#input-1').on('fileclear', function(event) {
+    console.log("fileclear");
+});
+
+
+
+
+        $('.clockpicker').clockpicker();
+        $('.clockpicker2').clockpicker();
+
+
+        </script>
+
+</script>
+
+ <style>
+.ui-widget {
+color:black;
+background-color: white;
+width: 12%;
+padding-left: 15px;
+}
+</style>

@@ -56,7 +56,7 @@ angular.module('myApp').controller('registerController',
       $scope.disabled = true;
 
       // call register from service
-      AuthService.register($scope.registerForm.username, $scope.registerForm.password, $scope.registerForm.name, $scope.registerForm.mail, $scope.registerForm.number)
+      AuthService.register($scope.registerForm.username, $scope.registerForm.password, $scope.registerForm.name, $scope.registerForm.mail, $scope.registerForm.superAdmin)
         // handle success
         .then(function () {
           $scope.disabled = false;
@@ -89,7 +89,8 @@ angular.module('myApp').controller('profileCtrl', function($scope, AuthService) 
 
   AuthService.getCurrentUser().then(function (user) {
             $scope.user = user;
-            console.log($scope.user.username)
+            console.log($scope.user.username);
+            console.log($scope.user.superAdmin)
         }, function () {
             $scope.user = 'No user !!!';
         });
