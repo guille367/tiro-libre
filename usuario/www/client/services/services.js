@@ -9,7 +9,6 @@ angular.module('app.services', [])
 	var url = "http://localhost:3001";
 
 	this.urlUsuarios = url + '/user';
-
 	this.urlReservas = url + '/reservas';
-
+	this.urlCanchas = url + '/cancha';
 }]);

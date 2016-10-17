@@ -1,20 +1,33 @@
 angular.module('app.controllers')
 
-.controller('calendarioCtroller',['$scope','$ionicModal', function ($scope,$ionicModal) {
+.controller('calendarioCtroller',['$scope','$ionicModal','canchaService', function ($scope,$ionicModal,canchaService) {
         'use strict';
+        
+        $scope.cancha = canchaService.getCancha();
         $scope.calendar = {};
         $scope.reservasDia = {};
         $scope.modo = 'mes';
-        $scope.fechaSeleccionada;
+        $scope.fechaSeleccionada = new Date();
         $scope.habilitarReserva = false;
-
+        $scope.calendar.eventSource = {};
         $scope.reserva = {}
+
+        $scope.horario = {
+                time: {
+                    from: 480, // default low value
+                    to: 1020, // default high value
+                    step: 60, // step width
+                    minRange: 60, // min range
+                    hours24: false // true for 24hrs based time | false for PM and AM
+                }
+        };
 
         $ionicModal.fromTemplateUrl('client/templates/dialogs/reserva.html', {
                 scope: $scope,
                 animation: 'slide-in-up',
-                title:'Reserva',
+                title:'Reserva'
             }).then(function(modal) {
+                console.log($scope.cancha)
                 $scope.modalReserva = modal;
         });
 
@@ -64,12 +77,13 @@ angular.module('app.controllers')
                 horaInicio: selectedTime.getHours(),
                 horaFin: (selectedTime.getHours() + 1)
             }
-            
+            $scope.horario.time.from = $scope.horario.time.dFrom = selectedTime.getHours() * 60 ;
             $scope.fechaSeleccionada = selectedTime;
             $scope.habilitarReserva = (events !== undefined && events.length !== 0);
         };
 
         function createRandomEvents() {
+
             var events = [];
             for (var i = 0; i < 50; i += 1) {
                 var date = new Date();
@@ -97,6 +111,7 @@ angular.module('app.controllers')
         $scope.closePago = function() {
             $scope.modalPago.hide();
         }
+
 
     }]);
 

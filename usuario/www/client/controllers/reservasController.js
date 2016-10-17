@@ -1,10 +1,10 @@
 angular.module('app.controllers')
 
-.controller('misReservasCtroller', ['$scope','$ionicPopup','$ionicModal','reservaService',function($scope,$ionicPopup,$ionicModal,reservaService){
+.controller('misReservasCtroller', ['$scope','$ionicPopup','$ionicModal','reservaService','canchaService',function($scope,$ionicPopup,$ionicModal,reservaService){
 
     $ionicModal.fromTemplateUrl('client/templates/dialogs/detallereserva.html',{
         scope: $scope,
-        animation:'slide-in-up',
+        animation:'slide-in-up'
     }).then(function(modal){
         $scope.modalReserva = modal;
     });
@@ -50,5 +50,6 @@ angular.module('app.controllers')
     $scope.closePago = function () {
         $scope.modalPago.hide();
     }
+
 
 }])

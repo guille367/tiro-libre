@@ -6,7 +6,7 @@
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
 angular.module('app', ['ionic', 'app.controllers', 'app.routes', 'app.directives','app.services',
-  'ui.rCalendar','ngMaterial','ngAnimate'])
+  'ui.rCalendar','ngMaterial','ngAnimate','ui.bootstrap','rgkevin.datetimeRangePicker'])
 
 .config(function( $mdGestureProvider ) {
           $mdGestureProvider.skipClickHijack();

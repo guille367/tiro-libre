@@ -127,6 +127,11 @@
     color: white;
 }
 
+.row-selected-time{
+    background-color: #79d95a;
+    color: white;
+}
+
 .monthview-current {
     background-color: lightgrey;
 }

@@ -33,6 +33,7 @@ storage.get('name').then(function (name){
   
   .state('canchas', {
     url: '/canchas',
+    controller: 'canchasCtroller',
     templateUrl:'client/templates/canchas.html'
   })
   
@@ -58,12 +59,6 @@ storage.get('name').then(function (name){
     url: '/perfil',
     templateUrl:'client/templates/perfil.html'
   })
-
-  .state('perfilNo', {
-    url: '/perfilNo',
-    templateUrl:'client/templates/perfilNo.html'
-  })
-  
 
   .state('login', {
     url: '/login',

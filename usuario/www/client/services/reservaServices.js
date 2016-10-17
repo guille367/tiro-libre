@@ -1,6 +1,6 @@
 angular.module('app.services')
 
-.service('reservaService',['$http','generalServices',function($http,generalServices){
+.service('reservaService',['$http','generalServices','canchaService',function($http,generalServices){
 	
 	this.getReservas = function(){
 		return $http.get( generalServices.urlReservas + '/getAll')

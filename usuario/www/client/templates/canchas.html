@@ -1,7 +1,7 @@
 <ion-view title="Canchas" class="fondo">
     <ion-content padding="true" class="has-header">
-        <div class="list card" id="canchas-card21">
-            <ion-item class="item-icon-right" id="canchas-list-item1">Cancha 1
+        <div class="list card" id="canchas-card21" ng-repeat="c in canchas">
+            <ion-item class="item-icon-right" id="canchas-list-item1">{{c.nombre}}
                 <i class="icon ion-ios-football-outline"></i>
             </ion-item>
             <div class=" item item-image">
@@ -9,15 +9,14 @@
             </div>
             <div id="canchas-markdown1" style="color:#000000;text-align:center;" class="padding-top">
                 <p>
-                    <strong>Jugadores</strong>: 6 -
-                    <strong>Tipo de piso</strong>: Goma -
-                    <strong>Infraestructura</strong>: Techada. Con Luz</p>
+                    <strong>Jugadores</strong>: {{c.cantJug}} -
+                    <strong>Tipo de piso</strong>: {{c.piso}} -
+                    <strong>Infraestructura</strong>: {{(c.techo == true ? 'Techada' : 'Sin techo')}}. {{c.luz == true ? 'Iluminada' : 'Sin luz'}}</p>
             </div>
-            <a href="#/calendario">
-            <button id="canchas-button1" class="button button-positive button-block">Ver Disponibilidad</button>
-            </a>
+            <button ng-click="verDisponibilidad(c)" class="button button-positive button-block">Ver Disponibilidad</button>
+            
         </div>
-        <div class="list card" id="canchas-card22">
+        <!-- <div class="list card" id="canchas-card22">
             <ion-item class="item-icon-right" id="canchas-list-item3">Cancha 2
                 <i class="icon ion-ios-football-outline"></i>
             </ion-item>
@@ -31,7 +30,7 @@
                     <strong>Infraestructura</strong>: Con luz</p>
             </div>
             <button id="canchas-button4" class="button button-positive button-block">Ver Disponibilidad</button>
-        </div>
+        </div> -->
     </ion-content>
 </ion-view>
 
