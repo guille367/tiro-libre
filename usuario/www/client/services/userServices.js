@@ -21,6 +21,17 @@ angular.module('app.services')
 			});
 	}
 
+	this.registrarUsuario = function(user){
+		return $http.post(generalServices.urlUsuarios + '/register', user)
+			.then(function(d){
+				localStorage.setItem('usuario',user);
+				return { msg:"Bienvenido!!", u:user.usuario, pw:user.password };
+			})
+			.catch(function(e){
+				throw e;
+			});
+	}
+
 	this.cerrarSesion = function(){
 		localStorage.removeItem('usuario');
 	}

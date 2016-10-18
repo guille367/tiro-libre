@@ -1,48 +1,79 @@
-<ion-view title="Registro" id="page2" class="fondo">
-    <ion-content padding="true" class="has-header">
-        <form name="formRegistracion" class="list">
-            <div class="list list-inset registracion">
+<ion-view title="Registro" class="fondo">
+    <ion-content padding="true" scroll="true" class="has-header">
 
-              <label class="item item-input item-stacked-label">
-                <span class="input-label">Usuario</span>
-                <input type="text" placeholder="jlopez">
-              </label>
-              <label class="item item-input item-stacked-label">
-                <span class="input-label">Nombre</span>
-                <input type="text" placeholder="Juan">
-              </label>
-              <label class="item item-input item-stacked-label">
-                <span class="input-label">Apellido</span>
-                <input type="text" placeholder="Lopez">
-              </label>
-              <label class="item item-input item-stacked-label">
-                <span class="input-label">DNI</span>
-                <input type="number" placeholder="33444555">
-              </label>
-              <label class="item item-input item-stacked-label">
-                <span class="input-label">Mail</span>
-                <input type="text" placeholder="jlopez@gmail.com">
-              </label>
-              <label class="item item-input item-stacked-label">
-                <span class="input-label">DNI</span>
-                <input type="number" placeholder="152223333">
-              </label>
-              <label class="item item-input item-stacked-label">
-                <span class="input-label">Fecha de Nacimiento</span>
-                <input type="date" placeholder="02/02/1990">
-              </label>
-              <label class="item item-input item-stacked-label">
-                <span class="input-label">Contraseña</span>
-                <input type="password">
-              </label>
-              <label class="item item-input item-stacked-label">
-                <span class="input-label">Repetir Contraseña</span>
-                <input type="password">
-              </label>
-                <input id="input-1" type="file" class="file" text="asdas">
-              <button class="button button-full  buttonReg" ng-click="saludar()">Crear usuario</button>
-            </div>
-        </form>
+        <md-content layout-padding>
+            <form name="form" role="form">
+
+                <md-input-container class="md-block">
+                    <label>Nombre de usuario</label>
+                    <input required md-no-asterisk ng-model="nuevoUsuario.usuario">
+                    <div ng-messages="projectForm.description.$error">
+                        <div ng-message="required">Campo obligatorio</div>
+                    </div>
+                </md-input-container>
+
+                <md-input-container class="md-block">
+                    <label>Nombre</label>
+                    <input required md-no-asterisk ng-model="nuevoUsuario.nombre">
+                    <div ng-messages="projectForm.description.$error">
+                        <div ng-message="required">Campo obligatorio</div>
+                    </div>
+                </md-input-container>
+
+                <md-input-container class="md-block">
+                    <label>Apellido</label>
+                    <input required md-no-asterisk ng-model="nuevoUsuario.apellido">
+                    <div ng-messages="projectForm.description.$error">
+                        <div ng-message="required">Campo obligatorio</div>
+                    </div>
+                </md-input-container>
+
+                <md-input-container class="md-block">
+                    <label>DNI</label>
+                    <input required md-no-asterisk minlength="5" maxlength="12" ng-model="nuevoUsuario.dni">
+                    <div ng-messages="projectForm.description.$error">
+                        <div ng-message="required">Campo obligatorio</div>
+                    </div>
+                </md-input-container>
+
+                <md-input-container class="md-block">
+                  <label>Email</label>
+                  <input name="email" ng-model="nuevoUsuario.mail"
+                         required minlength="10" maxlength="100" ng-pattern="/^.+@.+\..+$/" />
+                </md-input-container> 
+                
+                <md-input-container class="md-block">
+                    <label>Teléfono</label>
+                    <input md-no-asterisk minlength="5" maxlength="14" ng-model="nuevoUsuario.telefono">
+                </md-input-container>
+                
+                <md-input-container>    
+                    <label>Fecha de Nacimiento</label>
+                    <md-datepicker ng-model="nuevoUsuario.fechaNac"></md-datepicker>
+                </md-input-container>
+
+                <md-input-container class="md-block">
+                    <label>Contraseña</label>
+                    <input required type="password" md-no-asterisk ng-model="nuevoUsuario.password">
+                    <div ng-messages="projectForm.description.$error">
+                        <div ng-message="required">Campo obligatorio</div>
+                    </div>
+                </md-input-container>    
+
+                <md-input-container class="md-block">
+                    <label>Repita la contraseña</label>
+                    <input required type="password" md-no-asterisk name="passrepeat" ng-model="pwRepeat">
+                    <div ng-messages="projectForm.description.$error">
+                        <div ng-message="required">Campo obligatorio</div>
+                    </div>
+                </md-input-container> 
+
+                  <div class="md-block">
+                    <button class="button button-positive button-block" type="submit" ng-click="registrar(form)">Crear Usuario</button>
+                  </div>
+            </form>
+        </md-content>
+       
     </ion-content>
 </ion-view>
 

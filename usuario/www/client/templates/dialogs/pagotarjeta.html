@@ -1,10 +1,11 @@
 <ion-modal-view>
-	<ion-content  scroll="true" ng-controller="pagoTarjetaCtroller">
+	<ion-content scroll="true" ng-controller="pagoTarjetaCtroller">
 		<md-subheader>Pagar con tarjeta</md-subheader>
-		<div layout="row" layout-align="center center" >
+        
+		<div layout="row" layout-align="center center">
 			<md-input-container>
 		        <label>Nombre del titular</label>
-		        <inputrequired ng-model="user.nombretitular">
+		        <input md-maxlength="20" required ng-model="user.nombretitular">
 		        <div ng-message="required">Campo obligatorio</div>
 	      	</md-input-container>
 		</div>
@@ -12,7 +13,7 @@
 		<div layout="row" layout-align="center center">
 			<md-input-container>
 		        <label>Número de tarjeta</label>
-		        <input md-maxlength="20" required ng-model="user.numero" >
+		        <input md-maxlength="20" required ng-model="user.numero">
 		        <div ng-message="required">Campo obligatorio</div>
 	      	</md-input-container>
 		</div>

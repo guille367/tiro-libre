@@ -103,6 +103,7 @@ storage.get('name').then(function (name){
 
   .state('contacto', {
     url: '/contacto',
+    controller:'contactoCtroller',
     templateUrl:'client/templates/contacto.html'
   })
 

@@ -56,17 +56,12 @@ background-color: white;
 
     <link rel="stylesheet" href="./client/bower_components/angular-material/angular-material.min.css">
     <script src="./client/bower_components/angular/angular.js"></script>
+    <script src="./client/bower_components/angular/ui-bootstrap-tpls-2.1.4.js"></script>
     <script src="./client/bower_components/angular-aria/angular-aria.min.js"></script>
     <script src="./client/bower_components/angular-messages/angular-messages.min.js"></script>
-    <script src="./client/bower_components/angular-material/angular-material.min.js"></script>
-    <!-- <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-animate.min.js"></script>
-    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-aria.min.js"></script>
-    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-messages.min.js"></script> -->
-    <!-- <script src="http://ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.min.js"></script>
-    <script src="http://ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.min.js"></script> -->
-
-    <script src="./client/bower_components/angular-material/angular-material.min.js"></script>
-
+    <script src="./client/bower_components/angular-material/angular-material.js"></script>
+    <script src="./client/bower_components/momentjs/min/moment-with-locales.min.js"></script>
+    <script src="./client/bower_components/angular-material-datetimepicker/js/angular-material-datetimepicker.js"></script>
     <!-- Angular Material -->
 
     
@@ -87,6 +82,7 @@ background-color: white;
     <script src="./client/controllers/pagoTarjetaController.js"></script>
     <script src="./client/controllers/loginController.js"></script>
     <script src="./client/controllers/indexController.js"></script>
+    <script src="./client/controllers/contactoController.js"></script>
     <script src="./server/routes/routes.js"></script>
     <script src="./client/directives/directives.js"></script>
     <script src="./client/services/services.js"></script>
@@ -100,6 +96,7 @@ background-color: white;
 
     <!-- CSS -->
 
+     <link rel="stylesheet" href="./client/bower_components/angular-material-datetimepicker/css/material-datetimepicker.min.css">  
     <link rel="stylesheet" href="./client/bower_components/ionic-calendar/dist/css/calendar.css">
     <link rel="stylesheet" href="./client/bower_components/datetimeRangePicker/range-picker.css">
     <!-- CSS -->
@@ -145,7 +142,7 @@ background-color: white;
                         <i class="icon ion-android-contact"></i>Perfil NO</ion-item>     -->                    
                     <ion-item menu-close="" class="item-icon-left" id="menu-list-item-torneos" data-componentid="list-item-torneos" href="#/torneos">
                         <i class="icon ion-trophy"></i>Torneos</ion-item>
-                    <ion-item menu-close="" ng-show="loggeado" class="item-icon-left" id="menu-list-item-reservas" data-componentid="list-item-reservas" href="#/misreservas" ng-click="schedulear()">
+                    <ion-item menu-close=""  class="item-icon-left" id="menu-list-item-reservas" data-componentid="list-item-reservas" href="#/misreservas">
                         <i class="icon ion-calendar"></i>Mis reservas</ion-item>
                     <ion-item menu-close="" class="item-icon-left" id="menu-list-item-contacto" data-componentid="list-item-contacto" href="#/contacto">
                         <i class="icon ion-ios-telephone"></i>Contacto</ion-item>

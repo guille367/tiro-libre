@@ -3,7 +3,7 @@ angular.module('app.controllers')
 .controller('misReservasCtroller', ['$scope','$ionicPopup','$ionicModal','reservaService','canchaService',function($scope,$ionicPopup,$ionicModal,reservaService){
 
     $scope.reservas = {};
-
+    $scope.time = new Date();
     $ionicModal.fromTemplateUrl('client/templates/dialogs/detallereserva.html',{
         scope: $scope,
         animation:'slide-in-up'

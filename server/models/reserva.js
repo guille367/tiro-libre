@@ -14,7 +14,6 @@ var Reserva = new Schema({
   RecurrenceRule: String,
   RecurrenceException: String,
   IsAllDay: Boolean
-
 });
 
 
