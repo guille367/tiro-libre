@@ -11,12 +11,12 @@ router.post('/post', function(req, res) {
 	})
 });
 
-/*router.get('/get', function(req, res, next){
+router.get('/get', function(req, res, next){
 	Usuario.find(function(err, data){
 		if(err) return next(err);
 		res.json(data);
 	})
-});*/   
+});   
 
 router.post('/register', function(req, res) {
   User.register(new Usuario({ username: req.body.username, name: req.body.name, mail: req.body.mail, superAdmin: req.body.superAdmin}),
