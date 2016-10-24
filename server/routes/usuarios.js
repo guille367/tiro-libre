@@ -16,23 +16,10 @@ router.post('/post', function(req, res) {
 		if(err) return next(err);
 		res.json(data);
 	})
-});*/
-
-username: String,
-  password: String,
-  dni: Number,
-  nombre: String,
-  apellido: String,
-  mail: String,
-  telefono: String,
-  cantIncumplim: Number,
-  foto: String,
-  fechaNac: Date,
-  fechaAlta: Date,
-  estado: String
+});*/   
 
 router.post('/register', function(req, res) {
-  User.register(new Usuario({ :mm req.body.username, name: req.body.name, mail: req.body.mail, superAdmin: req.body.superAdmin}),
+  User.register(new Usuario({ username: req.body.username, name: req.body.name, mail: req.body.mail, superAdmin: req.body.superAdmin}),
     req.body.password, function(err, account) {
     if (err) {
       return res.status(500).json({
