@@ -25,17 +25,11 @@ angular.module('app.controllers')
 
     $scope.openReserva = function () {
 
-        $scope.reserva = {
-            fechaInicio: new Date(),
-            fechaFin: new Date(),
-            cancha: '',
-            permanente: false,
-            precio: 150,
-            pagado: 15
-        };
+        $scope.reserva = {};
 
         $scope.reserva.importeAdeudado = ($scope.reserva.precio - $scope.reserva.pagado)
-
+        
+        
         $scope.modalReserva.show();
     }
 

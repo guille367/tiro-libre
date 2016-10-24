@@ -7,7 +7,7 @@
     <h4 class="modal-title" align="center">Nuevo administrador</h4>
   </div>
   <div ng-show="error" class="alert alert-danger">{{errorMessage}}</div>
-  <form class="form" ng-submit="register()">
+  <form name="myForm" class="form" ng-submit="register()">
     <div class="form-group">
       <label>Nombre</label>
       <input type="text" class="form-control" name="name" ng-model="registerForm.name" required>
@@ -22,11 +22,12 @@
     </div>
     <div class="form-group">
       <label>Password</label>
-        <input type="password" class="form-control" name="password" ng-model="registerForm.password" required>
+        <input type="Password" name="password" ng-model="registerForm.password" class="form-control" data-ng-class="{'ng-invalid':myForm.confirmPassword.$error.match}" required="">
     </div>
     <div class="form-group">
       <label>Repetir password</label>
-        <input type="password" class="form-control" name="password" ng-model="registerForm.password2" required>
+        <input type="Password" ng-model="registerForm.passwordConfirm" data-match="registerForm.password" class="form-control" name="confirmPassword" required="">
+                <div data-ng-show="myForm.confirmPassword.$error.match"  style="color:#FF0000"> <b>Los passwords no coinciden</b></div>
     </div>
      <div class="form-group">
       <label>Super Admin</label>
@@ -35,10 +36,10 @@
       <div align="center">
         <h1></h1>
         <button type="submit" class="btn btn-success" ng-disabled="disabled">Aceptar</button>
+        <button type="button" class="btn btn-danger" ng-click="cancel()"" data-dismiss="modal">Cancelar</button>
         <h1></h1>
       </div>
   </form>
 
 </div>
-
 

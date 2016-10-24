@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+var passport = require('passport');
 
 var Usuario = require('../models/usuario.js');
 
@@ -10,11 +11,64 @@ router.post('/post', function(req, res) {
 	})
 });
 
-router.get('/get', function(req, res, next){
+/*router.get('/get', function(req, res, next){
 	Usuario.find(function(err, data){
 		if(err) return next(err);
 		res.json(data);
 	})
+});*/
+
+username: String,
+  password: String,
+  dni: Number,
+  nombre: String,
+  apellido: String,
+  mail: String,
+  telefono: String,
+  cantIncumplim: Number,
+  foto: String,
+  fechaNac: Date,
+  fechaAlta: Date,
+  estado: String
+
+router.post('/register', function(req, res) {
+  User.register(new Usuario({ :mm req.body.username, name: req.body.name, mail: req.body.mail, superAdmin: req.body.superAdmin}),
+    req.body.password, function(err, account) {
+    if (err) {
+      return res.status(500).json({
+        err: err
+      });
+    }
+    passport.authenticate('local')(req, res, function () {
+      return res.status(200).json({
+        status: 'Registration successful!'
+      });
+    });
+  });
+});
+
+router.post('/login', function(req, res, next) {
+  passport.authenticate('local', function(err, user, info) {
+    if (err) {
+      return next(err);
+    }
+    if (!user) {
+      return res.status(401).json({
+        err: info
+      });
+    }
+    req.logIn(user, function(err) {
+      if (err) {
+        return res.status(500).json({
+          err: 'Could not log in user'
+        });
+      }
+      res.status(200).json({
+        status: 'Login successful!',
+        user: user
+      });
+    });
+  })(req, res, next);
 });
 
 router.delete('/delete:id', function(req, res, next) {

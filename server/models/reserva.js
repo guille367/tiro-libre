@@ -4,8 +4,8 @@ var Schema = mongoose.Schema;
 
 var Reserva = new Schema({
   TaskID: Number,
-  Owner: String,
-  Title: String,
+  Cancha: String,
+  Username: String,
   Description: String,
   StartTimeZone: String,
   Start: Date,
@@ -14,6 +14,7 @@ var Reserva = new Schema({
   RecurrenceRule: String,
   RecurrenceException: String,
   IsAllDay: Boolean
+
 });
 
 

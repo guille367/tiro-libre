@@ -69,6 +69,8 @@ passport.use(new localStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
+
+
 // routes
 app.use('/user/', routes);
 app.use('/cancha/', canchasRoutes);

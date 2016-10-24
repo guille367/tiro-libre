@@ -15,9 +15,18 @@ angular.module('myApp').factory('AuthService',
       register: register,
       whatUser: whatUser,
       getCurrentUser: getCurrentUser,
-      getAllUsers: getAllUsers
+      getAllUsers: getAllUsers,
+      update: update
 
     });
+
+
+
+    function update (userAdmin){
+      return $http.put("http://localhost:3001/user/update" + userAdmin._id, userAdmin);
+    }
+
+
 
     function getAllUsers() {
       return $http.get("http://localhost:3001/user/get");

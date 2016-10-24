@@ -4,7 +4,12 @@ angular.module('myApp').controller('usuarioController',
 
     usuarios = {};
     $scope.newUsuario = {};
-    $scope.newUsuario = {fechaNac:new Date };
+
+       $scope.options = {
+    locale: 'es',
+    format: 'l',
+    };
+   
 
 
     var getUsuarios = function () {
@@ -73,6 +78,8 @@ angular.module('myApp').controller('usuarioController',
         size: size,
         resolve: {
           test: function () {
+            usuario.fechaNac = moment(usuario.fechaNac);
+            usuario.fechaAlta = moment(usuario.fechaAlta);
             return usuario;
           },
           list: function () {
@@ -89,7 +96,6 @@ angular.module('myApp').controller('usuarioController',
     };
 
 
-
 }]);
 
 
@@ -97,36 +103,78 @@ angular.module('myApp').controller('usuarioController',
 
 angular.module('myApp').controller('modalusuarioController', function($scope, $uibModalInstance, $timeout, usuarioServices, test,list, ngDialog){
   
+   $scope.options = {
+    locale: 'es',
+    format: 'l',
+    };
+
+
   $scope.usuarios = list;
   $scope.newUsuario = test;
 
-  $scope.cancel = function () {
+  $scope.cancel = function (value) {
+    
     $timeout(function() {
-            $uibModalInstance.dismiss('cancel');
+            $uibModalInstance.dismiss(value);
         }, 300);
+              $scope.usuarios = {};
+        $scope.newUsuario = {};
     };
 
     $scope.guardar = function (newUsuario,form) {
 
       if (form.$valid){
-        var existe = 0;  
-        console.log('ingrese al if');
+        var existeDni = 0;  
+        var existeUsername = 0;  
         angular.forEach($scope.usuarios, function(value, key){
           if(value.dni == $scope.newUsuario.dni)
-             existe = 1;
+             existeDni = 1;
+        });
+        angular.forEach($scope.usuarios, function(value, key){
+          if(value.username == $scope.newUsuario.username)
+             existeUsername = 1;
         });
 
-        if(existe == 0){
-          newUsuario.estado = 'Activo';
+        if (form.$name == "formEdit") {
+            existeDni = 0;  
+            existeUsername = 0;  
+        }else{
           newUsuario.fechaAlta = new Date();
+        };
+
+        if(existeDni == 0 && existeUsername == 0){
+          newUsuario.estado = 'Activo';
           newUsuario.cantIncumplim = 0;
           usuarioServices.save(newUsuario).then(function(res){
           });        
-        }else{
-          ngDialog.openConfirm({
-                    template: 'modalDialogId2',
+        }if(existeDni == 1 && existeUsername == 1){
+          ngDialog.open({
+                    template: 'modalDialogId4',
                     className: 'ngdialog-theme-default',
                     scope: $scope,
+                    }).then(function(value){
+                      
+                    }, function (reason) {            
+                      $scope.modalDialogId4.close();
+                    })
+        }if(existeDni == 1){
+          ngDialog.open({
+                    template: 'modalDialogId2', 
+                    className: 'ngdialog-theme-default',  
+                    overlay : false,
+                    scope: $scope,
+                    }).then(function(value){
+                      $scope.modalDialogId2.close();
+                    }, function (reason) {                       
+                    })
+        }if(existeUsername == 1){
+          ngDialog.open({
+                    template: 'modalDialogId3',
+                    className: 'ngdialog-theme-default',
+                    scope: $scope,
+                    }).then(function(value){
+                      $scope.modalDialogId3.close();
+                    }, function (reason) {                       
                     })
         }
        }else{
@@ -139,7 +187,10 @@ angular.module('myApp').controller('modalusuarioController', function($scope, $u
     $timeout(function() {
             $uibModalInstance.dismiss('cancel');
         }, 300);
+
     };
+
+   
 
 });
 
