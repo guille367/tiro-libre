@@ -9,18 +9,20 @@ angular.module('app.controllers')
         $scope.modo = 'mes';
         $scope.fechaSeleccionada = new Date();
         $scope.habilitarReserva = false;
-        $scope.calendar.eventSource = {};
-        $scope.reserva = {}
-
+        $scope.calendar.eventSource = canchaService.getReservasCancha();
+        $scope.reserva = {};
+        var eventosDelDia = {};
+    
         $scope.horario = {
-                time: {
-                    from: 480, // default low value
-                    to: 1020, // default high value
+                time: { 
                     step: 60, // step width
                     minRange: 60, // min range
-                    hours24: false // true for 24hrs based time | false for PM and AM
+                    hours24: false, // true for 24hrs based time | false for PM and AM
+                    dFrom: 0,
+                    dTo: 1440
                 }
         };
+
 
         $ionicModal.fromTemplateUrl('client/templates/dialogs/reserva.html', {
                 scope: $scope,
@@ -41,7 +43,19 @@ angular.module('app.controllers')
         $scope.changeMode = function () {
             $scope.calendar.mode = $scope.calendar.mode == 'month' ? 'day' : 'month';
             $scope.modo = $scope.calendar.mode === 'day' ? 'día' : 'mes';
-            console.log($scope.modo)
+
+            if($scope.calendar.mode == 'day'){
+                eventosDelDia = 
+                $scope.calendar.eventSource.filter(function(d){
+                    return (d.startTime.getDay() == selectedTime.getDay()) && 
+                    (d.startTime.getMonth() == selectedTime.getMonth())
+                    });
+            }
+            else{
+                eventosDelDia = {};
+            }
+
+            console.log($scope.modo);
         };
 
         $scope.loadEvents = function () {
@@ -77,7 +91,17 @@ angular.module('app.controllers')
                 horaInicio: selectedTime.getHours(),
                 horaFin: (selectedTime.getHours() + 1)
             }
-            $scope.horario.time.from = $scope.horario.time.dFrom = selectedTime.getHours() * 60 ;
+
+             
+
+            $scope.horario.time.from = selectedTime.getHours() * 60;
+            $scope.horario.time.to = $scope.horario.time.from + 60;
+            $scope.horario.time.dFrom = selectedTime.getHours() * 60;
+            $scope.horario.time.dTo= (selectedTime.getHours() * 60) + 480 ;
+            /*$scope.horario.time.dFrom = selectedTime.getHours() * 60;
+            $scope.horario.time.dTo = $scope.horario.time.from() + 60;
+            $scope.horario.time.from = selectedTime.getHours() * 60;*/
+
             $scope.fechaSeleccionada = selectedTime;
             $scope.habilitarReserva = (events !== undefined && events.length !== 0);
         };
@@ -102,6 +126,10 @@ angular.module('app.controllers')
                 })
             }
             return events;
+        }
+
+        $scope.openReserva = function(){
+            $scope.modalReserva.show();
         }
 
         $scope.closeReserva = function() {

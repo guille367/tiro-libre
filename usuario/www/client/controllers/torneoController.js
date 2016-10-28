@@ -1,6 +1,6 @@
 angular.module('app.controllers')
 
-.controller('miTorneoCtroller', ['$scope','$rootScope','$state','$ionicPopup','$ionicModal',function($scope,$rootScope,$state,$ionicPopup,$ionicModal){
+.controller('torneoCtroller', ['$scope','$rootScope','$state','$ionicPopup','$ionicModal',function($scope,$rootScope,$state,$ionicPopup,$ionicModal){
 
     $ionicModal.fromTemplateUrl('client/templates/dialogs/detalletorneo.html',{
         scope: $scope,

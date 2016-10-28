@@ -1,7 +1,28 @@
 <ion-view title="Perfil">
-<tr>
-<td>
+
     <ion-content scroll="true">
+        
+        <div class="hero slide-up" style="background-color: blue;">
+            <div class="content">
+                <div class="avatar" style="background-image: url('img/VTrEvT4I.jpeg');"></div>
+                <h3><a class="light">Daenerys Targaryen</a></h3>
+                <h4>dragon_mommy</h4>
+            </div>
+        </div>
+        <div class="tabs">
+        <ion-tabs>
+            <ion-tab title="Datos" icon="ion-android-list" href="#/perfil/misdatos">
+                <ion-nav-view name="misdatos-tab"></ion-nav-view>
+            </ion-tab>
+            <ion-tab title="Mis Equipos" icon="ion-ionic" href="#/perfil/misequipos">
+                <ion-nav-view name="misequipos-tab"></ion-nav-view>
+            </ion-tab>
+             <ion-tab title="Mis Grupos" icon="ion-android-people" href="#/perfil/misgrupos">
+                <ion-nav-view name="misgrupos-tab"></ion-nav-view>
+            </ion-tab>
+        </ion-tabs>
+        </div>
+        <!--
             <div class="row">
                 <div class="col-25"></div>
                 <div class="col-50">
@@ -14,57 +35,20 @@
                 </div>
                 <div class="col-25"></div>
             </div>
-</td>
-<td>
+
             <div class="row">            
-                <ion-tabs class="tabs-positive tabs-icon-bottom" >
-                    <ion-tab title="Datos" icon="ion-android-list" href="#/perfil/misdatos">
-                        <ion-nav-view name="misdatos-tab"></ion-nav-view>
-                    </ion-tab>
-                    <ion-tab title="Mis Equipos" icon="ion-ionic" href="#/perfil/misequipos">
-                        <ion-nav-view name="misequipos-tab"></ion-nav-view>
-                    </ion-tab>
-                    <!-- <ion-tab title="Mis Grupos" icon="ion-android-people" href="#/perfil/misgrupos">
-                        <ion-nav-view name="misgrupos-tab"></ion-nav-view>
-                    </ion-tab> -->
-                </ion-tabs>
-            </div>
+                
+            </div>  -->
     </ion-content>
-    </td>        
-    </tr>
+
 </ion-view>     
 
 <style type="text/css">
-    h2{
-        color:white;
-    }
-    .tabs-striped.tabs-positive .tabs {
-        color: white;
-        background-color: rgba(0,0,0,0.5);
-        margin-top: 170px;  
-        font-weight: bolder;
-    }
-    .pane, .view {
-        background: url("./img/1.jpg") no-repeat center center fixed;
-        -webkit-background-size: cover;
-        -moz-background-size: cover;
-        -o-background-size: cover;
-        background-size: cover;
+
+    .pane {
+        background: url("./img/1.jpg");
         background-image: url("./img/1.jpg");
-
     }
-    .img-perfil{
-        margin-top: 20px;
-        width: 90px;
-        height: 90px;
-    }
-.scroll-content{
-    position: absolute;
-}
-.scroll{
-    height: 600px;
-}
-
 
 
 </style>

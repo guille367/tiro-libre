@@ -47,7 +47,7 @@
 
 <div class="button-bar botonera">
   <a class="button button-balanced" ng-click="changeMode()">Ir a {{modo}}</a>
-  <a class="button button-balanced" ng-click="modalReserva.show()" ng-show="modo=='día'" ng-disabled="habilitarReserva">Reservar</a>
+  <a class="button button-balanced" ng-click="openReserva()" ng-show="modo=='día'" ng-disabled="habilitarReserva">Reservar</a>
   <a class="button button-balanced" ng-click="loadEvents()" ng-show="modo=='día'">Cargar eventos de prueba</a>
 </div>
     </ion-content>

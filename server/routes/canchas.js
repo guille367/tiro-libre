@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 
 var Cancha = require('../models/cancha.js');
-
+var Reserva = require('../models/reserva.js');
 
 router.post('/post', function(req, res) {
   Cancha.create(req.body, function(err, data){
@@ -29,6 +29,16 @@ router.put('/update:id', function(req, res, next) {
     if (err) return next(err);
     res.json(post);
   });
+});
+
+// Obtengo las reservas que tiene la cancha
+router.get('/getreservas:id', function(req,res){
+    Reserva.find({_cancha:req.param.id},function(err,reservas){
+        if(err)
+            return res.status(500).json({err:err})
+        
+        res.status(200).json(reservas);
+    });
 });
 
 

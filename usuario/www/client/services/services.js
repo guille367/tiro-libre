@@ -31,7 +31,8 @@ angular.module('app.services', [])
 	this.urlUsuarios = url + '/usuario';
 	this.urlReservas = url + '/reserva';
 	this.urlCanchas = url + '/cancha';
-
+    this.urlTorneos = url + '/torneos';
+    
 	this.getDatosClub = function (){
 		return $http.get(url + '/configuracion/get')
 					then(function(d){

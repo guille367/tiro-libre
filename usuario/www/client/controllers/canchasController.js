@@ -21,8 +21,21 @@ angular.module('app.controllers')
     }
 
 	$scope.verDisponibilidad = function(c){
+        
 		canchaService.setCancha(c);
-		$state.go('calendario');
+        
+        $ionicLoading.show();
+        canchaService.getReservasCancha
+            .then(function(d){
+                $ionicLoading.hide();
+                canchaService.setReservasCancha(d);
+		        $state.go('calendario');
+            })
+            .catch(function(e){
+                $ionicLoading.hide();
+                gralFactory.showError('Comuníquese con el administrador.');
+            });
+        
 	}
     
     getCanchas();

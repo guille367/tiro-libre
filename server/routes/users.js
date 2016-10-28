@@ -70,6 +70,13 @@ router.get('/status', function(req, res) {
   });
 });
 
+router.put('/update:id', function(req, res, next) {
+  User.findByIdAndUpdate(req.params.id, req.body, function (err, post) {
+    if (err) return next(err);
+    res.json(post);
+  });
+});
+
 router.delete('/delete:id', function(req, res, next) {
   User.findByIdAndRemove(req.params.id, req.body.models, function (err, post) {
     if (err) return next(err);
