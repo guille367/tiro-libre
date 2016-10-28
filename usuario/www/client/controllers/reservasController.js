@@ -1,6 +1,6 @@
 angular.module('app.controllers')
 
-.controller('misReservasCtroller', ['$scope','$ionicPopup','$ionicModal','reservaService','canchaService',function($scope,$ionicPopup,$ionicModal,reservaService){
+.controller('misReservasCtroller', ['$scope','$ionicPopup','$ionicModal','$ionicLoading','reservaService','canchaService','gralFactory',function($scope,$ionicPopup,$ionicModal,$ionicLoading,reservaService,canchaService,gralFactory){
 
     $scope.reservas = {};
     $scope.time = new Date();
@@ -19,20 +19,12 @@ angular.module('app.controllers')
     });
 
     $scope.openPago = function(){
-
         $scope.modalPago.show();
     }
 
     $scope.openReserva = function () {
 
-        $scope.reserva = {
-            fechaInicio: new Date(),
-            fechaFin: new Date(),
-            cancha: '',
-            permanente: false,
-            precio: 150,
-            pagado: 15
-        };
+        $scope.reserva = {};
 
         $scope.reserva.importeAdeudado = ($scope.reserva.precio - $scope.reserva.pagado)
 
@@ -58,5 +50,16 @@ angular.module('app.controllers')
         $scope.modalPago.hide();
     }
 
+    $scope.pagarReserva = function(form){
+        if(!form.$valid)
+            gralFactory.showError('Por favor corrobore sus datos.');
+        else{
+            $ionicLoading.show();
+            setTimeout(function(){
+                $ionicLoading.hide();
+                gralFactory.showMessage('Pago procesado. Muchas gracias!');
+            },3000);
+        }
+    }
 
 }])

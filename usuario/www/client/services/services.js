@@ -12,6 +12,14 @@ angular.module('app.services', [])
         });
     };
     
+    gralFactory.showMessage = function(msg){
+        $ionicPopup.alert({
+            title: 'Error',
+            template: msg,
+            buttons:[{ text: 'Aceptar', type: 'button-positive' }]
+        });
+    }
+    
     return gralFactory;
     
 }])

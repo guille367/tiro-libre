@@ -1,6 +1,39 @@
 <ion-modal-view>
 	<ion-content scroll="true" ng-controller="pagoTarjetaCtroller">
+        <form name="form" role="form">
 		<md-subheader>Pagar con tarjeta</md-subheader>
+        
+        <div layout="row"  layout-align="center center">
+
+            <div layout="column" flex="33">
+				<md-input-container>
+                    <div layout="row" layout-align="center center">
+                        Abonar reserva 
+                    </div>
+                    <div layout="row" layout-align="center center">
+                        <b>($40.00)</b>
+                    </div>
+                </md-input-container>
+            </div>
+            
+            <div layout="column" flex="33" layout-align="center center">
+				<md-input-container>
+                    <md-switch ng-model="asdasd"></md-switch>
+                </md-input-container>
+            </div>
+            
+            <div layout="column" flex="33">
+                <md-input-container>
+                    <div layout="row" layout-align="center center">
+                        Pago total
+                    </div>
+                    <div layout="row" layout-align="center center">
+                        <b>($400.00)</b>
+                    </div>
+                </md-input-container>
+            </div>
+            
+		</div>
         
 		<div layout="row" layout-align="center center">
 			<md-input-container>
@@ -48,9 +81,10 @@
 		</div>
 
 		<section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
-	      <md-button class="md-raised md-primary">Confirmar</md-button>
+	      <md-button class="md-raised md-primary" ng-click="pagarReserva(form)">Confirmar</md-button>
 	      <md-button class="md-raised md-warn" ng-click="closePago()">Cerrar</md-button>
   	    </section>
-		
+            
+		</form>
 	</ion-content>
-</ion-view>
+</ion-modal-view>
