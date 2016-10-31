@@ -1,10 +1,11 @@
 angular.module('app.controllers')
 
-.controller('misReservasCtroller', ['$scope','$ionicPopup','$ionicModal','$ionicLoading','reservaService','canchaService','gralFactory',function($scope,$ionicPopup,$ionicModal,$ionicLoading,reservaService,canchaService,gralFactory){
+.controller('reservasCtroller', ['$scope','$ionicPopup','$ionicModal','$ionicLoading','reservaService','canchaService','gralFactory','generalServices'
+    ,function($scope,$ionicPopup,$ionicModal,$ionicLoading,reservaService,canchaService,gralFactory,generalServices ){
 
     $scope.reservas = getReservas();
     $scope.time = new Date();
-    
+    $scope.datosClub = generalServices.getDatosClub();
     $ionicModal.fromTemplateUrl('client/templates/dialogs/detallereserva.html',{
         scope: $scope,
         animation:'slide-in-up'
@@ -39,9 +40,13 @@ angular.module('app.controllers')
 
     // Ir al servidor con el pago, volver a traer las reservas una vez que hizo el pago
     $scope.pagarReserva = function(form){
-        if(!form.$valid)
+        console.log('si');
+        if(!form.$valid){
+            console.log('form invalid');
             gralFactory.showError('Por favor corrobore sus datos.');
+            }
         else{
+            console.log('form valid');
             $ionicLoading.show();
             setTimeout(function(){
                 $ionicLoading.hide();

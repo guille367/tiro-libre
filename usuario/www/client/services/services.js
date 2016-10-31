@@ -36,7 +36,7 @@ angular.module('app.services', [])
 	this.getDatosClub = function (){
 		return $http.get(url + '/configuracion/get')
 					then(function(d){
-						return d;
+						return d.data[0];
 					})
 					.catch(function(e){
 						console.log(e);

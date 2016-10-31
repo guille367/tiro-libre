@@ -14,7 +14,7 @@ angular.module('app.services')
 		return $http.post(generalServices.urlUsuarios + '/login', user)
 			.then(function(d){
 				console.log("loggeo correcto");
-				localStorage.setItem('usuario',user);
+				localStorage.setItem('usuario',JSON.stringify(user));
 			})
 			.catch(function(e){
 				throw e;
@@ -36,8 +36,8 @@ angular.module('app.services')
 		localStorage.removeItem('usuario');
 	}
 
-	this.saludar = function(){
-		
+	this.getUsuario = function(){
+		return localStorage.getItem('usuario');
 	}
 
 }])

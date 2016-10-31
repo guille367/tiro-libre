@@ -11,14 +11,14 @@
                         Abonar reserva 
                     </div>
                     <div layout="row" layout-align="center center">
-                        <b>($40.00)</b>
+                        <b>({{reserva.precioReserva | currency}})</b>
                     </div>
                 </md-input-container>
             </div>
             
             <div layout="column" flex="33" layout-align="center center">
 				<md-input-container>
-                    <md-switch ng-model="asdasd"></md-switch>
+                    <md-switch ng-model="reserva.abonaTotal"></md-switch>
                 </md-input-container>
             </div>
             
@@ -28,7 +28,7 @@
                         Pago total
                     </div>
                     <div layout="row" layout-align="center center">
-                        <b>($400.00)</b>
+                        <b>({{reserva.precioTotal | currency}})</b>
                     </div>
                 </md-input-container>
             </div>

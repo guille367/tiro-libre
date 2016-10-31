@@ -12,18 +12,15 @@ angular.module('app.services')
 		cancha = c;
 	}
 
-    this.getReservasCancha = function(r){
-        return cancha.reservas;
-    }
-    
     this.setReservasCancha = function(r){
         cancha.reservas = r;
     }
     
-    this.getReservasCancha = function(){
-        return $http.get(generalServices.urlCancha + '/getreservas' + cancha._id)
+    this.getReservasCancha = function(idCancha){
+        // + '/read' + cancha._id
+        return $http.get(generalServices.urlCanchas + '/getreservas/' + idCancha)
             .then(function(d){
-                return schedulerToIC(d);
+                return schedulerToIC(d.data);
             })
             .catch(function(e){
                 throw e;
@@ -36,13 +33,12 @@ angular.module('app.services')
 		});
 	}
 
-    // Corroborar que arme bien el objeto
     var schedulerToIC = function(o){
         return o.map(function(event){
             return {
                 allDay: false,
-                endTime: o.Start.$date,
-                startTime: o.End.$date,
+                startTime: new Date(event.Start),
+                endTime: new Date(event.End),
                 title: 'Reserva'
             }
         });

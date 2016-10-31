@@ -23,7 +23,7 @@ angular.module('ui.rCalendar', [])
         dayviewAllDayEventTemplateUrl: 'client//templates/rcalendar/displayEvent.html',
         dayviewNormalEventTemplateUrl: 'client//templates/rcalendar/displayEvent.html'
     })
-    .controller('ui.rCalendar.CalendarController', ['$scope', '$attrs', '$parse', '$interpolate', '$log', 'dateFilter', 'calendarConfig', '$timeout', '$ionicSlideBoxDelegate', function ($scope, $attrs, $parse, $interpolate, $log, dateFilter, calendarConfig, $timeout, $ionicSlideBoxDelegate) {
+    .controller('ui.rCalendar.CalendarController', ['$scope', '$attrs', '$parse', '$interpolate', '$log', 'dateFilter', 'calendarConfig', '$timeout', '$ionicSlideBoxDelegate','canchaService', function ($scope, $attrs, $parse, $interpolate, $log, dateFilter, calendarConfig, $timeout, $ionicSlideBoxDelegate,canchaService) {
         'use strict';
         var self = this,
             ngModelCtrl = {$setViewValue: angular.noop}; // nullModelCtrl;
@@ -38,6 +38,8 @@ angular.module('ui.rCalendar', [])
             self[key] = angular.isDefined($attrs[key]) ? ($scope.$parent.$eval($attrs[key])) : calendarConfig[key];
         });
 
+    
+        
         self.hourParts = 1;
         if (self.step === 60 || self.step === 30 || self.step === 15) {
             self.hourParts = Math.floor(60 / self.step);
@@ -228,6 +230,12 @@ angular.module('ui.rCalendar', [])
         };
 
         self.onEventSourceChanged = function (value) {
+
+            $scope.horarioCancha = {
+            inicio: Number(canchaService.getCancha().horaIni.split(':')[0]),
+            fin: Number(canchaService.getCancha().horaFin.split(':')[0])
+            };
+
             self.eventSource = value;
             if (self._onDataLoaded) {
                 self._onDataLoaded();
@@ -304,7 +312,8 @@ angular.module('ui.rCalendar', [])
                 if (!scope.views) {
                     currentViewData = [];
                     currentViewStartDate = self.range.startTime;
-                    currentViewData.push(getViewData(currentViewStartDate));
+                    currentViewData.push(getViewData(currentViewStartDate,scope.horarioCancha));
+                    
                     currentViewStartDate = self.getAdjacentViewStartTime(1);
                     currentViewData.push(getViewData(currentViewStartDate));
                     currentViewStartDate = self.getAdjacentViewStartTime(-1);
@@ -998,13 +1007,15 @@ angular.module('ui.rCalendar', [])
                 scope.allDayEventTemplateUrl = ctrl.dayviewAllDayEventTemplateUrl;
                 scope.normalEventTemplateUrl = ctrl.dayviewNormalEventTemplateUrl;
 
-                function createDateObjects(startTime) {
+                function createDateObjects(startTime,horario) {
                     var rows = [],
                         time,
                         currentHour = startTime.getHours(),
                         currentDate = startTime.getDate();
-
-                    for (var hour = 0; hour < 24; hour += 1) {
+                    
+                    var h = horario ? horario : { inicio:0, fin:24 };
+                    
+                    for (var hour = h.inicio; hour <= h.fin; hour += 1) {
                         time = new Date(startTime.getTime());
                         time.setHours(currentHour + hour);
                         time.setDate(currentDate);
@@ -1047,7 +1058,7 @@ angular.module('ui.rCalendar', [])
                         eventSet,
                         normalEventInRange = false;
 
-                    for (hour = 0; hour < 24; hour += 1) {
+                    for (hour = 0; hour < rows.length; hour += 1) {
                         rows[hour].events = [];
                     }
 
@@ -1115,7 +1126,7 @@ angular.module('ui.rCalendar', [])
 
                     if (normalEventInRange) {
                         var orderedEvents = [];
-                        for (hour = 0; hour < 24; hour += 1) {
+                        for (hour = 0; hour < rows.length; hour += 1) {
                             if (rows[hour].events) {
                                 rows[hour].events.sort(compareEventByStartOffset);
 
@@ -1127,7 +1138,7 @@ angular.module('ui.rCalendar', [])
                         }
                     }
                 };
-
+ 
                 ctrl._refreshView = function () {
                     ctrl.populateAdjacentViews(scope);
                 };
@@ -1137,9 +1148,9 @@ angular.module('ui.rCalendar', [])
                     return dateFilter(startingDate, ctrl.formatDayTitle);
                 };
 
-                ctrl._getViewData = function (startTime) {
+                ctrl._getViewData = function (startTime,horario) {
                     return {
-                        rows: createDateObjects(startTime),
+                        rows: createDateObjects(startTime,horario),
                         allDayEvents: []
                     };
                 };

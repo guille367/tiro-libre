@@ -6,7 +6,6 @@ angular.module('app.controllers')
 
 	generalServices.getDatosClub()
 		.then(function(d){
-			console.log(d.data)
 			$scope.datos = d.data[0];
 		});
 

@@ -25,7 +25,7 @@ angular.module('app.controllers')
 		canchaService.setCancha(c);
         
         $ionicLoading.show();
-        canchaService.getReservasCancha
+        canchaService.getReservasCancha(c._id)
             .then(function(d){
                 $ionicLoading.hide();
                 canchaService.setReservasCancha(d);

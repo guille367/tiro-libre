@@ -44,8 +44,6 @@ var reservasRoutes = require('./routes/reservas.js');
 var configuracionRoutes = require('./routes/configuracion.js');
 var usuariosRoutes = require('./routes/usuarios.js');
 
-
-
 app.use(cors());
 
 

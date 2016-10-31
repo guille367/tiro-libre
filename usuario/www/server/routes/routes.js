@@ -39,18 +39,19 @@ storage.get('name').then(function (name){
   
   .state('torneos', {
     url: '/torneos',
-    controller:'miTorneoCtroller',
+    controller:'torneoCtroller',
     templateUrl:'client/templates/torneos.html'
   })
   
   .state('misreservas', {
     url: '/misreservas',
-    controller:'misReservasCtroller',
+    controller:'reservasCtroller',
     templateUrl:'client/templates/misreservas.html'
   })
 
   .state('calendario',{
     url:'/calendario',
+    cache: false,
     controller: 'calendarioCtroller',
     templateUrl:'client/templates/calendario.html'
   })

@@ -32,14 +32,21 @@ router.put('/update:id', function(req, res, next) {
 });
 
 // Obtengo las reservas que tiene la cancha
-router.get('/getreservas:id', function(req,res){
-    Reserva.find({_cancha:req.param.id},function(err,reservas){
+router.get('/getreservas/:id', function(req,res){
+    console.log(req.params.id);
+    Reserva.find({Cancha:req.params.id})
+      .populate('_cancha')
+        .exec(function(err,reservas){
         if(err)
-            return res.status(500).json({err:err})
-        
+          return res.status(500).json({err: err});
+                
+        if(!reservas)
+            return res.status(404).json({
+                msg: 'No se encontraron reservas'
+            });
+
         res.status(200).json(reservas);
     });
 });
-
 
 module.exports = router;

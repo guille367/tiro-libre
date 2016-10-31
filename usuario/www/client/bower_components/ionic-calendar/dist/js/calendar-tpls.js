@@ -24,7 +24,7 @@ angular.module('ui.rCalendar', ['ui.rCalendar.tpls'])
         dayviewAllDayEventTemplateUrl: 'templates/rcalendar/displayEvent.html',
         dayviewNormalEventTemplateUrl: 'templates/rcalendar/displayEvent.html'
     })
-    .controller('ui.rCalendar.CalendarController', ['$scope', '$attrs', '$parse', '$interpolate', '$log', 'dateFilter', 'calendarConfig', '$timeout', '$ionicSlideBoxDelegate', function ($scope, $attrs, $parse, $interpolate, $log, dateFilter, calendarConfig, $timeout, $ionicSlideBoxDelegate) {
+    .controller('ui.rCalendar.CalendarController', ['$scope', '$attrs', '$parse', '$interpolate', '$log', 'dateFilter', 'calendarConfig', '$timeout','perfilService', '$ionicSlideBoxDelegate', function ($scope, $attrs, $parse, $interpolate, $log, dateFilter, calendarConfig, $timeout,perfilService, $ionicSlideBoxDelegate) {
         'use strict';
         var self = this,
             ngModelCtrl = {$setViewValue: angular.noop}; // nullModelCtrl;
@@ -39,6 +39,8 @@ angular.module('ui.rCalendar', ['ui.rCalendar.tpls'])
             self[key] = angular.isDefined($attrs[key]) ? ($scope.$parent.$eval($attrs[key])) : calendarConfig[key];
         });
 
+        $scope.horariosCancha = perfilService.horariosCancha;
+        
         self.hourParts = 1;
         if (self.step === 60 || self.step === 30 || self.step === 15) {
             self.hourParts = Math.floor(60 / self.step);
@@ -305,7 +307,7 @@ angular.module('ui.rCalendar', ['ui.rCalendar.tpls'])
                 if (!scope.views) {
                     currentViewData = [];
                     currentViewStartDate = self.range.startTime;
-                    currentViewData.push(getViewData(currentViewStartDate));
+                    currentViewData.push(getViewData(currentViewStartDate,scope.horariosCancha));
                     currentViewStartDate = self.getAdjacentViewStartTime(1);
                     currentViewData.push(getViewData(currentViewStartDate));
                     currentViewStartDate = self.getAdjacentViewStartTime(-1);
@@ -542,7 +544,7 @@ angular.module('ui.rCalendar', ['ui.rCalendar.tpls'])
                     return dateFilter(headerDate, ctrl.formatMonthTitle);
                 };
 
-                ctrl._getViewData = function (startTime) {
+                ctrl._getViewData = function (startTime,param) {
                     var startDate = startTime,
                         date = startDate.getDate(),
                         month = (startDate.getMonth() + (date !== 1 ? 1 : 0)) % 12;
@@ -998,13 +1000,16 @@ angular.module('ui.rCalendar', ['ui.rCalendar.tpls'])
                 scope.allDayEventTemplateUrl = ctrl.dayviewAllDayEventTemplateUrl;
                 scope.normalEventTemplateUrl = ctrl.dayviewNormalEventTemplateUrl;
 
-                function createDateObjects(startTime) {
+                function createDateObjects(startTime,param) {
                     var rows = [],
                         time,
                         currentHour = startTime.getHours(),
                         currentDate = startTime.getDate();
 
-                    for (var hour = 0; hour < 24; hour += 1) {
+                    var horaDesde = param ? param.inicio : 0;
+                    var horaHasta = param ? param.fin : 24;
+                        
+                    for (var hour = horaDesde; hour <= horaHasta; hour += 1) {
                         time = new Date(startTime.getTime());
                         time.setHours(currentHour + hour);
                         time.setDate(currentDate);
@@ -1132,9 +1137,9 @@ angular.module('ui.rCalendar', ['ui.rCalendar.tpls'])
                     return dateFilter(startingDate, ctrl.formatDayTitle);
                 };
 
-                ctrl._getViewData = function (startTime) {
+                ctrl._getViewData = function (startTime,param) {
                     return {
-                        rows: createDateObjects(startTime),
+                        rows: createDateObjects(startTime,param),
                         allDayEvents: []
                     };
                 };
