@@ -1,12 +1,13 @@
 var express = require('express');
 var router = express.Router();
-
+var mongoose = require('mongoose');
 var Reserva = require('../models/reserva.js');
 
 router.post('/post', function(req, res) {
+  req.body.models._cancha = new mongoose.mongo.ObjectId(req.body.models.Cancha);
   Reserva.create(req.body.models, function(err, data){
     res.json(data);
-	})
+  });
 });
 
 router.get('/read', function(req, res, next){
@@ -27,6 +28,13 @@ router.delete('/delete', function(req, res, next) {
   Reserva.findByIdAndRemove(req.body.id,  function (err, post) {
     if (err) return next(err);
     res.json(post);
+  });
+});
+
+router.post('/nuevareserva',function(req,res){
+  req.body._cancha = new mongoose.mongo.ObjectId(req.body.Cancha);
+  Reserva.create(req.body.models, function(err, data){
+    res.json(data);
   });
 });
 
