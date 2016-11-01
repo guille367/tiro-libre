@@ -22,8 +22,7 @@ angular.module('app.controllers')
 
 	$scope.verDisponibilidad = function(c){
         
-        $state.go('calendario');
-        /*
+        
 		canchaService.setCancha(c);
         
         $ionicLoading.show();
@@ -37,7 +36,7 @@ angular.module('app.controllers')
                 $ionicLoading.hide();
                 gralFactory.showError('Comuníquese con el administrador.');
             });
-        */
+        
 	}
     
     getCanchas();

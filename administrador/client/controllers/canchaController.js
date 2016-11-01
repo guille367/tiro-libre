@@ -85,10 +85,17 @@ angular.module('myApp').controller('canchaController',
 
 
 
-angular.module('myApp').controller('modalCanchaController', function($scope, $uibModalInstance, $timeout, canchaService, test){
+angular.module('myApp').controller('modalCanchaController', function($scope, $uibModalInstance, $timeout,
+ canchaService, test, $rootScope){
+
+  console.log($rootScope.config);
 
   $scope.nameForm = "";
   $scope.newCancha = test;
+  $scope.horaOk = false;
+  $scope.horaMayorCierre = false;
+  $scope.horaMayorNocturna = false;
+  $scope.horaMenorApertura = false;
 
   if (test == null){
     $scope.nameForm = "Nueva Cancha";  
@@ -104,9 +111,39 @@ angular.module('myApp').controller('modalCanchaController', function($scope, $ui
     };
 
     $scope.guardar = function (newCancha, form) {
-    	console.log(newCancha);
 
-      if (form.$valid){
+      if (newCancha.luz === false) {
+          newCancha.pNocturno ="";
+      };
+
+      if (newCancha.horaIni < $rootScope.config.horaApertura) {
+        $scope.horaMenorApertura = true;
+        return;
+      }else{
+        $scope.horaMenorApertura = false;
+      }
+
+      if (newCancha.horaFin > $rootScope.config.horaNocturna) {
+          $scope.horaMayorNocturna = true;
+          return;
+      }else{
+          $scope.horaMayorNocturna = false;
+      }
+
+      if (newCancha.horaFin > $rootScope.config.horaCierre){
+          $scope.horaMayorCierre = true;
+          return;
+      }else{
+          $scope.horaMayorCierre = false;
+      };
+
+    	
+      if (newCancha.horaFin < newCancha.horaIni) {
+        $scope.horaOk = true;
+        return;
+      }else{
+        $scope.horaOk = false;
+        if (form.$valid){
         canchaService.save(newCancha)
         .then(function(res){
           $scope.newCancha = {};
@@ -114,6 +151,8 @@ angular.module('myApp').controller('modalCanchaController', function($scope, $ui
       }else{
         return;
       };
+      };
+
 
     $timeout(function() {
             $uibModalInstance.dismiss('cancel');

@@ -11,100 +11,112 @@ myApp.filter('yesNo', function () {
 
 <div id="example">
     <div ng-controller="schedulerController">
-        <div kendo-scheduler k-options="schedulerOptions">
-            <span k-event-template class='custom-event'>{{dataItem.title}}</span>
-            <div k-all-day-event-template class='custom-all-day-event'>{{dataItem.title}}</div>
+        <div kendo-scheduler="sche" k-options="schedulerOptions">
+            <span k-event-template class='custom-event'>{{dataItem.username}}</span>
+            <div k-all-day-event-template class='custom-all-day-event'>{{dataItem.username}}</div>
         </div>
     </div>
 
 
+
+
 <script id="customEditorTemplate" type="text/x-kendo-template">
+
+
 <!-- notice how the Title is hidden if the event is new -->
-<div class="k-edit-label"><label for="title">User</label></div>
+<div class="k-edit-label"><label for="username">User</label></div>
 <div data-container-for="title" class="k-edit-field">
-    <select id="title" data-bind="value:title" data-role="dropdownlist"
-                    data-value-field="value" data-text-field="text" data-filter="contains">
-      <option value="User 1">User 1</option>
-      <option value="User 2">User 2</option>
-      <option value="User 3">User 3</option>
+    <select id="username" name="username" data-bind="value:username" data-role="dropdownlist"
+                    data-value-field="value" data-text-field="text" data-filter="contains" required>
+      <option ng-repeat="usuario in usuarios">{{usuario.username}}</option>
+              
   </select>
+  
 </div>
 
-<div class="k-edit-label">
-    <label for="start">Inicio</label>
-  </div>
+<div class="k-edit-label"><label for="start">Inicio</label></div>
 <div data-container-for="start" class="k-edit-field">
-    <input type="text"
+    <input  kendo-date-time-picker k-on-change="onDateSelectedInicio(kendoEvent)" type="text"
            data-role="datetimepicker"
-           data-interval="15"
+           data-interval="60"
            data-type="date"
            data-bind="value:start,invisible:isAllDay"
            name="start"/>
     <input type="text" data-type="date" data-role="datepicker" data-bind="value:start,visible:isAllDay" name="start" />
     <span data-bind="text: startTimezone"></span>
     <span data-for="start" class="k-invalid-msg" style="display: none;"></span>
-  </div>
+</div>
+
 <div class="k-edit-label"><label for="end">Fin</label></div>
 <div data-container-for="end" class="k-edit-field">
-    <input type="text" data-type="date" data-role="datetimepicker" data-bind="value:end,invisible:isAllDay" name="end" data-datecompare-msg="End date should be greater than or equal to the start date" />
+    <input kendo-date-time-picker k-on-change="onDateSelectedFin(kendoEvent)" type="text" 
+    data-type="date" 
+    data-role="datetimepicker" 
+    data-bind="value:end,invisible:isAllDay" 
+    name="end" data-datecompare-msg="End date should be greater than or equal to the start date" />
     <input type="text" data-type="date" data-role="datepicker" data-bind="value:end,visible:isAllDay" name="end" data-datecompare-msg="End date should be greater than or equal to the start date" />
     <span data-bind="text: endTimezone"></span>
     <span data-bind="text: startTimezone, invisible: endTimezone"></span>
     <span data-for="end" class="k-invalid-msg" style="display: none;"></span>
-  </div>
+</div>
 
 <div class="k-edit-label"><label for="recurrenceRule">Repetir</label></div>
 <div data-container-for="recurrenceRule" class="k-edit-field">
     <div data-bind="value:recurrenceRule" name="recurrenceRule" data-role="recurrenceeditor"></div>
   </div>
 <div class="k-edit-label"><label for="description">Descripción</label></div>
-<div data-container-for="description" class="k-edit-field">
+<div data-container-for="description" class="k-edit-field" >
     <textarea name="description" class="k-textbox" data-bind="value:description"></textarea>
   </div>
 
-<div class="k-edit-label"><label for="ownerId">Cancha</label></div>
-    <div data-container-for="ownerId" class="k-edit-field">
-        <select id="ownerId" data-bind="value:ownerId" data-role="dropdownlist"
-                        data-value-field="value" data-text-field="text">
-          <option value="1">Cancha 1</option>
-          <option value="2">Cancha 2</option>
-          <option value="3">Cancha 3</option>
-      </select>
-      </div>
+<div class="k-edit-label"><label for="cancha">Cancha</label></div>
+
+    <div data-container-for="cancha" class="k-edit-field">
+        <select kendo-drop-down-list id="cancha" name="cancha" data-bind="value:cancha" data-role="dropdownlist"
+          data-value-field="value" data-text-field="text" ng-model="selected" ng-change="cambioCancha(selected, kendoEvent)" 
+          required="required">
+          <option selected disabled value="">Seleccionar</option>
+          <option ng-repeat="cancha in data track by cancha.value" value="{{cancha.value}}" >{{cancha.text}}</option>  
+        </select>
+</div>
 
 <div class="k-edit-label"><label for="total">Total</label></div>
-<div data-container-for="total" class="k-edit-field">
+  <div data-container-for="total" class="k-edit-field">
     <div class="input-group col-sm-4">
         <span class="input-group-addon">$</span>
-        <input type="number" class="form-control" id="precio1" >
-    </div>
+        <input type="text" class="form-control" ng-model="precioTotal"  id="precio1" data-bind="value:precioTotal" readonly>
+   </div>
 </div> 
 
 <div class="k-edit-label"><label for="reserva">Reserva</label></div>
-<div data-container-for="reserva" class="k-edit-field">
+  <div data-container-for="reserva" class="k-edit-field">
     <div class="input-group col-sm-4">
         <span class="input-group-addon">$</span>
-        <input type="number" class="form-control" id="reserva" readonly="true" >
-    </div>
-</div> 
- 
- 
-  
-  <div class="k-edit-label"><label for="recurrenceRule">Pago</label></div>
-<div data-container-for="recurrenceRule" class="k-edit-field">
-    <label>Efectivo</label>
-    <input type="checkbox" name="efectivo" data-type="boolean" data-bind="checked:efectivo">
-    <div class="btn-group">
+        <input type="number" class="form-control" id="reserva" name="reserva" readonly="true" ng-model="reserva" data-bind="reserva">
     </div>
 </div>
 
+<div class="k-edit-label"><label for="saldo">Saldo</label></div>
+  <div data-container-for="saldo" class="k-edit-field">
+    <div class="input-group col-sm-4">
+        <span class="input-group-addon">$</span>
+        <input type="number" style="text-align: right;" class="form-control" id="saldo" name="saldo" readonly="true" ng-model="saldo" data-bind="value:saldo">
+    </div>
+</div> 
+ 
+<div class="btn-group col-sm-11" align="center">
+<button type="button" class="btn btn-info" ng-disabled="!(dataItem.saldo != '0')"  style="width:100%" align="center" data-toggle="modal" ng-click="open(this)">Pagar</button>
+</div>
+
 </script>
+
+
 
 <style>
 html
 {
     font: 12px sans-serif;
-    overflow: hidden;
+    
 }
 
 html,
@@ -121,29 +133,53 @@ body,
 
 
 
-<!-- Modal Pago -->
-<div  class="modal fade" role="dialog" id="pagoTarjeta">
-    <div class="modal-dialog" type="text/x-kendo-template" >
-  <!-- Modal content-->
-    <div class="modal-content" >
-        <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title" align="center">PAGO - TARJETA</h4>
-      </div>
-      <div class="modal-body">
+
+<script type="text/ng-template" id="pagoTarjeta.html">
+
+  <form id="ccForm" name="ccForm" role="form" data-toggle="validator">
+
+    <div class="modal-header">
+        <button type="button" class="close" ng-click="cancel()" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title" align="center">PAGO</h4>
+    </div>
+    <div class="modal-header">
+        <div class="row">
+            <div class="col-md-4">
+              <label for="formaPago">Forma de pago:</label>
+              <select class="form-control" id="formaPago" name="formaPago" ng-model="pago.formaPago" required="">
+                <option value="" disabled selected>Seleccionar</option>
+                <option>Efectivo</option>
+                <option>Tarjeta</option>
+              </select>
+            </div>
+            <div class="col-md-4">
+              <label for="concepto">Concepto:</label>
+                <select class="form-control" id="concepto" name="concepto" ng-model="miConcepto" required="" ng-change="cambioConcepto()">
+                <option value="" disabled selected>Seleccionar</option>
+                <option ng-repeat="concept in opcionesConcepto" ng-disabled="!concept.visible" value="{{concept.nombre}}">
+                {{concept.nombre}}
+              </option>
+                </select>
+            </div>
+            <div class="col-md-4">
+              <label for="concepto">Total:</label>
+                <input type="number" style="text-align: right;" class="form-control" id="aPagar" name="aPagar" readonly="true" ng-model="aPagar">
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-body" ng-if="pago.formaPago == 'Tarjeta'">
         <div class="container">
-          <form name="ccForm">
             <div class="form-group">           
               <div class="container">
                 <div class="col-sm-6">
                   <fieldset>
-                    <form name="ccForm">
                       <div class="control-group">
                         <label label-default="" class="control-label">NOMBRE TITULAR</label>
                         <div class="controls">
                           <div class="row">
                             <div class="col-md-8">
-                              <input type="text" class="form-control" pattern="\w+ \w+.*" title="Nombre y apellido" required="">
+                              <input type="text" class="form-control" pattern="\w+ \w+.*" title="Nombre y apellido" ng-required="true">
                               </div>
                           </div>  
                         </div>
@@ -153,7 +189,7 @@ body,
                         <div class="controls">
                           <div class="row">
                             <div class="col-md-8">
-                              <input type="text" class="form-control" id="cardNumber" cc-number cc-eager-type name="ccNumber" ng-model="card.number" cc-format>
+                              <input type="text" class="form-control" id="cardNumber" cc-number cc-eager-type name="ccNumber" ng-model="card.number" cc-format required="">
                             </div>
                             <div class="col-xs-3">
                               <label label-default="" class="control-label">{{ccForm.ccNumber.$ccEagerType || 'Unknown'}} : {{ccForm.ccNumber.$valid | yesNo}}</label>
@@ -193,24 +229,29 @@ body,
                           </div>
                         </div>
                       </div>
-                      <div class="control-group">
-                      <label label-default="" class="control-label"></label>
-                      <div class="controls">
-                        <button type="submit" class="btn btn-success">Pagar</button> 
-                        <button type="button" class="btn btn-danger">Cancelar</button>
-                      </div>
-                    </div>
-                  </form>
                 </fieldset>
                 </div>
               </div>
             </div>
-          </form>
         </div>  
       </div>
     </div>
-  </div>
-</div>
+    </div>
+    <div class="modal-footer">
+        <div class="control-group">
+                        <label label-default="" class="control-label"></label>
+                        <div class="controls">
+                          <button type="submit" ng-click="pagar(ccForm)" class="btn btn-success">Pagar</button> 
+                          <button type="button" data-dismiss="modal" ng-click="cancel()" class="btn btn-danger">Cancelar</button>
+                        </div>
+                      </div>
+      </div>
+
+
+</script>
+
+
+
 
 
 <style>

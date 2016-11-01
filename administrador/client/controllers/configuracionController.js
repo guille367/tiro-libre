@@ -1,4 +1,4 @@
-angular.module('myApp').controller("configuracionController", function($scope, configuracionService){
+angular.module('myApp').controller("configuracionController", function($scope, configuracionService, $rootScope){
 
 	$scope.configuracion = {};
 	$scope.configOriginal = {};
@@ -17,7 +17,7 @@ angular.module('myApp').controller("configuracionController", function($scope, c
 	$scope.guardar = function(configuracion, form){
 		if (form.$valid){
 			configuracionService.save(configuracion).then(function(res){
-
+				$rootScope.config = configuracion;
         	});
 			$scope.read = true;
       }else{

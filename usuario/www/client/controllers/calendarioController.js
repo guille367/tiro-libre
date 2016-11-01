@@ -12,9 +12,14 @@ angular.module('app.controllers')
         $scope.habilitarReserva = false;
         $scope.datosClub = {};
         $scope.calendar.eventSource = {};
+<<<<<<< HEAD
         $scope.reserva = {
             abonaTotal: false
         };
+=======
+        $scope.abonaTotal = true;
+        $scope.reserva = {};
+>>>>>>> 2733fcf195e57d5fa1cdcd5f617ad2be206c14dd
         var eventosDelDia = {};
         var fecha = "adsda";
         $scope.horario = {
@@ -124,7 +129,11 @@ angular.module('app.controllers')
 
         $scope.openPago = function(){
             
+<<<<<<< HEAD
             /*var horarioNocturno = Number($scope.datosClub.horaNocturna.split(':')[0]);
+=======
+            var horarioNocturno = Number($scope.datosClub.horaNocturna.split(':')[0]);
+>>>>>>> 2733fcf195e57d5fa1cdcd5f617ad2be206c14dd
             var cantHoras = ($scope.horario.time.to / 60) - ($scope.horario.time.from / 60);
             var precio = 0;
 
@@ -141,7 +150,11 @@ angular.module('app.controllers')
             
             $scope.reserva.PrecioTotal = precio;
             $scope.reserva.PrecioReserva = precio * ($scope.datosClub.porcReserva * 0.01);
+<<<<<<< HEAD
 */
+=======
+
+>>>>>>> 2733fcf195e57d5fa1cdcd5f617ad2be206c14dd
             $scope.modalPago.show();
         }
 
@@ -166,10 +179,16 @@ angular.module('app.controllers')
         $scope.pagarReserva = function(form){
             
                     
+<<<<<<< HEAD
             if(!form.$valid){
                 alert($scope.reserva.abonaTotal);
                 gralFactory.showError('Por favor corrobore sus datos.');
             }else{
+=======
+            if(!form.$valid)
+                gralFactory.showError('Por favor corrobore sus datos.');
+            else{
+>>>>>>> 2733fcf195e57d5fa1cdcd5f617ad2be206c14dd
 
             $ionicLoading.show();
                 

@@ -3,7 +3,7 @@ angular.module('app.services')
 .service('userServices',['$http','generalServices',function($http,generalServices){
 
 	
-	this.estaLoggeado = function(){
+	this.estaLoggeado = function(){getUsuario
 		if(localStorage.getItem('usuario') != null)
 			return true;
 		else
@@ -14,7 +14,7 @@ angular.module('app.services')
 		return $http.post(generalServices.urlUsuarios + '/login', user)
 			.then(function(d){
 				console.log("loggeo correcto");
-				localStorage.setItem('usuario',JSON.stringify(user));
+				localStorage.setItem('usuario',JSON.stringify(d.data.user));
 			})
 			.catch(function(e){
 				throw e;
@@ -40,7 +40,11 @@ angular.module('app.services')
 	}
 
 	this.getUsuario = function(){
+<<<<<<< HEAD
 		//return JSON.parse(localStorage.getItem('usuario'));
+=======
+		return JSON.parse(localStorage.getItem('usuario'));
+>>>>>>> 2733fcf195e57d5fa1cdcd5f617ad2be206c14dd
 	}
 
 }])

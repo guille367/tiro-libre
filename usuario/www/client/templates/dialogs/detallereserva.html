@@ -6,7 +6,7 @@
         
         <div class="row">
             <div class="col text-center">
-                <b>Fecha </b> 15/11/1994
+                <b>Fecha </b> {{ reserva.Start | date : 'dd/MM/yyyy' }}
             </div>
         </div>
         
@@ -21,10 +21,10 @@
         
         <div class="row">
             <div class="col text-center">
-                15:00
+                {{ reserva.Start | date : 'HH:mm' }}
             </div>
             <div class="col text-center">
-                16:00
+                {{ reserva.End | date : 'HH:mm' }}
             </div>
         </div>
         
@@ -40,7 +40,7 @@
         <div class="row">
             <div class="col-md-10"></div>
             <div class="col text-center">
-                <b>Nombre</b> &nbsp; Cancha Nro 3
+                <b>Nombre</b> &nbsp; {{reserva._cancha.nombre}}
             </div>
             <div class="col-md-10"></div>
         </div>
@@ -48,7 +48,7 @@
         <div class="row">
             <div class="col-md-10"></div>
             <div class="col text-center">
-                <b>Tipo</b> &nbsp; Césped sintético
+                <b>Tipo</b> &nbsp; {{reserva._cancha.piso}}
             </div>
             <div class="col-md-10"></div>
         </div>
@@ -56,7 +56,7 @@
         <div class="row">
             <div class="col-md-10"></div>
             <div class="col text-center">
-                <b>Tamaño</b> &nbsp; 7 Jugadores
+                <b>Tamaño</b> &nbsp; {{reserva._cancha.cantJug}} Jugadores
             </div>
             <div class="col-md-10"></div>
         </div>
@@ -67,15 +67,7 @@
         <div class="row">
             <div class="col-md-10"></div>
             <div class="col text-center">
-                <b>Importe Total</b> &nbsp; ${{reserva.precio}}
-            </div>
-            <div class="col-md-10"></div>
-        </div>
-        
-        <div class="row">
-            <div class="col-md-10"></div>
-            <div class="col text-center">
-                <b>Pagado</b> &nbsp; ${{reserva.pagado}}
+                <b>Importe Total</b> &nbsp; ${{reserva.PrecioTotal}}
             </div>
             <div class="col-md-10"></div>
         </div>
@@ -83,9 +75,9 @@
         <div class="row">
             <div class="col-md-10"></div>
             <div class="col text-center">
-                <b>Deuda</b> &nbsp; ${{reserva.importeAdeudado}}
+                <b>Deuda</b> &nbsp; ${{reserva.Saldo}}
             </div>
-            <div class="col text-center"><button class="button button-positive" ng-click="openPago()">Pagar</button></div>
+            <div ng-show="reserva.Saldo > 0" class="col text-center"><button ng-show="reserva.Saldo > 0"  class="button button-positive" ng-click="openPago()">Pagar</button></div>
             <div class="col-md-10"></div>
         </div>
         
