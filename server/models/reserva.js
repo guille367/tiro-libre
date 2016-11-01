@@ -3,8 +3,8 @@ var Schema = mongoose.Schema;
 
 var Reserva = new Schema({
   _cancha: { type: Schema.Types.ObjectId, ref: 'canchas' },
-  TaskID: Number,
-  Cancha: String, 
+  TaskID: String,
+  Cancha: String,
   Username: String,
   Description: String,
   StartTimeZone: String,
@@ -15,9 +15,8 @@ var Reserva = new Schema({
   RecurrenceID: String,
   RecurrenceException: String,
   IsAllDay: Boolean,
-  PrecioTotal: String,
-  PrecioReserva: String,
-  PagoTotal: Boolean,
+  PrecioTotal: Number,
+  PrecioReserva: Number,
   Saldo: Number
 });
 
