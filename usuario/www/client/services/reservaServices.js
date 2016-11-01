@@ -11,8 +11,8 @@ angular.module('app.services')
             });
     }
     
-	this.getReservas = function(){
-		return $http.get( generalServices.urlReservas + '/read')
+	this.getReservasUsuario = function(username){
+		return $http.get( generalServices.urlReservas + '/read/' + username)
 			.then(function(d){
 				return d.data;
 			});

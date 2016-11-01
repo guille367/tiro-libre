@@ -33,15 +33,15 @@ router.delete('/delete', function(req, res, next) {
 
 router.post('/nuevareserva',function(req,res){
   req.body._cancha = new mongoose.mongo.ObjectId(req.body.Cancha);
-  Reserva.create(req.body.models, function(err, data){
+  Reserva.create(req.body, function(err, data){
     res.json(data);
   });
 });
 
 // Obtengo las reservas y con el populate lleno el objeto cancha
-router.get('/read:id',function(req,res){
-    Reserva.find({_usuario:req.param.id})
-        .pupulate('_cancha')
+router.get('/read/:username',function(req,res){
+    Reserva.find({Username:req.params.username})
+        .populate('_cancha')
             .exec(function(err,reservas){
                 if(err)
                     return res.status(500).json({err: err});

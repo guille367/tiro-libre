@@ -19,6 +19,7 @@
 	<thead>
 		<tr class='danger'>
 			<td align="center"><B>Nombre</B></td>
+      <td align="center"><B>Disponibilidad</B></td>
 			<td align="center"><B>Jugadores</B></td>
 			<td align="center"><B>Piso</B></td>
 			<td align="center"><B>Techo</B></td>
@@ -27,12 +28,13 @@
       <td align="center"><B>$ N</B></td>
 			<td align="center"><B>Estado</B></td>
       <td align="center"><B>Color</B></td>
-			<td class="col-sm-2" align="center"><B>Editar</B></td>
+			<td align="center"><B>Acciones</B></td>
 		</tr>
 	</thead>
 	<tbody>
 		<tr ng-repeat="cancha in canchas | filter:search" class='info'>
 			<td>{{cancha.nombre}}</td>
+      <td align="center">{{cancha.horaIni}} - {{cancha.horaFin}}</td>
 			<td align="center">{{cancha.cantJug}}</td>
 			<td align="center">{{cancha.piso}}</td>
 			<td align="center">{{cancha.techo == true?'Si':'No'}}</td>
@@ -61,7 +63,6 @@
             <button type="button" class="ngdialog-button ngdialog-button-secondary" ng-click="closeThisDialog('button')">Cancelar</button>
         </div>
 </script>
-
 
 
     
@@ -116,7 +117,7 @@
                 <label for="precio">Precio Nocturno</label>
                 <div class="input-group">
                   <span class="input-group-addon">$</span>
-                  <input type="number" step="0.01" min="0" class="form-control" id="precio1" ng-model='newCancha.pNocturno' placeholder="precio" required="">
+                  <input type="number" step="0.01" min="0" class="form-control" id="precio1" ng-model='newCancha.pNocturno' placeholder="precio" ng-required="newCancha.luz" ng-disabled="!newCancha.luz">
                 </div>
               </div>
             </div>            
@@ -183,6 +184,14 @@
                       </span>
                     </div>
                   </div>
+          </div>
+          <div class="row">
+            <div class='col-sm-6' style="padding-top:15px">
+          <div data-ng-show="horaOk" style="color:#FF0000"><b>El horario de cierre no puede ser anterior al de inicio</b></div>
+          <div data-ng-show="horaMayorCierre" style="color:#FF0000"><b>El horario de cierre no puede ser posterior al horario de cierre del complejo.</b></div>
+          <div data-ng-show="horaMayorNocturna" style="color:#FF0000"><b><p>El horario de cierre no puede ser posterior al horario nocturno ya que la cancha no dispone de luz.</p></b></div>
+          <div data-ng-show="horaMenorApertura" style="color:#FF0000"><b><p>El horario de apertura no puede ser anterior al horario de apertura del complejo.</p></b></div>
+            </div>
           </div>
           <div class="row" style="padding-top:15px">
               <div class='col-sm-6'>

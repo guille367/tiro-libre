@@ -3,7 +3,7 @@
         <form name="form" role="form">
 		<md-subheader>Pagar con tarjeta</md-subheader>
         
-        <div layout="row"  layout-align="center center">
+        <div layout="row" layout-align="center center">
 
             <div layout="column" flex="33">
 				<md-input-container>
@@ -11,15 +11,18 @@
                         Abonar reserva 
                     </div>
                     <div layout="row" layout-align="center center">
-                        <b>({{reserva.precioReserva | currency}})</b>
+                        <b>({{reserva.PrecioReserva | currency}})</b>
                     </div>
                 </md-input-container>
             </div>
             
             <div layout="column" flex="33" layout-align="center center">
-				<md-input-container>
-                    <md-switch ng-model="reserva.abonaTotal"></md-switch>
-                </md-input-container>
+            	<label class="toggle">
+				     <input type="checkbox" ng-model="abonaTotal">
+				     <div class="track">
+				         <div class="handle"></div>
+				     </div>
+				</label>
             </div>
             
             <div layout="column" flex="33">
@@ -28,7 +31,7 @@
                         Pago total
                     </div>
                     <div layout="row" layout-align="center center">
-                        <b>({{reserva.precioTotal | currency}})</b>
+                        <b>({{reserva.PrecioTotal | currency}})</b>
                     </div>
                 </md-input-container>
             </div>

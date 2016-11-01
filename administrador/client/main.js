@@ -1,4 +1,4 @@
-var myApp = angular.module('myApp', ['ui.router', 'credit-cards', 'colorpicker.module', 'kendo.directives', 'ui.bootstrap', 'ngDialog']);
+var myApp = angular.module('myApp', ['ui.router', 'credit-cards', 'colorpicker.module', 'kendo.directives', 'ae-datetimepicker', 'ui.bootstrap', 'ngDialog', 'validation.match']);
 
 myApp.filter('yesNo', function () {
   return function (boolean) {
@@ -141,3 +141,4 @@ myApp.directive('file', function(){
 function canchaController($scope){
     $scope.newCancha = {};
 }
+

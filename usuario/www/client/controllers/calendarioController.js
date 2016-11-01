@@ -12,14 +12,10 @@ angular.module('app.controllers')
         $scope.habilitarReserva = false;
         $scope.datosClub = {};
         $scope.calendar.eventSource = {};
-        $scope.precioTotal = 0;
-        $scope.precioReserva = 0;
         $scope.abonaTotal = true;
-        $scope.reserva = {
-            abonaTotal: true
-        };
+        $scope.reserva = {};
         var eventosDelDia = {};
-    
+        var fecha = "adsda";
         $scope.horario = {
                 time: { 
                     step: 60, // step width
@@ -126,8 +122,8 @@ angular.module('app.controllers')
         }
 
         $scope.openPago = function(){
-            // Precios
-            /*var horarioNocturno = Number($scope.datosClub.horaNocturna.split(':')[0]);
+            
+            var horarioNocturno = Number($scope.datosClub.horaNocturna.split(':')[0]);
             var cantHoras = ($scope.horario.time.to / 60) - ($scope.horario.time.from / 60);
             var precio = 0;
 
@@ -142,8 +138,8 @@ angular.module('app.controllers')
 
             }
             
-            $scope.reserva.precioTotal = precio;
-            $scope.reserva.precioReserva = precio * ($scope.datosClub.porcReserva * 0.01);*/
+            $scope.reserva.PrecioTotal = precio;
+            $scope.reserva.PrecioReserva = precio * ($scope.datosClub.porcReserva * 0.01);
 
             $scope.modalPago.show();
         }
@@ -167,15 +163,22 @@ angular.module('app.controllers')
         loadReservas();
 
         $scope.pagarReserva = function(form){
+            
+                    
+            if(!form.$valid)
+                gralFactory.showError('Por favor corrobore sus datos.');
+            else{
 
-            /*var usuario = JSON.parse(userServices.getUsuario());
+            $ionicLoading.show();
+                
+            var usuario = userServices.getUsuario();
             var reserva = {};
+            var fechaInicio = angular.copy($scope.fechaSeleccionada);
+            fechaInicio.setHours($scope.horario.time.from / 60);
+            var fechaFin = angular.copy($scope.fechaSeleccionada);
+            fechaFin.setHours($scope.horario.time.to / 60);
 
-            $scope.fechaSeleccionada.setHours($scope.horario.time.from / 60);
-            var fechaInicio = $scope.fechaSeleccionada;
-            $scope.fechaSeleccionada.setHours($scope.horario.time.to / 60);
-            var fechaFin = $scope.fechaSeleccionada;
-            var saldo = $scope.abonaTotal ? 0 : $scope.reserva.precioTotal _ $scope.reserva.precioReserva;
+            var saldo = $scope.abonaTotal ? 0 : $scope.reserva.PrecioTotal - $scope.reserva.PrecioReserva;
             
             $scope.reserva.TaskID = uuid.v4();
             $scope.reserva.Username = usuario.username;
@@ -184,35 +187,23 @@ angular.module('app.controllers')
             $scope.reserva.Start = fechaInicio;
             $scope.reserva.End = fechaFin;
             $scope.reserva.Saldo = saldo;
-            */
-            
-            if(!form.$valid)
-                gralFactory.showError('Por favor corrobore sus datos.');
-            else{
 
-            $ionicLoading.show();
-                
             reservaService
                 .createReserva($scope.reserva)
                     .then(function(d){
                     $ionicLoading.hide();
+                    $scope.modalReserva.hide();
+                    $scope.modalPago.hide();
+                    $state.go('canchas')
                     gralFactory.showMessage('Pago procesado. Muchas gracias!');
-                    $state.go('/canchas');
                     })
                     .catch(function(e){
                     $ionicLoading.hide();
+
                     gralFactory.showError('Error al procesar el pago. Comuníquese con el administrador');
                     });
-                
-            setTimeout(function(){
-                $ionicLoading.hide();
-                // Volver a buscar las reservas.
-                $scope.modalPago.hide();
-                $scope.modalReserva.hide();
-                gralFactory.showMessage('Pago procesado. Muchas gracias!');
-                
-            },2000);
-        }
+         
+            }
     };
 
     }]);

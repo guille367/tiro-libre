@@ -14,7 +14,7 @@ angular.module('app.services', [])
     
     gralFactory.showMessage = function(msg){
         $ionicPopup.alert({
-            title: 'Error',
+            title: 'Mensaje',
             template: msg,
             buttons:[{ text: 'Aceptar', type: 'button-positive' }]
         });

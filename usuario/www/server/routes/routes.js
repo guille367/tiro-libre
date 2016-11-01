@@ -20,7 +20,6 @@ storage.get('name').then(function (name){
   // })
 
 
-
   .state('noticias', {
     url: '/noticias',
     templateUrl:'client/templates/noticias.html'
@@ -45,6 +44,7 @@ storage.get('name').then(function (name){
   
   .state('misreservas', {
     url: '/misreservas',
+    cache: false,
     controller:'reservasCtroller',
     templateUrl:'client/templates/misreservas.html'
   })

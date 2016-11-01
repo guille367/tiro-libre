@@ -82,7 +82,13 @@ angular.module('myApp').controller('registerController',
 
 }]);
 
-angular.module('myApp').controller('profileCtrl', function($scope, AuthService) {
+angular.module('myApp').controller('profileCtrl', function($scope, AuthService, configuracionService, $rootScope) {
+
+  configuracionService.getAll().then(function(config){
+
+    $rootScope.config = config[0];
+
+  });
 
 
   $scope.user = "";

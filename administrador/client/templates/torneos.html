@@ -1,8 +1,8 @@
 <div class="container">
   <div class="row">
     <div class='col-sm-3 form-group-conf'>
-    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#nuevoTorneo">Nuevo Torneo</button>
-    <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#nuevaInvitacion">Invitar a Torneo</button>
+    <button type="button" data-toggle="modal" ng-click="open()" class="btn btn-info btn-sm">Nuevo Torneo</button>
+    <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" ng-click="invitar()">Invitar a Torneo</button>
     </div>
   </div>
   <div class="row">
@@ -12,33 +12,30 @@
 
 
 <!-- Invitación a torneos -->
-<div id="nuevaInvitacion" class="modal fade" role="dialog">
-  <div class="modal-dialog">
-    <!-- Modal content-->
-    <div class="modal-content">
+<script type="text/ng-template" id="nuevaInvitacion.html">
+<!-- Modal Torneo -->
+<form id="form" name="invitar" role="form" data-toggle="validator">
       <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
+         <button type="button" ng-click="cancel()" class="close" data-dismiss="modal">&times;</button>
         <h4 class="modal-title" align="center">Enviar invitaciones</h4>
       </div>
       <div class="modal-body">
         <div class="container">
-          <div class="row">
-            <div class="col-xs-6">
-              <a class="list-group-item active"><span></span>Marcar/Desmarcar todos<input title="toggle all" type="checkbox" class="all pull-right"></a>
+          <div class="row" >
+            <div class="col-xs-6" >
+              <a class="list-group-item active" style="background:green;">
+                <button class="btn btn-primary" onclick="selectDeselect('lstbox', true);return false;">Marcar Todos</button>
+                <label> &nbsp;&nbsp;</label> 
+                <button class="btn btn-primary" onclick="selectDeselect('lstbox', false);return false;">Desmarcar todos</button>  
+              </a>
             </div>
           </div>
           <div class="row">
             <div class="col-xs-6">
               <div class="well" style="max-height: 300px;overflow: auto;">
-                <ul id="check-list-box" class="list-group checked-list-box">
-                  <li class="list-group-item" data-color="success">Usuario 1</li>
-                  <li class="list-group-item" data-color="success">Usuario 2</li>
-                  <li class="list-group-item" data-color="success">Usuario 3</li>
-                  <li class="list-group-item" data-color="success">Usuario 4</li>
-                  <li class="list-group-item" data-color="success">Usuario 5</li>
-                  <li class="list-group-item" data-color="success">Usuario 6</li>
-                  <li class="list-group-item" data-color="success">Usuario 7</li>
-                </ul>
+                <select id="lstbox" multiple class="form-control" ng-model="newInvitacion.mail">
+                    <option ng-repeat="usuario in usuarios">{{usuario.mail}}</option> 
+                </select>
               </div>
             </div>
           </div>
@@ -46,14 +43,14 @@
             <div class="col-xs-6">
               <div class="form-group">
                 <label for="comment">Texto en la invitación</label>
-                <textarea class="form-control" rows="5" id="comment"></textarea>
+                <textarea class="form-control" rows="5" id="comment" ng-model="newInvitacion.texto"></textarea>
               </div>
             </div>
           </div>
           <div class="row"> 
             <div class="col-xs-6">
               <label class="control-label">Seleccionar flyer</label>
-                <input id="input-1" accept=".jpg,.gif,.png" type="file" class="file">
+                 <input id="input-1" type="file" accept=".jpg" name="input-1" class="file" data-show-preview="true" data-file="newInvitacion.foto">
             </div>
           </div>
         </div>
@@ -61,7 +58,7 @@
       <div class="modal-footer">
             <div class="row">
               <div class="col-sm-offset-3 col-sm-6 text-center">
-                <button class="btn btn-primary col-xs-12" id="get-checked-data">enviar</button>
+                <button class="btn btn-primary col-xs-12" id="get-checked-data" ng-click="enviar(newInvitacion,invitar)" id="mail">enviar</button>
               </div>
             </div>      
           </div>
@@ -69,223 +66,41 @@
     <!-- Modal content-->
   </div>
 </div>
-<!-- Modal Torneo -->
-
-<!-- Manejo de inputs -->
+</form>
 <script type="text/javascript">
-  $("#input-1").fileinput({
-    language: "es",
-    uploadUrl: "/file-upload-batch/2",
-    'showUpload':true,
-    'previewFileType':'any'});
-</script>
 
+   function selectDeselect(listid, status) {  
+            var listb = document.getElementById(listid);  
+            var len = listb.options.length;  
+            for (var i = 0; i < len; i++) {  
+                listb.options[i].selected = status;  
+            }  
+        }; 
 
-
-
-
-<table class="table table-striped table-bordered table-hover">
-  <thead>
-    <tr class='danger'>
-      <td align="center"><B>Nombre</B></td>
-      <td align="center" width=150px><B>Desde el día</B></td>
-      <td align="center" width=150px><B>Hasta el día</B></td>
-      <td align="center" width=150px><B>Estado</B></td>
-      <td align="center" width=50px><B>Anotados</B></td>
-      <td class="col-sm-3" align="center"><B>Opciones</B></td>
-    </tr>
-  </thead>
-  <tbody>
-    <tr ng-repeat="torneo in torneos | filter:search" class='info'>
-      <td>{{torneo.nombre}}</td>
-      <td align="center">{{torneo.fechaInicio}}</td>
-      <td align="center">{{torneo.fechaFin}}</td>
-      <td align="center">{{torneo.estado}}</td>
-      <td align="center">{{torneo.anotados}}</td>
-      <td align="center">
-        <button ng-click="" data-toggle="modal" data-target="#detalleTorneo" class="btn btn-info btn-sm" >Detalles</button>
-        <button ng-click="" data-toggle="modal" data-target="#editarTorneo" class="btn btn-primary btn-sm" >Editar</button>
-        <button ng-click="" data-toggle="modal" data-target="" class="btn btn-danger btn-sm" >Eliminar</button>
-      </td>
-
-    </tr>
-      
-  </tbody>
-</table>
-
-<!-- Modal Torneo -->
-<div id="nuevoTorneo" class="modal fade" role="dialog">
-  <div class="modal-dialog">
-    <!-- Modal content-->
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title" align="center">Nuevo Torneo</h4>
-      </div>
-      <div class="modal-body">
-        <div class="container">
-          <div class="row">
-            <div class='col-sm-6'>
-              <label>Nombre del torneo</label>
-            </div>
-          </div>
-          <div class="row">
-            <div class='col-sm-6'>
-              <input type="text" class="form-control" id="nombreTorneo" name="nombreTorneo" required="">
-            </div>
-          </div>
-          <div class="row">
-            <div class='col-sm-3'>
-              <label>Fecha inicio</label>
-            </div>
-            <div class='col-sm-3'>
-              <label>Fecha Finalización</label>
-            </div>
-          </div>
-          <div class="row">
-            <div class='col-sm-3'>
-              <div class="form-group">
-                <div class='input-group date' id='datetimepicker1'>
-                  <input type='text' class="form-control" />
-                  <span class="input-group-addon">
-                  <span class="glyphicon glyphicon-calendar"></span></span>
-                </div>
-              </div>
-            </div>
-            <div class='col-sm-3'>
-              <div class="form-group">
-                <div class='input-group date' id='datetimepicker2'>
-                  <input type='text' class="form-control" />
-                  <span class="input-group-addon">
-                  <span class="glyphicon glyphicon-calendar"></span></span>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="row">
-            <div class='col-sm-2'>
-              <div class="form-group">
-                <label for="sel1">Cantidad de equipos:</label>
-                <input type="text" class="form-control" id="sel1" placeholder="Equipos">
-              </div>
-            </div>
-            <div class='col-sm-2'>
-              <div class="form-group">
-                <label for="sel1">Jugadores titulares:</label>
-                <select class="form-control" id="sel1">
-                  <option>5</option>
-                  <option>6</option>
-                  <option>7</option>
-                  <option>8</option>
-                  <option>9</option>
-                  <option>10</option>
-                  <option>11</option>
-                </select>
-              </div>
-            </div>
-            <div class='col-sm-2'>
-              <div class="form-group">
-                <label for="sel1">Jugadores suplentes:</label>
-                <select class="form-control" id="sel1">
-                  <option>1</option>
-                  <option>2</option>
-                  <option>3</option>
-                  <option>4</option>
-                  <option>5</option>
-                  <option>6</option>
-                </select>
-              </div>
-            </div>
-          </div>
-          <div class="row">
-            <div class='col-sm-2'>
-              <div class="form-group">
-                <label for="sel1">Formato del Torneo:</label>
-                <select class="form-control" id="sel1">
-                  <option>Eliminación</option>
-                  <option>Liga</option>
-                </select>
-              </div>
-            </div>
-            <div class='col-sm-2'>
-              <div class="form-group">
-                <label for="precio">Precio de inscripción</label>
-                <div class="input-group">
-                  <span class="input-group-addon">$</span>
-                  <input type="text" class="form-control" id="precio1" placeholder="precio">
-                </div>
-              </div>
-            </div>
-            <div class='col-sm-2'>
-              <div class="form-group">
-                <label for="precio">Precio por fecha</label>
-                <div class="input-group">
-                  <span class="input-group-addon">$</span>
-                  <input type="text" class="form-control" id="precio1" placeholder="precio">
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="row"> 
-            <div class="col-xs-6">
-              <label class="control-label">Flyer del torneo</label>
-                <input id="input-2" multiple data-show-upload="false" accept=".jpg,.gif,.png" type="file" class="file">
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="modal-footer">
-        <div class="row">
-          <div class="col-sm-offset-3 col-sm-6 text-center">
-            <button type="submit" class="btn btn-success"  data-ng-click="" data-dismiss="modal">Crear</button>
-            <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
-          </div>
-        </div>      
-      </div>
-    </div>
-    <!-- Modal content-->
-  </div>
-</div>
-<!-- Modal Torneo -->
-
-
-<script type="text/javascript">
-  $("#input-2").fileinput({
-    language: "es",
-    uploadUrl: "/file-upload-batch/2",
-    'showUpload':true,
-    'previewFileType':'any'});
-</script>
-
-
-<script type="text/javascript">
-        moment.updateLocale('es', {});
-            console.log(moment.locale());
-            $(function () {
-
-                $('#datetimepicker1').datetimepicker({
-                  locale: 'es',
-                  format: 'DD/MM/YYYY'
-
-                });
-
-                $('#datetimepicker2').datetimepicker({
-                  locale: 'es',
-                  format: 'DD/MM/YYYY'
-
-                });
-
-            });
-</script>
-
-<script type="text/javascript">
-$('.clockpicker').clockpicker();
-</script>
-
-
-
-<script type="text/javascript">
   
+  $("#input-1").fileinput({
+        language: "es",
+        uploadUrl: "/api/photo",
+        uploadAsync: true,
+        previewFileType: "image",
+        initialPreviewAsData: true,
+        browseClass: "btn btn-success",
+        browseLabel: "Elegir foto",
+        browseIcon: "<i class=\"glyphicon glyphicon-picture\"></i> ",
+        removeClass: "btn btn-danger",
+        removeLabel: "Borrar",
+        removeIcon: "<i class=\"glyphicon glyphicon-trash\"></i> ",
+        uploadClass: "btn btn-info",
+        uploadLabel: "Upload",
+        uploadIcon: "<i class=\"glyphicon glyphicon-upload\"></i> ",
+
+         });
+
+        $('#input-1').on('fileclear', function(event) {
+          console.log("fileclear");
+        });
+
+
   $(function () {
     $('.list-group.checked-list-box .list-group-item').each(function () {
         
@@ -390,17 +205,45 @@ $('.clockpicker').clockpicker();
 });
 
 </script>
+</script>
+
+<table class="table table-striped table-bordered table-hover">
+  <thead>
+    <tr class='danger'>
+      <td align="center"><B>Nombre</B></td>
+      <td align="center" width=150px><B>Desde el día</B></td>
+      <td align="center" width=150px><B>Hasta el día</B></td>
+      <td align="center" width=150px><B>Estado</B></td>
+      <td align="center" width=50px><B>Anotados</B></td>
+      <td class="col-sm-3" align="center"><B>Opciones</B></td>
+    </tr>
+  </thead>
+  <tbody>
+    <tr ng-repeat="torneo in torneos | filter:search" class='info'>
+      <td>{{torneo.nombre}}</td>
+      <td align="center">{{torneo.fechaInicio | date:'dd/MM/yyyy'}}</td>
+      <td align="center">{{torneo.fechaFin | date:'dd/MM/yyyy'}}</td>
+      <td align="center">{{torneo.estado}}</td>
+      <td align="center">{{torneo.anotados}}</td>
+      <td align="center">
+        <button ng-click="" data-toggle="modal" data-target="#detalleTorneo" class="btn btn-info btn-sm" >Detalles</button>
+        <button ng-click="editTorneo(torneo)" data-toggle="modal" data-target="" class="btn btn-info btn-sm" >Editar</button>
+        <button ng-click="deleteConfirm(torneo)" data-toggle="modal" data-target="" class="btn btn-danger btn-sm" >Eliminar</button>
+      </td>
+
+    </tr>
+      
+  </tbody>
+</table>
 
 
 
-<!-- Modal editar Torneo -->
-<div id="editarTorneo" class="modal fade" role="dialog">
-  <div class="modal-dialog">
-    <!-- Modal content-->
-    <div class="modal-content">
+<script type="text/ng-template" id="torneoNuevo.html">
+<!-- Modal Torneo -->
+<form id="form" name="alta" role="form" data-toggle="validator">
       <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title" align="center">Editar Torneo</h4>
+         <button type="button" ng-click="cancel()" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title" align="center">Nuevo Torneo</h4>
       </div>
       <div class="modal-body">
         <div class="container">
@@ -411,7 +254,7 @@ $('.clockpicker').clockpicker();
           </div>
           <div class="row">
             <div class='col-sm-6'>
-              <input type="text" class="form-control" id="nombreTorneo" name="nombreTorneo" required="">
+              <input type="text" class="form-control" id="nombreTorneo" name="nombreTorneo" required="" ng-model="newTorneo.nombre">
             </div>
           </div>
           <div class="row">
@@ -426,18 +269,20 @@ $('.clockpicker').clockpicker();
             <div class='col-sm-3'>
               <div class="form-group">
                 <div class='input-group date' id='datetimepicker1'>
-                  <input type='text' class="form-control" />
-                  <span class="input-group-addon">
-                  <span class="glyphicon glyphicon-calendar"></span></span>
+                  <input type="text" class="form-control" datetimepicker ng-model="newTorneo.fechaInicio" options="options" required=""/>
+                        <span class="input-group-addon">
+                            <span class="glyphicon glyphicon-calendar"></span>
+                        </span>
                 </div>
               </div>
             </div>
             <div class='col-sm-3'>
               <div class="form-group">
                 <div class='input-group date' id='datetimepicker2'>
-                  <input type='text' class="form-control" />
-                  <span class="input-group-addon">
-                  <span class="glyphicon glyphicon-calendar"></span></span>
+                  <input type="text" class="form-control" datetimepicker ng-model="newTorneo.fechaFin" options="options" required=""/>
+                        <span class="input-group-addon">
+                            <span class="glyphicon glyphicon-calendar"></span>
+                        </span>
                 </div>
               </div>
             </div>
@@ -446,13 +291,13 @@ $('.clockpicker').clockpicker();
             <div class='col-sm-2'>
               <div class="form-group">
                 <label for="sel1">Cantidad de equipos:</label>
-                <input type="text" class="form-control" id="sel1" placeholder="Equipos">
+                <input type="number" class="form-control" id="sel1" placeholder="Equipos" ng-model="newTorneo.cantEquipos" required="">
               </div>
             </div>
             <div class='col-sm-2'>
               <div class="form-group">
                 <label for="sel1">Jugadores titulares:</label>
-                <select class="form-control" id="sel1">
+                <select class="form-control" id="sel1" ng-model="newTorneo.jugTitulares" required="">
                   <option>5</option>
                   <option>6</option>
                   <option>7</option>
@@ -466,7 +311,8 @@ $('.clockpicker').clockpicker();
             <div class='col-sm-2'>
               <div class="form-group">
                 <label for="sel1">Jugadores suplentes:</label>
-                <select class="form-control" id="sel1">
+                <select class="form-control" id="sel1" ng-model="newTorneo.jugSuplentes" required="">
+                  <option>{{newTorneo.jugSuplentes}}</option>
                   <option>1</option>
                   <option>2</option>
                   <option>3</option>
@@ -481,7 +327,8 @@ $('.clockpicker').clockpicker();
             <div class='col-sm-2'>
               <div class="form-group">
                 <label for="sel1">Formato del Torneo:</label>
-                <select class="form-control" id="sel1">
+                <select class="form-control" id="sel1" ng-model="newTorneo.tipo" required="">
+                  <option selected disabled>{{newTorneo.tipo}}</option>
                   <option>Eliminación</option>
                   <option>Liga</option>
                 </select>
@@ -492,7 +339,7 @@ $('.clockpicker').clockpicker();
                 <label for="precio">Precio de inscripción</label>
                 <div class="input-group">
                   <span class="input-group-addon">$</span>
-                  <input type="text" class="form-control" id="precio1" placeholder="precio">
+                  <input type="number" class="form-control" id="precio1" placeholder="precio" ng-model="newTorneo.valorInscripcion" required="">
                 </div>
               </div>
             </div>
@@ -501,15 +348,25 @@ $('.clockpicker').clockpicker();
                 <label for="precio">Precio por fecha</label>
                 <div class="input-group">
                   <span class="input-group-addon">$</span>
-                  <input type="text" class="form-control" id="precio1" placeholder="precio">
+                  <input type="number" class="form-control" id="precio1" placeholder="precio" ng-model="newTorneo.valorPorPartido" required="">
                 </div>
               </div>
             </div>
           </div>
+
+          <div class="row">
+            <div class='col-sm-6' style="padding-top:15px">
+                <div data-ng-show="fechaMal" style="color:#FF0000"><b>La fecha de Inicio no puede ser posterior a la de fin</b></div>          
+                <br>
+            </div>
+          </div>
+
           <div class="row"> 
             <div class="col-xs-6">
               <label class="control-label">Flyer del torneo</label>
-                <input id="input-3" multiple data-show-upload="false" accept=".jpg,.gif,.png" type="file" class="file">
+                <input id="input-1" type="file" accept=".jpg" name="input-1" class="file" data-show-preview="true" data-file="newTorneo.foto">
+
+
             </div>
           </div>
         </div>
@@ -517,16 +374,216 @@ $('.clockpicker').clockpicker();
       <div class="modal-footer">
         <div class="row">
           <div class="col-sm-offset-3 col-sm-6 text-center">
-            <button type="submit" class="btn btn-success"  data-ng-click="" data-dismiss="modal">Crear</button>
-            <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+            <button type="submit" class="btn btn-success"  ng-click="guardar(newTorneo,alta)" data-dismiss="modal">Guardar</button>
+            <button type="button" class="btn btn-danger" ng-click="cancel()" data-dismiss="modal">Cancelar</button>
           </div>
         </div>      
       </div>
-    </div>
-    <!-- Modal content-->
-  </div>
-</div>
+  </form>
+      <script type="text/javascript">
+        $("#input-1").fileinput({
+        language: "es",
+        uploadUrl: "/api/photo",
+        uploadAsync: true,
+        previewFileType: "image",
+        initialPreviewAsData: true,
+        browseClass: "btn btn-success",
+        browseLabel: "Elegir foto",
+        browseIcon: "<i class=\"glyphicon glyphicon-picture\"></i> ",
+        removeClass: "btn btn-danger",
+        removeLabel: "Borrar",
+        removeIcon: "<i class=\"glyphicon glyphicon-trash\"></i> ",
+        uploadClass: "btn btn-info",
+        uploadLabel: "Upload",
+        uploadIcon: "<i class=\"glyphicon glyphicon-upload\"></i> ",
+
+         });
+
+
+
+        $('#input-1').on('fileclear', function(event) {
+          console.log("fileclear");
+        });
+
+      
+      </script>
+</script>
 <!-- Modal Torneo -->
+
+
+
+
+
+
+<!-- Modal editar Torneo -->
+
+<script type="text/ng-template" id="editarTorneo.html">
+<!-- Modal Torneo -->
+<form id="form" name="editar" role="form" data-toggle="validator">
+      <div class="modal-header">
+         <button type="button" ng-click="cancel()" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title" align="center">Editar Torneo</h4>
+      </div>
+      <div class="modal-body">
+        <div class="container">
+          <div class="row">
+            <div class='col-sm-6'>
+              <label>Nombre del torneo</label>
+            </div>
+          </div>
+          <div class="row">
+            <div class='col-sm-6'>
+              <input type="text" class="form-control" id="nombreTorneo" name="nombreTorneo" required="" ng-model="newTorneo.nombre">
+            </div>
+          </div>
+          <div class="row">
+            <div class='col-sm-3'>
+              <label>Fecha inicio</label>
+            </div>
+            <div class='col-sm-3'>
+              <label>Fecha Finalización</label>
+            </div>
+          </div>
+          <div class="row">
+            <div class='col-sm-3'>
+              <div class="form-group">
+                <div class='input-group date' id='datetimepicker1'>
+                  <input type="text" class="form-control" datetimepicker ng-model="newTorneo.fechaInicio" options="options" required=""/>
+                        <span class="input-group-addon">
+                            <span class="glyphicon glyphicon-calendar"></span>
+                        </span>
+                </div>
+              </div>
+            </div>
+            <div class='col-sm-3'>
+              <div class="form-group">
+                <div class='input-group date' id='datetimepicker2'>
+                  <input type="text" class="form-control" datetimepicker ng-model="newTorneo.fechaFin" options="options" required=""/>
+                        <span class="input-group-addon">
+                            <span class="glyphicon glyphicon-calendar"></span>
+                        </span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class='col-sm-2'>
+              <div class="form-group">
+                <label for="sel1">Cantidad de equipos:</label>
+                <input type="number" class="form-control" id="sel1" placeholder="Equipos" ng-model="newTorneo.cantEquipos" required="">
+              </div>
+            </div>
+            <div class='col-sm-2'>
+              <div class="form-group">
+                <label for="sel1">Jugadores titulares:</label>
+                <select class="form-control" id="sel1" ng-model="newTorneo.jugTitulares" required="">
+                  <option selected disabled>{{newTorneo.jugTitulares}}</option>
+                  <option>5</option>
+                  <option>6</option>
+                  <option>7</option>
+                  <option>8</option>
+                  <option>9</option>
+                  <option>10</option>
+                  <option>11</option>
+                </select>
+              </div>
+            </div>
+            <div class='col-sm-2'>
+              <div class="form-group">
+                <label for="sel1">Jugadores suplentes:</label>
+                <select class="form-control" id="sel1" ng-model="newTorneo.jugSuplentes" required="">
+                  <option selected disabled>{{newTorneo.jugSuplentes}}</option>
+                  <option>1</option>
+                  <option>2</option>
+                  <option>3</option>
+                  <option>4</option>
+                  <option>5</option>
+                  <option>6</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class='col-sm-2'>
+              <div class="form-group">
+                <label for="sel1">Formato del Torneo:</label>
+                <select class="form-control" id="sel1" ng-model="newTorneo.tipo" required="">
+                  <option selected disabled>{{newTorneo.tipo}}</option>
+                  <option>Eliminación</option>
+                  <option>Liga</option>
+                </select>
+              </div>
+            </div>
+            <div class='col-sm-2'>
+              <div class="form-group">
+                <label for="precio">Precio de inscripción</label>
+                <div class="input-group">
+                  <span class="input-group-addon">$</span>
+                  <input type="number" class="form-control" id="precio1" placeholder="precio" ng-model="newTorneo.valorInscripcion" required="">
+                </div>
+              </div>
+            </div>
+            <div class='col-sm-2'>
+              <div class="form-group">
+                <label for="precio">Precio por fecha</label>
+                <div class="input-group">
+                  <span class="input-group-addon">$</span>
+                  <input type="number" class="form-control" id="precio1" placeholder="precio" ng-model="newTorneo.valorPorPartido" required="">
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class='col-sm-6' style="padding-top:15px">
+                <div data-ng-show="fechaMal" style="color:#FF0000"><b>La fecha de Inicio no puede ser posterior a la de fin</b></div>          
+                <br>
+            </div>
+          </div>
+
+          <div class="row"> 
+            <div class="col-xs-6">
+              <label class="control-label">Flyer del torneo</label>
+                <input id="input-1" type="file" accept=".jpg" name="input-1" class="file" data-show-preview="true" data-file="newTorneo.foto">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <div class="row">
+          <div class="col-sm-offset-3 col-sm-6 text-center">
+            <button type="submit" class="btn btn-success"  ng-click="guardar(newTorneo,editar)" data-dismiss="modal">Guardar</button>
+            <button type="button" class="btn btn-danger" ng-click="cancel()" data-dismiss="modal">Cancelar</button>
+          </div>
+        </div>      
+      </div>
+<!-- Modal Torneo -->
+</form>
+<script type="text/javascript">
+        $("#input-1").fileinput({
+        language: "es",
+        uploadUrl: "/api/photo",
+        uploadAsync: false,
+        previewFileType: "image",
+        browseClass: "btn btn-success",
+        browseLabel: "Elegir foto",
+        browseIcon: "<i class=\"glyphicon glyphicon-picture\"></i> ",
+        removeClass: "btn btn-danger",
+        removeLabel: "Borrar",
+        removeIcon: "<i class=\"glyphicon glyphicon-trash\"></i> ",
+        uploadClass: "btn btn-info",
+        uploadLabel: "Upload",
+        uploadIcon: "<i class=\"glyphicon glyphicon-upload\"></i> "
+         });
+
+
+        $('#input-1').on('fileclear', function(event) {
+          console.log("fileclear");
+        });
+
+      
+      </script>
+</script>
 
 
 
@@ -648,52 +705,153 @@ $('.clockpicker').clockpicker();
             .list-arrows button {
                 margin-bottom: 20px;
             }
+
+      input[type=number]::-webkit-outer-spin-button,
+      input[type=number]::-webkit-inner-spin-button {
+          -webkit-appearance: none;
+          margin: 0;
+      }
+      input[type=number] {
+          -moz-appearance:textfield;
+      }
+      td {
+          display: table-cell;
+          vertical-align: inherit;
+      }
+}
 </style>
 
-<script type="text/javascript">
-  $(function () {
 
-            $('body').on('click', '.list-group .list-group-item', function () {
-                $(this).toggleClass('active');
-            });
-            $('.list-arrows button').click(function () {
-                var $button = $(this), actives = '';
-                if ($button.hasClass('move-left')) {
-                    actives = $('.list-right ul li.active');
-                    actives.clone().appendTo('.list-left ul');
-                    actives.remove();
-                } else if ($button.hasClass('move-right')) {
-                    actives = $('.list-left ul li.active');
-                    actives.clone().appendTo('.list-right ul');
-                    actives.remove();
-                }
-            });
-            $('.dual-list .selector').click(function () {
-                var $checkBox = $(this);
-                if (!$checkBox.hasClass('selected')) {
-                    $checkBox.addClass('selected').closest('.well').find('ul li:not(.active)').addClass('active');
-                    $checkBox.children('i').removeClass('glyphicon-unchecked').addClass('glyphicon-check');
-                } else {
-                    $checkBox.removeClass('selected').closest('.well').find('ul li.active').removeClass('active');
-                    $checkBox.children('i').removeClass('glyphicon-check').addClass('glyphicon-unchecked');
-                }
-            });
-            $('[name="SearchDualList"]').keyup(function (e) {
-                var code = e.keyCode || e.which;
-                if (code == '9') return;
-                if (code == '27') $(this).val(null);
-                var $rows = $(this).closest('.dual-list').find('.list-group li');
-                var val = $.trim($(this).val()).replace(/ +/g, ' ').toLowerCase();
-                $rows.show().filter(function () {
-                    var text = $(this).text().replace(/\s+/g, ' ').toLowerCase();
-                    return !~text.indexOf(val);
-                }).hide();
-            });
 
-        });
 
+<script type="text/ng-template" id="modalDialogId">
+        <div class="ngdialog-message">
+            <h3 align="center"><b>AVISO</b></h3>
+            <td class="resul"><hr style="background-color: red; height: 4px;" /></td>
+            <p>¿Está seguro que desea eliminar el torneo?</p>
+            <p>Nombre: <code>{{torneoDelete.nombre}}</code></p>
+        </div>
+        <div class="ngdialog-buttons">
+            <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="confirm(torneoDelete)">Confirmar</button>
+            <button type="button" class="ngdialog-button ngdialog-button-secondary" ng-click="closeThisDialog('cancel')">Cancelar</button>
+        </div>
 </script>
 
+<script type="text/ng-template" id="modalDialogIdMail">
+        <div class="ngdialog-message">
+            <h3 align="center"><b>AVISO</b></h3>
+            <td class="resul"><hr style="background-color: red; height: 4px;" /></td>
+            <p>Se envio la invitación a los usuarios seleccionados</p>
+        </div>
+        <div class="ngdialog-buttons">
+            <button type="button" class="ngdialog-button ngdialog-button-secondary" ng-click="closeThisDialog('cancel')">Cerrar</button>
+        </div>
+</script>
 
+<script type="text/javascript">
+  
+  $(function () {
+    $('.list-group.checked-list-box .list-group-item').each(function () {
+        
+        // Settings
+        var $widget = $(this),
+            $checkbox = $('<input type="checkbox" class="hidden" />'),
+            color = ($widget.data('color') ? $widget.data('color') : "primary"),
+            style = ($widget.data('style') == "button" ? "btn-" : "list-group-item-"),
+            settings = {
+                on: {
+                    icon: 'glyphicon glyphicon-check'
+                },
+                off: {
+                    icon: 'glyphicon glyphicon-unchecked'
+                }
+            };
+            
+        $widget.css('cursor', 'pointer')
+        $widget.append($checkbox);
 
+        // Event Handlers
+        $widget.on('click', function () {
+            $checkbox.prop('checked', !$checkbox.is(':checked'));
+            $checkbox.triggerHandler('change');
+            updateDisplay();
+        });
+        $checkbox.on('change', function () {
+            updateDisplay();
+        });
+
+        
+        $('.all').click(function(e){
+
+            e.stopPropagation();
+            var $this = $(this);
+            if($this.is(":checked")) {
+              $('.list-group.checked-list-box .list-group-item').each(function () {
+              $widget.addClass(style + color + ' active');
+              $widget.find('.state-icon').removeClass().addClass('state-icon glyphicon glyphicon-check');
+              $widget.find('input').prop('checked', true);
+              });              
+            }
+            else {
+              $('.list-group.checked-list-box .list-group-item').each(function () {
+              $widget.removeClass(style + color + ' active');
+              $widget.find('.state-icon').removeClass().addClass('state-icon glyphicon glyphicon-unchecked');
+              $widget.find('input').prop('checked', false);
+              });
+            }
+
+          
+        });          
+
+        // Actions
+        function updateDisplay() {
+            var isChecked = $checkbox.is(':checked');
+
+            // Set the button's state
+            $widget.data('state', (isChecked) ? "on" : "off");
+
+            // Set the button's icon
+            $widget.find('.state-icon')
+                .removeClass()
+                .addClass('state-icon ' + settings[$widget.data('state')].icon);
+
+            // Update the button's color
+            if (isChecked) {
+                $widget.addClass(style + color + ' active');
+            } else {
+                $widget.removeClass(style + color + ' active');
+            }
+        }
+
+        // Initialization
+        function init() {
+            
+            if ($widget.data('checked') == true) {
+                $checkbox.prop('checked', !$checkbox.is(':checked'));
+            }
+            
+            updateDisplay();
+
+            // Inject the icon if applicable
+            if ($widget.find('.state-icon').length == 0) {
+                $widget.prepend('<span class="state-icon ' + settings[$widget.data('state')].icon + '"></span>');
+            }
+        }
+        init();
+    });
+    
+    $('#get-checked-data').on('click', function(event) {
+        event.preventDefault(); 
+        var checkedItems = {}, counter = 0;
+        $("#check-list-box li.active").each(function(idx, li) {
+            checkedItems[counter] = $(li).text();
+            counter++;
+        });
+        $('#display-json').html(JSON.stringify(checkedItems, null, '\t'));
+        $('#nuevaInvitacion').modal('toggle');
+    });
+
+});
+
+</script>
 
