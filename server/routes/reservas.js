@@ -14,7 +14,7 @@ router.get('/read', function(req, res, next){
 	Reserva.find(function(err, data){
 		if(err) return next(err);
 		res.json(data);
-	})
+	});
 });
 
 router.put('/update', function(req, res, next) {

@@ -33,11 +33,14 @@ angular.module('app.services')
 	}
 
 	this.cerrarSesion = function(){
-		localStorage.removeItem('usuario');
+        return $http.get(generalServices.urlUsuarios + '/logout')
+            .then(function(){
+                localStorage.removeItem('usuario');
+            });
 	}
 
 	this.getUsuario = function(){
-		return localStorage.getItem('usuario');
+		//return JSON.parse(localStorage.getItem('usuario'));
 	}
 
 }])

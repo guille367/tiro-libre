@@ -18,20 +18,39 @@ router.get('/get', function(req, res, next){
 	})
 });   
 
+/*
+
+password: String,
+  dni: Number,
+  nombre: String,
+  apellido: String,
+  mail: String,
+  telefono: String,
+  cantIncumplim: Number,
+  foto: String,
+  fechaNac: Date,
+  fechaAlta: Date,
+  estado: String
+
+*/
+
 router.post('/register', function(req, res) {
-  User.register(new Usuario({ username: req.body.username, name: req.body.name, mail: req.body.mail, superAdmin: req.body.superAdmin}),
-    req.body.password, function(err, account) {
-    if (err) {
-      return res.status(500).json({
-        err: err
-      });
-    }
-    passport.authenticate('local')(req, res, function () {
-      return res.status(200).json({
-        status: 'Registration successful!'
-      });
+    var u = req.body;
+    console.log(new Usuario(req.body));
+    Usuario.register(new Usuario({ username:u.username, nombre: u.nombre, 
+                                 apellido: u.apellido, mail: u.mail, telefono: u.telefono, cantIncumplim: u.cantIncumplim, foto: u.foto, fechaNac: u.fechaNac, fechaAlta: u.fechaAlta, estado: u.estado }),
+    u.password, function(err, account) {
+        if (err) {
+          return res.status(500).json({
+            err: err
+          });
+        }
+        passport.authenticate('local')(req, res, function () {
+          return res.status(200).json({
+            status: 'Registration successful!'
+          });
+        });
     });
-  });
 });
 
 router.post('/login', function(req, res, next) {

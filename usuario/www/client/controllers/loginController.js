@@ -49,6 +49,7 @@ angular.module('app.controllers')
             $scope.nuevoUsuario.fechaAlta = new Date();
             $scope.nuevoUsuario.estado = "Activo";
             $scope.nuevoUsuario.cantIncumplim = 3;
+            $scope.nuevoUsuario.foto = '';
             
             userServices.
                 registrarUsuario($scope.nuevoUsuario)

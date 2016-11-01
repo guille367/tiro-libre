@@ -1,14 +1,19 @@
 angular.module('app.controllers')
 
-.controller('indexCtroller',['$scope','$state','$rootScope','userServices',function($scope,$state,$rootScope,userServices){
+.controller('indexCtroller',['$scope','$state','userServices',function($scope,$state,userServices){
 
-	$rootScope.loggeado = localStorage.getItem('usuario') != null;
-
+	$scope.loggeado = localStorage.getItem('usuario') != null;
+    $scope.usuario = userServices.getUsuario();
+    
+    
 	$scope.cerrarSesion = function(){
-		localStorage.removeItem('usuario');
-		userServices.loggearUsuario({});
-		$state.go('login');
-		$rootScope.loggeado = false;	
+		
+		userServices.cerrarSesion().then(function(){
+          localStorage.removeItem('usuario');
+          $scope.loggeado = false;
+		  $state.go('login');
+        });
+        
 	}
 
 }]);
