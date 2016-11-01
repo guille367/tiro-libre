@@ -4,7 +4,7 @@ var mongoose = require('mongoose');
 var Reserva = require('../models/reserva.js');
 
 router.post('/post', function(req, res) {
-  req.body.models._cancha = new mongoose.mongo.ObjectId(req.body.models.Cancha);
+  req.body.models[0]._cancha = new mongoose.mongo.ObjectId(req.body.models[0].Cancha);
   Reserva.create(req.body.models, function(err, data){
     res.json(data);
   });
