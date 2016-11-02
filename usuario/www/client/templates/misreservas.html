@@ -3,13 +3,13 @@
 
       <div ng-repeat="r in reservas" class="item item-icon-left item-button-right row">
 
-        <div class="col-10">
+        <div class="col-20">
           <i class="icon ion-ios-football-outline"></i>
         </div>
 
         <div class="col">
-          <h2>Cancha 3</h2>
-          <p>15/10 - 18:00 hs</p> 
+          <h2>{{r._cancha.nombre}}</h2>
+          <p>{{ r.Start | date : 'dd/MM' }} - {{ r.Start | date : 'HH:mm' }} </p> 
         </div>
 
         <div class="col"> 

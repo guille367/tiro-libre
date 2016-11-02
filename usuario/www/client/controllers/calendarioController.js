@@ -12,8 +12,11 @@ angular.module('app.controllers')
         $scope.habilitarReserva = false;
         $scope.datosClub = {};
         $scope.calendar.eventSource = {};
-        $scope.abonaTotal = true;
-        $scope.reserva = {};
+        
+        $scope.reserva = {
+            abonaTotal: false
+        };
+        
         var eventosDelDia = {};
         var fecha = "adsda";
         $scope.horario = {
@@ -178,7 +181,7 @@ angular.module('app.controllers')
             var fechaFin = angular.copy($scope.fechaSeleccionada);
             fechaFin.setHours($scope.horario.time.to / 60);
 
-            var saldo = $scope.abonaTotal ? 0 : $scope.reserva.PrecioTotal - $scope.reserva.PrecioReserva;
+            var saldo = $scope.reserva.abonaTotal ? 0 : $scope.reserva.PrecioTotal - $scope.reserva.PrecioReserva;
             
             $scope.reserva.TaskID = uuid.v4();
             $scope.reserva.Username = usuario.username;

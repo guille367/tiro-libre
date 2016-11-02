@@ -8,31 +8,32 @@ var Usuario = require('../models/usuario.js');
 router.post('/post', function(req, res) {
   Usuario.create(req.body, function(err, data){
     res.json(data);
-	})
+  })
 });
 
 router.get('/get', function(req, res, next){
-	Usuario.find(function(err, data){
-		if(err) return next(err);
-		res.json(data);
-	})
+  Usuario.find(function(err, data){
+    if(err) return next(err);
+    res.json(data);
+  })
 });   
 
 router.post('/register', function(req, res) {
-  User.register(new Usuario({ username: req.body.username, name: req.body.name, mail: req.body.mail, superAdmin: req.body.superAdmin}),
-    req.body.password, function(err, account) {
-    if (err) {
-      return res.status(500).json({
-        err: err
-      });
-    }
-    passport.authenticate('local')(req, res, function () {
-      return res.status(200).json({
-        status: 'Registration successful!'
-      });
+    var u = req.body;
+    Usuario.register(new Usuario(req.body),
+    u.password, function(err, user) {
+
+          if (err) {
+            return res.status(500).json({
+              err: err
+            });
+          }
+          return res.status(200).json({
+              usuario: user
+          });
+
+        });
     });
-  });
-});
 
 router.post('/login', function(req, res, next) {
   passport.authenticate('local', function(err, user, info) {
@@ -50,12 +51,20 @@ router.post('/login', function(req, res, next) {
           err: 'Could not log in user'
         });
       }
+      console.log(user);
       res.status(200).json({
         status: 'Login successful!',
         user: user
       });
     });
   })(req, res, next);
+});
+
+router.get('/logout', function(req, res) {
+  req.logout();
+  res.status(200).json({
+    status: 'Bye!'
+  });
 });
 
 router.delete('/delete:id', function(req, res, next) {

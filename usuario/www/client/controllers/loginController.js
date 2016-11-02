@@ -1,38 +1,16 @@
 angular.module('app.controllers')
 
-.controller('loginCtroller',['$scope','$state','$rootScope','userServices','$ionicLoading','gralFactory',function($scope,$state,$rootScope,userServices,$ionicLoading,gralFactory){
-	
-	var user = {};
-	$scope.nuevoUsuario = {};
-	$scope.error = false;
+.controller('loginCtroller',['$scope','$rootScope','$state','userServices','$ionicLoading','gralFactory',function($scope,$rootScope,$state,userServices,$ionicLoading,gralFactory){
+    
+    var user = {};
+    $scope.nuevoUsuario = {};
+    $scope.error = false;
 
-	$scope.loggearse = function(username,password){
-        
-        $ionicLoading.show();
-        
-		user.username = username;
-		user.password = password;
+    $scope.loggearse = function(username,password){
+        fnLoggeo(username,password)
+    };
 
-		$ionicLoading.show();
-        
-		userServices.loggearUsuario(user)
-            .then(function(){
-                $ionicLoading.hide();
-            
-                $scope.error = false;
-                $rootScope.loggeado = true;
-                $state.go('canchas');
-            })
-            .catch(function(e){
-                $ionicLoading.hide();
-                
-                $scope.error = true;
-                console.log("error de loggeo");
-            });
-
-	};
-
-	$scope.registrar = function(form){
+    $scope.registrar = function(form){
         
         if(!form.$valid){
             gralFactory.showError('Se encontraron errores en el registro');
@@ -49,13 +27,12 @@ angular.module('app.controllers')
             $scope.nuevoUsuario.fechaAlta = new Date();
             $scope.nuevoUsuario.estado = "Activo";
             $scope.nuevoUsuario.cantIncumplim = 3;
+            $scope.nuevoUsuario.foto = '';
             
             userServices.
                 registrarUsuario($scope.nuevoUsuario)
                     .then(function(d){
-                        $ionicLoading.hide();
-                        alert(d.msg);
-                        fnLoggeo(d.u,d.pw);
+                        fnLoggeo(d.username,d.password);
                     })
                     .catch(function(e){
                         $ionicLoading.hide();
@@ -64,32 +41,31 @@ angular.module('app.controllers')
                     });
         };
         
-	}
+    }
 
     var fnLoggeo = function(username,password){
         
         $ionicLoading.show();
         
-		user.username = username;
-		user.password = password;
+        user.username = username;
+        user.password = password;
 
-		$ionicLoading.show();
+        $ionicLoading.show();
         
-		userServices.loggearUsuario(user)
+        userServices.loggearUsuario(user)
             .then(function(){
                 $ionicLoading.hide();
-            
                 $scope.error = false;
                 $rootScope.loggeado = true;
+                gralFactory.showMessage('Bienvenido!');
                 $state.go('canchas');
             })
             .catch(function(e){
                 $ionicLoading.hide();
-                
                 $scope.error = true;
                 console.log("error de loggeo");
             });
 
-	};
+    };
     
 }]);

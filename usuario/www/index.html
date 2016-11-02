@@ -1,160 +1,180 @@
 <!DOCTYPE html>
 <html>
-  <head>
+    <head>
     <meta charset="utf-8">
     <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
     <title></title>
  
-    <style type="text/css">
+        <style type="text/css">
 
-      .platform-ios .manual-ios-statusbar-padding{
-        padding-top:100px;
-      }
-      .manual-remove-top-padding{
-        padding-top:0px; 
-      }
-      .manual-remove-top-padding .scroll{
-        padding-top:0px !important;
-      }
-      ion-list.manual-list-fullwidth div.list, .list.card.manual-card-fullwidth {
-        margin-left:-10px;
-        margin-right:-10px;
-      }
-      ion-list.manual-list-fullwidth div.list > .item, .list.card.manual-card-fullwidth > .item {
-        border-radius:0px;
-        border-left:0px;
-        border-right: 0px;
-      }
-     .fondo{
-        background: url("./img/1.jpg") no-repeat center center fixed;
-        -webkit-background-size: cover;
-        -moz-background-size: cover;
-        -o-background-size: cover;
-        background-size: cover;
-        /*background-image: url("./img/1.jpg");*/
-    }
-        .fondoBlanco{
-        background-color: white;
-        }
-        
-        
-        
-    </style>
+            .platform-ios .manual-ios-statusbar-padding{
+                padding-top:100px;
+            }
 
-    
-<!-- Jquery/bootstrap -->
+            .manual-remove-top-padding{
+                padding-top:0px; 
+            }
 
-    <link href="./client/bower_components/bootstrap-3.3.7/css/bootstrap.min.css" rel="stylesheet">
-    <script src="./client/bower_components/jquery/dist/jquery.min.js"></script>
-    <script src="./client/bower_components/bootstrap-3.3.7/js/bootstrap.min.js"></script>
+            .manual-remove-top-padding .scroll{
+                padding-top:0px !important;
+            }
+
+            ion-list.manual-list-fullwidth div.list, .list.card.manual-card-fullwidth {
+                margin-left:-10px;
+                margin-right:-10px;
+            }
+
+            ion-list.manual-list-fullwidth div.list > .item, .list.card.manual-card-fullwidth > .item {
+                border-radius:0px;
+                border-left:0px;
+                border-right: 0px;
+            }
+
+            .fondo{
+                background: url("./img/1.jpg") no-repeat center center fixed;
+                -webkit-background-size: cover;
+                -moz-background-size: cover;
+                -o-background-size: cover;
+                background-size: cover;
+                /*background-image: url("./img/1.jpg");*/
+            }
+
+            .menu .bar.bar-header.expanded {
+                box-shadow: none;
+                color: #fff;
+                position: relative;
+            }
+
+           .avatar {
+              background-position: center;
+              background-size: cover;
+              border-radius: 50%;
+              display: inline-block;
+              height: 56px;
+              left: 16px;
+              position: relative;
+              width: 56px; 
+            }
+
+
+        </style>
+
 
     <!-- Jquery/bootstrap -->
-    
-  <!-- Angular Material -->
 
-    <link rel="stylesheet" href="./client/bower_components/angular-material/angular-material.min.css">
-    <script src="./client/bower_components/angular/angular.js"></script>
-    <script src="./client/bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
-    <script src="./client/bower_components/angular-aria/angular-aria.min.js"></script>
-    <script src="./client/bower_components/angular-messages/angular-messages.min.js"></script>
-    <script src="./client/bower_components/angular-material/angular-material.js"></script>
-    <script src="./client/bower_components/momentjs/min/moment-with-locales.min.js"></script>
-    <script src="./client/bower_components/angular-material-datetimepicker/js/angular-material-datetimepicker.js"></script>
-    <!-- Angular Material -->
+        <link href="./client/bower_components/bootstrap-3.3.7/css/bootstrap.min.css" rel="stylesheet">
+        <script src="./client/bower_components/jquery/dist/jquery.min.js"></script>
+        <script src="./client/bower_components/bootstrap-3.3.7/js/bootstrap.min.js"></script>
 
-    
-    <!-- Controllers, servicios y ¿directivas? -->
+        <!-- Jquery/bootstrap -->
 
-    <link href="lib/ionic/css/ionic.css" rel="stylesheet">
-    <link href="lib/ionic/css/styles.css" rel="stylesheet">
-    <script src="lib/ionic/js/ionic.bundle.js"></script>
-    <!-- cordova script (this will be a 404 during development) -->
-    <script src="cordova.js"></script>
-      
-    <script src="./server/app.js"></script>
-    <script src="./client/controllers/perfilControllers.js"></script>
-    <script src="./client/controllers/calendarioController.js"></script>
-    <script src="./client/controllers/reservasController.js"></script>
-    <script src="./client/controllers/torneoController.js"></script>
-    <script src="./client/controllers/canchasController.js"></script>
-    <script src="./client/controllers/pagoTarjetaController.js"></script>
-    <script src="./client/controllers/loginController.js"></script>
-    <script src="./client/controllers/indexController.js"></script>
-    <script src="./client/controllers/contactoController.js"></script>
-    <script src="./server/routes/routes.js"></script>
-    <script src="./client/directives/directives.js"></script>
-    <script src="./client/services/services.js"></script>
-    <script src="./client/services/userServices.js"></script>
-    <script src="./client/services/reservaServices.js"></script>
-    <script src="./client/services/canchaServices.js"></script>
-    <!-- Controllers, servicios y ¿directivas? -->
+      <!-- Angular Material -->
 
-    <!-- CSS -->
-
-     <link rel="stylesheet" href="./client/bower_components/angular-material-datetimepicker/css/material-datetimepicker.min.css">  
-    <link rel="stylesheet" href="./client/bower_components/ionic-calendar/dist/css/calendar.css">
-    <link rel="stylesheet" href="./client/bower_components/datetimeRangePicker/range-picker.css">
-    <!-- CSS -->
-
-    <!-- Otros scripts --> 
-    <link rel="stylesheet" href="./lib/ionic/css/ionic.css">
-    <link rel="stylesheet" href="./client/bower_components/ionic-calendar/dist/css/calendar.css">
-    <script src="http://code.ionicframework.com/1.1.1/js/ionic.bundle.min.js"></script>
-
-    <script src="./client/bower_components/angular-bootstrap/ui-bootstrap.min.js"></script>
-    <script src="./client/bower_components/angular-touch/angular-touch.js"></script>
-    <script src="./client/bower_components/venturocket-angular-slider/build/angular-slider.js"></script>
-    <script src="./client/bower_components/ionic-calendar/src/rcalendar/calendar.js"></script>
-    <script src="./client/bower_components/datetimeRangePicker/range-picker.js"></script>
-    <script src="./client/bower_components/angular-uuid/uuid.js"></script>
-    <script src="./client/bower_components/momentjs/min/moment.min.js"></script>
-    <!-- Otros scripts -->
+        <link rel="stylesheet" href="./client/bower_components/angular-material/angular-material.min.css">
+        <script src="./client/bower_components/angular/angular.js"></script>
+        <script src="./client/bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+        <script src="./client/bower_components/angular-aria/angular-aria.min.js"></script>
+        <script src="./client/bower_components/angular-messages/angular-messages.min.js"></script>
+        <script src="./client/bower_components/angular-material/angular-material.js"></script>
+        <script src="./client/bower_components/momentjs/min/moment-with-locales.min.js"></script>
+        <script src="./client/bower_components/angular-material-datetimepicker/js/angular-material-datetimepicker.js"></script>
+        <!-- Angular Material -->
 
 
-  </head>
-  <body ng-app="app" ng-controller="indexCtroller" animation="slide-left-right-ios7">
-  <div>
-    <ion-side-menus enable-menu-with-back-views="true">
-        <ion-side-menu-content>
-            <ion-nav-bar class="bar-stable">
-                <ion-nav-buttons side="left">
-                    <button class="button button-icon button-clear ion-navicon" menu-toggle="left"></button>
-                </ion-nav-buttons>
-            </ion-nav-bar>
-            
-            <ion-nav-view></ion-nav-view>
-            
-        </ion-side-menu-content>
-        <ion-side-menu side="left" enable-menu-with-back-views="false">
-            <ion-header-bar class="bar-stable">
-                <div class="title">Menu</div>
-            </ion-header-bar>
-            <ion-content padding="false" class="side-menu-left has-header">
-                <ion-list id="listItems" data-componentid="list2">
-                    <ion-item menu-close="" class="item-icon-left" id="menu-list-item-canchas" data-componentid="list-item-canchas" href="#/canchas">
-                        <i class="icon ion-ios-football-outline"></i>Canchas</ion-item>
-                    <ion-item menu-close="" ng-show="loggeado" class="item-icon-left" id="menu-list-item-torneos" data-componentid="list-item-torneos" href="#/perfil">
-                        <i class="icon ion-android-contact"></i>Perfil</ion-item>
-                    <!-- <ion-item menu-close="" class="item-icon-left" id="menu-list-item-torneos" data-componentid="list-item-torneos" href="#/perfilNo">
-                        <i class="icon ion-android-contact"></i>Perfil NO</ion-item>     -->                    
-                    <ion-item menu-close="" class="item-icon-left" id="menu-list-item-torneos" data-componentid="list-item-torneos" href="#/torneos">
-                        <i class="icon ion-trophy"></i>Torneos</ion-item>
-                    <ion-item menu-close=""  class="item-icon-left" id="menu-list-item-reservas" data-componentid="list-item-reservas" href="#/misreservas">
-                        <i class="icon ion-calendar"></i>Mis reservas</ion-item>
-                    <ion-item menu-close="" class="item-icon-left" id="menu-list-item-contacto" data-componentid="list-item-contacto" href="#/contacto">
-                        <i class="icon ion-ios-telephone"></i>Contacto</ion-item>
-                    <ion-item menu-close="" ng-hide="loggeado" class="item-icon-left" id="menu-list-item-login" data-componentid="list-item-login" href="#/login">
-                        <i class="icon ion-ios-login"></i>Login</ion-item>
-                    <ion-item menu-close="" ng-show="loggeado" class="item-icon-left" id="menu-list-item-login" data-componentid="list-item-login" ng-click="cerrarSesion()">
-                        <i class="icon ion-ios-login"></i>Cerrar Sesión</ion-item>
-                </ion-list>
+        <!-- Controllers, servicios y ¿directivas? -->
 
-            </ion-content>
-        </ion-side-menu>
-    </ion-side-menus>
+        <link href="lib/ionic/css/ionic.css" rel="stylesheet">
+        <link href="lib/ionic/css/styles.css" rel="stylesheet">
+        <script src="lib/ionic/js/ionic.bundle.js"></script>
+        <!-- cordova script (this will be a 404 during development) -->
+        <script src="cordova.js"></script>
 
-  </div>
+        <script src="./server/app.js"></script>
+        <script src="./client/controllers/perfilControllers.js"></script>
+        <script src="./client/controllers/calendarioController.js"></script>
+        <script src="./client/controllers/reservasController.js"></script>
+        <script src="./client/controllers/torneoController.js"></script>
+        <script src="./client/controllers/canchasController.js"></script>
+        <script src="./client/controllers/pagoTarjetaController.js"></script>
+        <script src="./client/controllers/loginController.js"></script>
+        <script src="./client/controllers/indexController.js"></script>
+        <script src="./client/controllers/contactoController.js"></script>
+        <script src="./server/routes/routes.js"></script>
+        <script src="./client/directives/directives.js"></script>
+        <script src="./client/services/services.js"></script>
+        <script src="./client/services/userServices.js"></script>
+        <script src="./client/services/reservaServices.js"></script>
+        <script src="./client/services/canchaServices.js"></script>
+        <!-- Controllers, servicios y ¿directivas? -->
 
-  </body>
-    
+        <!-- CSS -->
+
+         <link rel="stylesheet" href="./client/bower_components/angular-material-datetimepicker/css/material-datetimepicker.min.css">  
+        <link rel="stylesheet" href="./client/bower_components/ionic-calendar/dist/css/calendar.css">
+        <link rel="stylesheet" href="./client/bower_components/datetimeRangePicker/range-picker.css">
+        <!-- CSS -->
+
+        <!-- Otros scripts --> 
+        <link rel="stylesheet" href="./lib/ionic/css/ionic.css">
+        <link rel="stylesheet" href="./client/bower_components/ionic-calendar/dist/css/calendar.css">
+        <script src="http://code.ionicframework.com/1.1.1/js/ionic.bundle.min.js"></script>
+
+        <script src="./client/bower_components/angular-bootstrap/ui-bootstrap.min.js"></script>
+        <script src="./client/bower_components/angular-touch/angular-touch.js"></script>
+        <script src="./client/bower_components/venturocket-angular-slider/build/angular-slider.js"></script>
+        <script src="./client/bower_components/ionic-calendar/src/rcalendar/calendar.js"></script>
+        <script src="./client/bower_components/datetimeRangePicker/range-picker.js"></script>
+        <script src="./client/bower_components/angular-uuid/uuid.js"></script>
+        <script src="./client/bower_components/momentjs/min/moment.min.js"></script>
+        <!-- Otros scripts -->
+
+    </head>
+    <body ng-app="app" ng-controller="indexCtroller" animation="slide-left-right-ios7">
+        
+        <ion-side-menus enable-menu-with-back-views="true">
+            <ion-side-menu-content>
+                <ion-nav-bar class="bar-stable">
+                    <ion-nav-buttons side="left">
+                        <button class="button button-icon button-clear ion-navicon" menu-toggle="left"></button>
+                    </ion-nav-buttons>
+                </ion-nav-bar>
+
+                <ion-nav-view></ion-nav-view>
+
+            </ion-side-menu-content>
+            <ion-side-menu side="left" enable-menu-with-back-views="false">
+                <ion-header-bar style="position:relative;display:table;color:white;background-color:grey" ng-show="loggeado">
+                    <span class="avatar" style="background: url(img/VTrEvT4I.jpeg); background-size: cover;"></span>
+                    <span>
+                        <h3>Miguel Piñeyro</h3>
+                    </span>
+                    <span>
+                        <h4>miguel@tirolibre.com</h4>
+                    </span>
+                </ion-header-bar>
+                <ion-header-bar class="bar-stable" style="position:relative;" ng-show="!loggeado">
+                    <div class="title">Menu</div>
+                </ion-header-bar>
+                <ion-content style="position:relative;" padding="false" class="stable-bg has-expanded-header">
+                    <ion-list id="listItems" data-componentid="list2">
+                        <ion-item menu-close="" class="item-icon-left" id="menu-list-item-canchas" data-componentid="list-item-canchas" href="#/canchas">
+                            <i class="icon ion-ios-football-outline"></i>Canchas</ion-item>
+                        <ion-item menu-close="" ng-show="loggeado" class="item-icon-left" id="menu-list-item-torneos" data-componentid="list-item-torneos" href="#/perfil">
+                            <i class="icon ion-android-contact"></i>Perfil</ion-item>   
+                        <ion-item menu-close="" class="item-icon-left" id="menu-list-item-torneos" data-componentid="list-item-torneos" href="#/torneos">
+                            <i class="icon ion-trophy"></i>Torneos</ion-item>
+                        <ion-item menu-close="" ng-show="loggeado" class="item-icon-left" id="menu-list-item-reservas" data-componentid="list-item-reservas" href="#/misreservas">
+                            <i class="icon ion-calendar"></i>Mis reservas</ion-item>
+                        <ion-item menu-close="" class="item-icon-left" id="menu-list-item-contacto" data-componentid="list-item-contacto" href="#/contacto">
+                            <i class="icon ion-ios-telephone"></i>Contacto</ion-item>
+                        <ion-item menu-close="" ng-show="!loggeado" class="item-icon-left" id="menu-list-item-login" data-componentid="list-item-login" href="#/login">
+                            <i class="icon ion-ios-login"></i>Login</ion-item>
+                        <ion-item menu-close="" ng-show="loggeado" class="item-icon-left" id="menu-list-item-login" data-componentid="list-item-login" ng-click="cerrarSesion()">
+                            <i class="icon ion-ios-login"></i>Cerrar Sesión</ion-item>
+                    </ion-list>
+                </ion-content>
+            </ion-side-menu>
+        </ion-side-menus>
+
+    </body>
 </html>

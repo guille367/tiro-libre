@@ -13,7 +13,6 @@ angular.module('app.services')
 	this.loggearUsuario = function(user){
 		return $http.post(generalServices.urlUsuarios + '/login', user)
 			.then(function(d){
-				console.log("loggeo correcto");
 				localStorage.setItem('usuario',JSON.stringify(d.data.user));
 			})
 			.catch(function(e){
@@ -24,8 +23,7 @@ angular.module('app.services')
 	this.registrarUsuario = function(user){
 		return $http.post(generalServices.urlUsuarios + '/register', user)
 			.then(function(d){
-				localStorage.setItem('usuario',user);
-				return { msg:"Bienvenido!!", u:user.usuario, pw:user.password };
+				return d.data.usuario;
 			})
 			.catch(function(e){
 				throw e;
@@ -33,7 +31,10 @@ angular.module('app.services')
 	}
 
 	this.cerrarSesion = function(){
-		localStorage.removeItem('usuario');
+        return $http.get(generalServices.urlUsuarios + '/logout')
+            .then(function(){
+                localStorage.removeItem('usuario');
+            });
 	}
 
 	this.getUsuario = function(){

@@ -5,10 +5,14 @@ angular.module('app.controllers')
 	$rootScope.loggeado = localStorage.getItem('usuario') != null;
 
 	$scope.cerrarSesion = function(){
-		localStorage.removeItem('usuario');
-		userServices.loggearUsuario({});
-		$state.go('login');
-		$rootScope.loggeado = false;	
+		
+		userServices.cerrarSesion()
+            .then(function(){
+                localStorage.removeItem('usuario');
+                $rootScope.loggeado = false;	
+                $state.go('login');
+            });
+
 	}
 
 }]);
