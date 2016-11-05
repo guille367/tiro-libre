@@ -14,7 +14,8 @@ var Cancha = new Schema({
   color: String,
   horaIni: String,
   horaFin: String,
-  foto: String
+  foto: String,
+  locked: Boolean
 });
 
 
