@@ -17,7 +17,8 @@ var Reserva = new Schema({
   IsAllDay: Boolean,
   PrecioTotal: Number,
   PrecioReserva: Number,
-  Saldo: Number
+  Saldo: Number,
+  FechaReserva: Date
 });
 
 
