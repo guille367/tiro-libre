@@ -2,6 +2,8 @@ var express = require('express');
 var router = express.Router();
 var mongoose = require('mongoose');
 var Reserva = require('../models/reserva.js');
+var Usuario = require('../models/usuario.js');
+var Cancha = require('../models/cancha.js');
 
 router.post('/post', function(req, res) {
   req.body.models[0]._cancha = new mongoose.mongo.ObjectId(req.body.models[0].Cancha);
@@ -33,9 +35,25 @@ router.delete('/delete', function(req, res, next) {
 
 router.post('/nuevareserva',function(req,res){
   req.body._cancha = new mongoose.mongo.ObjectId(req.body.Cancha);
-  Reserva.create(req.body, function(err, data){
-    res.json(data);
-  });
+  
+  Usuario.findOne({username:req.body.Username},function(err,usuario){
+
+    if(err || !usuario)
+      return res.status(500).json({err: 'Usuario no encontrado.'});
+    if( usuario.cantIncumplim >= 3 )
+      return res.status(500).json({err: 'No se encuentra habilitado para realizar una reserva.'});
+
+    Cancha.findOne({_id:req.body._cancha},function(err,cancha){
+
+      if(cancha.locked)
+        return res.status(500).json({err: 'En este momento no se pueden realizar reservas. Intente mas tarde.'});
+    
+      Reserva.create(req.body, function(err, data){
+      res.json(data);
+      });
+    })
+  })
+  
 });
 
 // Obtengo las reservas y con el populate lleno el objeto cancha

@@ -94,7 +94,7 @@ angular.module('app.controllers')
             $scope.fechaSeleccionada = selectedTime;
             
             reservasDelDia = 
-                $scope.consolealendar.eventSource.filter(function(d){
+                $scope.calendar.eventSource.filter(function(d){
                     return (d.startTime.getDate() == $scope.fechaSeleccionada.getDate()) && 
                     (d.startTime.getMonth() == $scope.fechaSeleccionada.getMonth())
                     });
@@ -195,7 +195,8 @@ angular.module('app.controllers')
         loadReservas();
 
         $scope.pagarReserva = function(form){
-            
+
+            var usuario = userServices.getUsuario();
                     
             if(!form.$valid)
                 gralFactory.showError('Por favor corrobore sus datos.');
@@ -203,7 +204,6 @@ angular.module('app.controllers')
 
             $ionicLoading.show();
                 
-            var usuario = userServices.getUsuario();
             var reserva = {};
             var fechaInicio = angular.copy($scope.fechaSeleccionada);
             fechaInicio.setHours($scope.horario.time.from / 60,0,0,0);
@@ -233,7 +233,7 @@ angular.module('app.controllers')
                     .catch(function(e){
                     $ionicLoading.hide();
 
-                    gralFactory.showError('Error al procesar el pago. Comuníquese con el administrador');
+                    gralFactory.showError(e.data.err);
                     });
          
             }

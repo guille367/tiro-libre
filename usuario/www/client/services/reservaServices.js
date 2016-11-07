@@ -8,7 +8,10 @@ angular.module('app.services')
         return $http.post(generalServices.urlReservas + '/nuevareserva',r)
             .then(function(d){
                 return d.data;
-            });
+            })
+            .catch(function(e){
+            	throw e;
+            })
     }
     
 	this.getReservasUsuario = function(username){
