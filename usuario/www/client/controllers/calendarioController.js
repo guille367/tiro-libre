@@ -17,8 +17,9 @@ angular.module('app.controllers')
             abonaTotal: false
         };
         
-        var eventosDelDia = {};
-        var fecha = "adsda";
+        var reservasCancha = [];
+        var reservasDelDia = [];
+
         $scope.horario = {
                 time: { 
                     step: 60, // step width
@@ -50,11 +51,16 @@ angular.module('app.controllers')
             $scope.modo = $scope.calendar.mode === 'day' ? 'dia' : 'mes';
             console.log($scope.calendar.eventSource);
             if($scope.modo == 'dia'){
-                eventosDelDia = 
+                reservasDelDia = 
                 $scope.calendar.eventSource.filter(function(d){
                     return (d.startTime.getDate() == $scope.fechaSeleccionada.getDate()) && 
                     (d.startTime.getMonth() == $scope.fechaSeleccionada.getMonth())
                     });
+
+                //$scope.calendar.eventSource = reservasDelDia;
+            }
+            else{
+                //$scope.calendar.eventSource = reservasCancha;
             }
         };
 
@@ -84,13 +90,34 @@ angular.module('app.controllers')
         };
 
         $scope.onTimeSelected = function (selectedTime, events) {
-            console.log('Selected time: ' + selectedTime + ', hasEvents: ' + (events !== undefined && events.length !== 0));
+            console.log('Selected time: ' + selectedTime + ', hasEvents: ' + (events !== undefined && events.length !== 0));            
+            $scope.fechaSeleccionada = selectedTime;
+            
+            reservasDelDia = 
+                $scope.consolealendar.eventSource.filter(function(d){
+                    return (d.startTime.getDate() == $scope.fechaSeleccionada.getDate()) && 
+                    (d.startTime.getMonth() == $scope.fechaSeleccionada.getMonth())
+                    });
 
             $scope.horario.time.from = selectedTime.getHours() * 60;
-            $scope.horario.time.dFrom = selectedTime.getHours() * 60;
-            //$scope.horario.time.dTo= (selectedTime.getHours() * 60) + 60;
+            $scope.horario.time.dFrom = $scope.horario.time.from;
+            var to;
 
-            $scope.fechaSeleccionada = selectedTime;
+            if($scope.modo == 'dia' && reservasDelDia.length > 0){
+                to = reservasDelDia.find(function(e){
+                    return selectedTime.getHours() < (e.startTime.getHours())
+                })
+            }
+
+            if(to){
+                $scope.horario.time.dTo = to.startTime.getHours() * 60;
+                $scope.horario.time.to = to.startTime.getHours() * 60;
+            }
+            else{
+                $scope.horario.time.dTo = Number($scope.cancha.horaFin.split(':')[0]) * 60;
+                //$scope.horario.time.to = selectedTime
+            }
+
             $scope.habilitarReserva = (events !== undefined && events.length !== 0);
         };
 
@@ -152,7 +179,9 @@ angular.module('app.controllers')
         }
 
         var loadReservas = function(){
-            $scope.calendar.eventSource = canchaService.getCancha().reservas;
+            console.log(canchaService.getCancha().reservas);
+            reservasCancha = canchaService.getCancha().reservas;
+            $scope.calendar.eventSource = reservasCancha;
         };
         
         var getDatosClub = function(){
@@ -177,9 +206,9 @@ angular.module('app.controllers')
             var usuario = userServices.getUsuario();
             var reserva = {};
             var fechaInicio = angular.copy($scope.fechaSeleccionada);
-            fechaInicio.setHours($scope.horario.time.from / 60);
+            fechaInicio.setHours($scope.horario.time.from / 60,0,0,0);
             var fechaFin = angular.copy($scope.fechaSeleccionada);
-            fechaFin.setHours($scope.horario.time.to / 60);
+            fechaFin.setHours($scope.horario.time.to / 60,0,0,0);
 
             var saldo = $scope.reserva.abonaTotal ? 0 : $scope.reserva.PrecioTotal - $scope.reserva.PrecioReserva;
             
@@ -190,6 +219,7 @@ angular.module('app.controllers')
             $scope.reserva.Start = fechaInicio;
             $scope.reserva.End = fechaFin;
             $scope.reserva.Saldo = saldo;
+            $scope.reserva.FechaReserva = new Date();
 
             reservaService
                 .createReserva($scope.reserva)

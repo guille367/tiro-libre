@@ -8,19 +8,19 @@
               time-selected="onTimeSelected(selectedTime, events)" step="30"></calendar>
       	</div> 
 
-      	<div class="row" ng-show="modo=='mes'" ng-repeat="reserva in reservasDia" style="overflow:auto;position:static;background-color:white">
+      	<div class="row" ng-repeat="reserva in reservasDia" style="overflow:auto;position:static;background-color:white">
 			<div class="col-10">
 				<b>Inicio: </b>
 			</div>	
 			<div class="col-33">
-				 {{reserva.startTime | date: 'HH:mm' }}	hs			
+				 {{reserva.startTime | date: 'hh:mm:ss' }}	hs			
 			</div>
 
 			<div class="col-10">
 				<b>Fin: </b>
 			</div>	
 			<div class="col-33">
-				 {{reserva.endTime | date: 'HH:mm' }}	hs			
+				 {{reserva.endTime | date: 'hh:mm' }}	hs			
 			</div>
 
 		</div>

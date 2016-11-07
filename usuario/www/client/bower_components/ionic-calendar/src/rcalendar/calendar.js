@@ -48,7 +48,7 @@ angular.module('ui.rCalendar', [])
         }
 
         $scope.$parent.$watch($attrs.eventSource, function (value) {
-            self.onEventSourceChanged(value);
+                self.onEventSourceChanged(value);
         });
 
         $scope.calendarMode = $scope.calendarMode || calendarConfig.calendarMode;
@@ -303,11 +303,11 @@ angular.module('ui.rCalendar', [])
             if (self.direction === 1) {
                 currentViewStartDate = self.getAdjacentViewStartTime(1);
                 toUpdateViewIndex = (currentViewIndex + 1) % 3;
-                angular.copy(getViewData(currentViewStartDate), scope.views[toUpdateViewIndex]);
+                angular.copy(getViewData(currentViewStartDate,scope.horarioCancha), scope.views[toUpdateViewIndex]);
             } else if (self.direction === -1) {
                 currentViewStartDate = self.getAdjacentViewStartTime(-1);
                 toUpdateViewIndex = (currentViewIndex + 2) % 3;
-                angular.copy(getViewData(currentViewStartDate), scope.views[toUpdateViewIndex]);
+                angular.copy(getViewData(currentViewStartDate,scope.horarioCancha), scope.views[toUpdateViewIndex]);
             } else {
                 if (!scope.views) {
                     currentViewData = [];
@@ -315,19 +315,19 @@ angular.module('ui.rCalendar', [])
                     currentViewData.push(getViewData(currentViewStartDate,scope.horarioCancha));
                     
                     currentViewStartDate = self.getAdjacentViewStartTime(1);
-                    currentViewData.push(getViewData(currentViewStartDate));
+                    currentViewData.push(getViewData(currentViewStartDate,scope.horarioCancha));
                     currentViewStartDate = self.getAdjacentViewStartTime(-1);
-                    currentViewData.push(getViewData(currentViewStartDate));
+                    currentViewData.push(getViewData(currentViewStartDate,scope.horarioCancha));
                     scope.views = currentViewData;
                 } else {
                     currentViewStartDate = self.range.startTime;
-                    angular.copy(getViewData(currentViewStartDate), scope.views[currentViewIndex]);
+                    angular.copy(getViewData(currentViewStartDate,scope.horarioCancha), scope.views[currentViewIndex]);
                     currentViewStartDate = self.getAdjacentViewStartTime(-1);
                     toUpdateViewIndex = (currentViewIndex + 2) % 3;
-                    angular.copy(getViewData(currentViewStartDate), scope.views[toUpdateViewIndex]);
+                    angular.copy(getViewData(currentViewStartDate,scope.horarioCancha), scope.views[toUpdateViewIndex]);
                     currentViewStartDate = self.getAdjacentViewStartTime(1);
                     toUpdateViewIndex = (currentViewIndex + 1) % 3;
-                    angular.copy(getViewData(currentViewStartDate), scope.views[toUpdateViewIndex]);
+                    angular.copy(getViewData(currentViewStartDate,scope.horarioCancha), scope.views[toUpdateViewIndex]);
                 }
             }
         };
@@ -1013,9 +1013,19 @@ angular.module('ui.rCalendar', [])
                         currentHour = startTime.getHours(),
                         currentDate = startTime.getDate();
                     
-                    var h = horario ? horario : { inicio:0, fin:24 };
+                    var h;
+
+                    if(horario){
+                        h = horario
+                        ctrl.range.startTime = horario.inicio;
+                        ctrl.range.endTime = horario.fin;
+                    }
+                    else{
+                        h = { inicio: 0,fin: 24 };
+                    }
                     
-                    for (var hour = h.inicio; hour <= h.fin; hour += 1) {
+
+                    for (var hour = h.inicio; hour < h.fin; hour += 1) {
                         time = new Date(startTime.getTime());
                         time.setHours(currentHour + hour);
                         time.setDate(currentDate);
@@ -1042,21 +1052,26 @@ angular.module('ui.rCalendar', [])
                 };
 
                 ctrl._onDataLoaded = function () {
-                    var eventSource = ctrl.eventSource,
-                        hour,
-                        len = eventSource ? eventSource.length : 0,
-                        startTime = ctrl.range.startTime,
-                        endTime = ctrl.range.endTime,
-                        timeZoneOffset = -new Date().getTimezoneOffset(),
-                        utcStartTime = new Date(startTime.getTime() + timeZoneOffset * 60 * 1000),
-                        utcEndTime = new Date(endTime.getTime() + timeZoneOffset * 60 * 1000),
-                        currentViewIndex = scope.currentViewIndex,
-                        rows = scope.views[currentViewIndex].rows,
-                        allDayEvents = scope.views[currentViewIndex].allDayEvents = [],
-                        oneHour = 3600000,
-                        eps = 0.016,
-                        eventSet,
-                        normalEventInRange = false;
+                    var eventSource = ctrl.eventSource.filter(function(d){
+                    return (d.startTime.getDate() == ctrl.currentCalendarDate.getDate()) && 
+                    (d.startTime.getMonth() == ctrl.currentCalendarDate.getMonth())
+                    }),
+                    hour,
+                    len = eventSource ? eventSource.length : 0,
+                    startTime = ctrl.range.startTime,
+                    endTime = ctrl.range.endTime,
+                    timeZoneOffset = -new Date().getTimezoneOffset(),
+                    utcStartTime = new Date(startTime + timeZoneOffset * 60 * 1000),
+                    utcEndTime = new Date(endTime + timeZoneOffset * 60 * 1000),
+                    currentViewIndex = scope.currentViewIndex,
+                    rows = scope.views[currentViewIndex].rows,
+                    allDayEvents = scope.views[currentViewIndex].allDayEvents = [],
+                    oneHour = 3600000,
+                    eps = 0.016,
+                    eventSet,
+                    normalEventInRange = false;
+
+                    scope.displayDate = ctrl.currentCalendarDate;
 
                     for (hour = 0; hour < rows.length; hour += 1) {
                         rows[hour].events = [];
@@ -1076,7 +1091,7 @@ angular.module('ui.rCalendar', [])
                                 });
                             }
                         } else {
-                            if (eventEndTime <= startTime || eventStartTime >= endTime) {
+                            if (eventEndTime.getHours() <= startTime || eventStartTime.getHours() >= endTime) {
                                 continue;
                             } else {
                                 normalEventInRange = true;
@@ -1086,14 +1101,14 @@ angular.module('ui.rCalendar', [])
                             if (eventStartTime <= startTime) {
                                 timeDifferenceStart = 0;
                             } else {
-                                timeDifferenceStart = (eventStartTime - startTime) / oneHour;
+                                timeDifferenceStart = (eventStartTime.getHours() - startTime);
                             }
 
                             var timeDifferenceEnd;
-                            if (eventEndTime >= endTime) {
-                                timeDifferenceEnd = (endTime - startTime) / oneHour;
+                            if (eventEndTime.getHours() >= endTime) {
+                                timeDifferenceEnd = (endTime - startTime) ;
                             } else {
-                                timeDifferenceEnd = (eventEndTime - startTime) / oneHour;
+                                timeDifferenceEnd = (eventEndTime.getHours() - startTime) ;
                             }
 
                             var startIndex = Math.floor(timeDifferenceStart);
