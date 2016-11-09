@@ -1,9 +1,16 @@
-var myApp = angular.module('myApp', ['ui.router', 'credit-cards', 'colorpicker.module', 'kendo.directives', 'ae-datetimepicker', 'ui.bootstrap', 'ngDialog', 'validation.match']);
+var myApp = angular.module('myApp', ['ui.router', 'bsLoadingOverlaySpinJs', 'bsLoadingOverlay' , 'ui.checkbox', 'credit-cards', 'colorpicker.module', 'kendo.directives', 'ae-datetimepicker', 'ui.bootstrap', 'ngDialog', 'validation.match']);
 
 myApp.filter('yesNo', function () {
   return function (boolean) {
     return boolean ? 'Ok' : 'No';
   }
+});
+
+
+myApp.run(function(bsLoadingOverlayService) {
+  bsLoadingOverlayService.setGlobalConfig({
+    templateUrl: 'bsLoadingOverlaySpinJs'
+  });
 });
 
 

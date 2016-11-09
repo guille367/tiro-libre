@@ -1,0 +1,74 @@
+<ion-modal-view>
+	<ion-content scroll="true" ng-controller="pagoTarjetaCtroller">
+        <form name="form" role="form">
+		<md-subheader>Pagar con tarjeta</md-subheader>
+        
+        <div layout="row" layout-align="center center">
+
+            <div layout="column" flex="33">
+				<md-input-container>
+                    <div layout="row" layout-align="center center">
+                        Abonar Inscripción
+                    </div>
+                    <div layout="row" layout-align="center center">
+                        <b>({{torneo.valorInscripcion | currency}})</b>
+                    </div>
+                </md-input-container>
+            </div>
+            
+            
+		</div>
+        
+		<div layout="row" layout-align="center center">
+			<md-input-container>
+		        <label>Nombre del titular</label>
+		        <input md-maxlength="20" required ng-model="user.nombretitular">
+		        <div ng-message="required">Campo obligatorio</div>
+	      	</md-input-container>
+		</div>
+
+		<div layout="row" layout-align="center center">
+			<md-input-container>
+		        <label>Número de tarjeta</label>
+		        <input md-maxlength="20" required ng-model="user.numero">
+		        <div ng-message="required">Campo obligatorio</div>
+	      	</md-input-container>
+		</div>
+
+		<div layout="row" layout-align="center center" layout-margin>
+
+			<div layout="column" flex="33">
+				<md-input-container>
+			        <label>MM</label>
+			        <input md-maxlength="2" required ng-model="user.mm" >
+			        <div ng-message="required">Campo obligatorio</div>
+		      	</md-input-container>
+	      	</div>
+	      		/
+	      	<div layout="column" flex="33">
+				<md-input-container>
+			        <label>AA</label>
+			        <input md-maxlength="2" required ng-model="user.aa" >
+			        <div ng-message="required">Campo obligatorio</div>
+		      	</md-input-container>
+	      	</div>
+
+	      	<div layout="column" flex="33">
+				<md-input-container>
+			        <label>CSV</label>
+			        <input md-maxlength="4" required ng-model="user.csv" >
+			        <div ng-message="required">Campo obligatorio</div>
+		      	</md-input-container>
+	      	</div>
+
+
+		</div>
+
+		<section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
+	      <md-button class="md-raised md-primary" ng-click="pagarInscripcion(form)">Confirmar</md-button>
+	      <md-button class="md-raised md-warn" ng-click="closePago()">Cerrar</md-button>
+  	    </section>
+            
+		</form>
+	</ion-content>
+</ion-modal-view>

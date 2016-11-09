@@ -1,4 +1,4 @@
-angular.module('myApp').controller("schedulerController", function($scope, usuarioServices, canchaService, $log, $rootScope, $uibModal, ngDialog){
+angular.module('myApp').controller("schedulerController", function($scope, $http, usuarioServices, canchaService, $log, $rootScope, $uibModal, ngDialog){
 
 
   $scope.usuarios = {};
@@ -7,7 +7,9 @@ angular.module('myApp').controller("schedulerController", function($scope, usuar
   $scope.reserva = 0;
   $rootScope.saldo = 0;
   $rootScope.pago = {};
-  
+  $scope.checkReservasLocked = false;
+
+ 
 
 
 
@@ -28,12 +30,15 @@ angular.module('myApp').controller("schedulerController", function($scope, usuar
           }
         });
 
+      return $scope.actualizarPrecioPorCancha(event.cancha);
+
+/*
       if($rootScope.horaFin.getHours() < $rootScope.config.horaNocturna.substr(0,2) ){
         var total = horasReserva * precio; 
         $scope.reserva = (total * $rootScope.config.porcReserva) / 100;
         return total 
       };
-
+*/
 
   }; 
 
@@ -44,18 +49,50 @@ angular.module('myApp').controller("schedulerController", function($scope, usuar
 
       var precio = "";
 
-      angular.forEach($scope.data, function(value, key){
+      if($scope.horaFin.getHours() <= $rootScope.config.horaNocturna.substr(0,2) ){
+
+        angular.forEach($scope.data, function(value, key){
           if (value.value == x) {
             precio = value.precioDiurno;
             return;
           }
         });
-
-      if($scope.horaFin.getHours() < $rootScope.config.horaNocturna.substr(0,2) ){
         return  horasReserva * precio;
-        
       };
 
+      if($scope.horaFin.getHours() > $rootScope.config.horaNocturna.substr(0,2) ){
+
+        if($rootScope.horaInicio.getHours() >= $rootScope.config.horaNocturna.substr(0,2)){
+
+          angular.forEach($scope.data, function(value, key){
+          if (value.value == x) {
+            precio = value.precioNocturno;
+            return;
+            };
+          });
+        return  horasReserva * precio;
+
+        }else{
+
+          var horasSinLuz = $rootScope.config.horaNocturna.substr(0,2) - $rootScope.horaInicio.getHours();
+          var horasConLuz = $scope.horaFin.getHours() - $rootScope.config.horaNocturna.substr(0,2);
+          var precioConLuz = 0;
+          var precioSinLuz = 0;
+
+          angular.forEach($scope.data, function(value, key){
+          if (value.value == x) {
+            precioConLuz = value.precioNocturno;
+            precioSinLuz = value.precioDiurno;
+            return;
+            };
+          });
+
+          precio = (horasSinLuz * precioSinLuz) + (horasConLuz * precioConLuz);
+          return precio;
+        };
+
+        
+      };
   };
 
 
@@ -87,7 +124,7 @@ angular.module('myApp').controller("schedulerController", function($scope, usuar
               resize: false
             },
             eventTemplate: $("#event-template").html(),
-            timezone: "Etc/UTC",
+
             dataSource: {
               batch: true,
               transport: {
@@ -143,7 +180,8 @@ angular.module('myApp').controller("schedulerController", function($scope, usuar
                     isAllDay: { type: "boolean", from: "IsAllDay" },
                     precioTotal: { from: "PrecioTotal" },
                     precioReserva: { from: "PrecioReserva" },
-                    saldo: { from: "Saldo" }
+                    saldo: { from: "Saldo" },
+                    fechaReserva: { from: "FechaReserva" }
                   }
                 }
               }
@@ -156,13 +194,47 @@ angular.module('myApp').controller("schedulerController", function($scope, usuar
               }
             ],
           navigate: function(e) {
-            $scope.schedulerOptions.resources[0].dataSource = $scope.data;
+            //$scope.schedulerOptions.resources[0].dataSource = $scope.data;
           },
           dataBound: function(e) {
             
           },
           //Esta funcion se va a ejecutar cuando se abre el template para una nueva reserva
           edit: function(e) {
+
+            if (e.event.isNew()){
+              $scope.verFechaReserva = false;
+              $scope.$digest();
+              if(e.event.start < (new Date())){
+            
+                ngDialog.openConfirm({
+                  animation: true,
+                  template: 'modalDialogId',
+                  className: 'ngdialog-theme-default',
+                  backdrop  : 'static',
+                  keyboard  : false
+                  }).then(function (value) {
+                  }, function (reason) {
+                    console.log('Modal promise rejected. Reason: ', reason);
+                  });
+                e.preventDefault();
+                return;
+              };
+
+              
+            }else{
+              
+              if (e.event.saldo == '0') {
+                var buttonsContainer = e.container.find(".k-edit-buttons");
+                var cancelButton = buttonsContainer.find(".k-scheduler-update");
+                cancelButton.hide();
+              };
+              
+              $scope.verFechaReserva = true;
+            $scope.fechaDeReserva = moment(e.event.fechaReserva).format('LLLL');
+            $scope.$digest();
+            };
+            
 
             if (e.event.cancha =='' && e.event.username=='') {
               e.event.set('taskId', e.event.uid);
@@ -173,10 +245,86 @@ angular.module('myApp').controller("schedulerController", function($scope, usuar
             reserva.value = (precio * $rootScope.config.porcReserva) / 100;
             
 
+            
+            
+            
+
           },
 
           //Ésta funcion se ejecuta al guardar el evento
           save: function(e) {
+
+            if (e.event.isNew()) {
+
+              //Verificar que la cancha seleccionada no esté ya reservada
+              var list = this.dataSource._data;
+              for (var i = 0, len = list.length -1; i < len; i++) {
+              
+                if (list[i].start.toString() == e.event.start.toString()){
+                  console.log(list[i].cancha + " Asignada");
+                  if(list[i].cancha.toString() == e.event.cancha.toString()){
+                    $scope.canchaUsada = true;
+                    $scope.$digest();
+                    e.preventDefault();
+                    return;
+                  }else{
+                    $scope.canchaUsada = false;
+                  }
+                }
+              };
+              e.event.set("fechaReserva", moment()._d);
+              $scope.verFechaReserva = false;
+
+            };
+
+            
+
+            //verificar que el horario seleccionado este dentro de los horarios de la cancha
+            if (e.event.start.getHours() < $rootScope.config.horaApertura.substr(0,2) || e.event.start.getHours() >= $rootScope.config.horaCierre.substr(0,2)){
+              $scope.errorHoraInicioComplejo = true;
+              $scope.$digest();
+              e.preventDefault();
+                  return;
+            }else{
+              $scope.errorHoraInicioComplejo = false;
+            }
+
+
+            if (e.event.end.getHours() <= $rootScope.config.horaApertura.substr(0,2) || e.event.end.getHours() > $rootScope.config.horaCierre.substr(0,2)){
+              $scope.errorHoraFinComplejo = true;
+              $scope.$digest();
+              e.preventDefault();
+                  return;
+            }else{
+              $scope.errorHoraFinComplejo = false;
+            }
+
+            //Verificar que el horario esté dentro del horario de la cancha
+            angular.forEach($scope.data, function(value, key){
+              if (value.value == e.event.cancha) {
+                if (value.luz == false && e.event.end.getHours() > $rootScope.config.horaNocturna.substr(0,2)) {
+                  $scope.canchaSinLuz = true;
+                  $scope.$digest();
+                  e.preventDefault();
+                  return;
+                }else{
+                  $scope.canchaSinLuz = false;
+                };
+              }
+            });
+
+            //Verificar que la fecha de reserva no sea anterior a la fecha actual
+            if(e.event.start < (new Date()) ){
+              $scope.horarioAnterior = true;
+              $scope.$digest();
+              e.preventDefault();
+            }else{
+              $scope.horarioAnterior = false;
+            };
+
+            $scope.verFechaReserva = false;
+           
+
 
           },
 
@@ -185,7 +333,25 @@ angular.module('myApp').controller("schedulerController", function($scope, usuar
           },
 
           cancel: function(e) {
-          }
+            console.log("cancel"); 
+            $scope.canchaUsada = false;
+            $scope.canchaSinLuz = false;
+            $scope.horarioAnterior = false;
+            $scope.verFechaReserva = false;
+            $scope.$digest();
+          
+            
+          },
+
+          resize: function(e) {
+            console.log("resize"); 
+          },
+
+          resizeEnd: function(e) {
+            console.log("resize-end"); 
+          },
+
+
 
         };
 
@@ -193,9 +359,11 @@ angular.module('myApp').controller("schedulerController", function($scope, usuar
         $scope.data = [];
         
         angular.forEach($scope.canchas, function(value, key){
-          var desc = { text: value.nombre, value: value._id, color: value.color, precioDiurno: value.pDiurno, precioNocturno: value.pNocturno};
+          var desc = { text: value.nombre, value: value._id, color: value.color, precioDiurno: value.pDiurno, estado: value.estado, precioNocturno: value.pNocturno, luz: value.luz, horaIni: value.horaIni, horaFin: value.horaFin};
           $scope.data.push(desc);
         });
+
+        $scope.data = $scope.data.filter($scope.quitarCancha);
         $scope.schedulerOptions.resources[0].dataSource = $scope.data;
 
       });
@@ -228,8 +396,8 @@ angular.module('myApp').controller("schedulerController", function($scope, usuar
 
   //Funcion que se ejecuta cuando se modifica el horario de finalizacion de reserva      
   $scope.onDateSelectedFin = function(e) {
-          var datePicker2 = e.sender;
-           $rootScope.horaFin = datePicker2.value();
+          var datePicker = e.sender;
+           $rootScope.horaFin = datePicker.value();
            var precio = $scope.actualizarPrecioPorCancha(this.dataItem.cancha);
           this.dataItem.set('precioTotal', precio);
           $scope.reserva = (precio * $rootScope.config.porcReserva) / 100; 
@@ -238,47 +406,118 @@ angular.module('myApp').controller("schedulerController", function($scope, usuar
           this.dataItem.set('saldo', precio);
           $rootScope.saldo = precio;
 
+
+
+
   };
 
   //Funcion que se ejecuta cuando se selecciona otra cancha
   $scope.cambioCancha = function(x, e) {
+
           var precio = $scope.actualizarPrecioPorCancha(x);
           this.dataItem.set('precioTotal', precio);
           $scope.reserva = (precio * $rootScope.config.porcReserva) / 100;
+          this.dataItem.set('precioReserva', precio);
           $rootScope.pago.preciototal = precio;
           $rootScope.pago.precioReserva = $scope.reserva;
           this.dataItem.set('saldo', precio);
           $rootScope.saldo = precio;
 
+
+  };
+
+
+  $scope.quitarCancha = function(objeto){
+
+    if(objeto.estado == "En reparción"){
+      return false;
+    }else{
+      return true;
+    };
+
   };
 
 
 
-
-
   $scope.open = function (size) {
-      var modalInstance = $uibModal.open({
-        animation: true,
-        templateUrl: 'pagoTarjeta.html',
-        controller: 'modalPagarController',
-        backdrop  : 'static',
-        keyboard  : false,
-        size: size,
-        resolve: {
-          test: function () {
-            return size;
-          }
+    var modalInstance = $uibModal.open({
+      animation: true,
+      templateUrl: 'pagoTarjeta.html',
+      controller: 'modalPagarController',
+      backdrop  : 'static',
+      keyboard  : false,
+      size: size,
+      resolve: {
+        test: function () {
+          return size;
         }
+      }
+    });
+    modalInstance.result.then(function (selectedItem) {
+      $scope.selected = selectedItem;
+      }, function () {
+        $log.info('Modal dismissed at: ' + new Date());
+        getCanchas();
       });
-      modalInstance.result.then(function (selectedItem) {
-        $scope.selected = selectedItem;
-        }, function () {
-          $log.info('Modal dismissed at: ' + new Date());
-          getCanchas();
-        });
-    };
+  };
 
-    
+  //Funcion que define si se bloquean las canchas o no.
+  $scope.onChange = function(){
+    if($scope.checkReservasLocked == true){
+     
+      var value = JSON.stringify({ locked: true }); 
+      canchaService.updateState(value);
+
+    }else{
+        
+      var value = JSON.stringify({ locked: false }); 
+      canchaService.updateState(value);
+
+    };
+  };
+
+
+
+  //Funcion para verificar las reservas vencidas
+  $scope.verificarReservas = function(){
+
+    $http.get("http://localhost:3001/reserva/read")
+    .then(function(response) {
+      $scope.misReservas = response.data;
+
+      var horaActual = moment().format();
+
+      for (var i=0; i<$scope.misReservas.length; i++) {
+
+        var horaReserva = moment($scope.misReservas[i].FechaReserva).format();
+        var dif = moment(horaReserva).diff(moment(horaActual), 'hours');
+        
+        if (dif < 48 && dif >=0 && $scope.misReservas[i].Saldo == $scope.misReservas[i].PrecioTotal) {
+
+          for (var x=0; x <$scope.usuarios.length; x++) {
+
+            if ($scope.usuarios[x].username == $scope.misReservas[i].Username) {
+
+              usuarioServices.incumplimiento($scope.usuarios[x]).then(function(response) {
+              });
+              return;
+            };
+
+          };
+
+          //Se elimina la reserva
+
+        };
+      }
+
+
+    });
+
+  
+  };
+
+  
+  //Final del controller
 	})
 
 

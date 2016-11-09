@@ -7,7 +7,19 @@ myApp.filter('yesNo', function () {
 });
 </script>
 
-<h1>Reservas del día</h1>
+
+
+<div id="expand-box-header" class="clearfix">
+  <span style="float: left;"><h1 align="left"><b>RESERVAS</b></h1></span> 
+  <span style="float: right;"><h1> Bloquear reservas <checkbox larger class="btn-primary"
+    ng-model="checkReservasLocked"              
+    ng-change="onChange()"                    
+    ></checkbox></h1></span>
+ </div>
+
+<div>
+  <button type="button" data-toggle="modal" ng-click="verificarReservas()" class="btn btn-info btn-sm">Verificar reservas incumplidas</button>
+</div>
 
 <div id="example">
     <div ng-controller="schedulerController">
@@ -26,7 +38,7 @@ myApp.filter('yesNo', function () {
 <!-- notice how the Title is hidden if the event is new -->
 <div class="k-edit-label"><label for="username">User</label></div>
 <div data-container-for="title" class="k-edit-field">
-    <select id="username" name="username" data-bind="value:username" data-role="dropdownlist"
+    <select id="username" name="username" data-bind="value:username" data-role="dropdownlist" 
                     data-value-field="value" data-text-field="text" data-filter="contains" required>
       <option ng-repeat="usuario in usuarios">{{usuario.username}}</option>
               
@@ -36,7 +48,7 @@ myApp.filter('yesNo', function () {
 
 <div class="k-edit-label"><label for="start">Inicio</label></div>
 <div data-container-for="start" class="k-edit-field">
-    <input  kendo-date-time-picker k-on-change="onDateSelectedInicio(kendoEvent)" type="text"
+    <input  kendo-date-time-picker k-on-change="onDateSelectedInicio(kendoEvent)" type="text" 
            data-role="datetimepicker"
            data-interval="60"
            data-type="date"
@@ -45,6 +57,7 @@ myApp.filter('yesNo', function () {
     <input type="text" data-type="date" data-role="datepicker" data-bind="value:start,visible:isAllDay" name="start" />
     <span data-bind="text: startTimezone"></span>
     <span data-for="start" class="k-invalid-msg" style="display: none;"></span>
+    <div ng-show="errorHoraInicioComplejo"><b>El horario de inicio está fuera del horario del complejo</b></div>
 </div>
 
 <div class="k-edit-label"><label for="end">Fin</label></div>
@@ -54,16 +67,20 @@ myApp.filter('yesNo', function () {
     data-role="datetimepicker" 
     data-bind="value:end,invisible:isAllDay" 
     name="end" data-datecompare-msg="End date should be greater than or equal to the start date" />
-    <input type="text" data-type="date" data-role="datepicker" data-bind="value:end,visible:isAllDay" name="end" data-datecompare-msg="End date should be greater than or equal to the start date" />
+    <input type="text" data-type="date" data-role="datepicker" data-bind="value:end,visible:isAllDay" 
+      name="end" data-datecompare-msg=" La fecha de fin debe ser maryor a la fecha de inicio" />
     <span data-bind="text: endTimezone"></span>
     <span data-bind="text: startTimezone, invisible: endTimezone"></span>
     <span data-for="end" class="k-invalid-msg" style="display: none;"></span>
+    <div ng-show="errorHoraFinComplejo"><b>El horario de finalizacion está fuera del horario del complejo</b></div>
+    <div ng-show="canchaSinLuz"><b>La cancha seleccionada no posee luz. Por favor cambie el horario de reserva.</b></div>
 </div>
 
 <div class="k-edit-label"><label for="recurrenceRule">Repetir</label></div>
 <div data-container-for="recurrenceRule" class="k-edit-field">
     <div data-bind="value:recurrenceRule" name="recurrenceRule" data-role="recurrenceeditor"></div>
-  </div>
+</div>
+
 <div class="k-edit-label"><label for="description">Descripción</label></div>
 <div data-container-for="description" class="k-edit-field" >
     <textarea name="description" class="k-textbox" data-bind="value:description"></textarea>
@@ -72,12 +89,14 @@ myApp.filter('yesNo', function () {
 <div class="k-edit-label"><label for="cancha">Cancha</label></div>
 
     <div data-container-for="cancha" class="k-edit-field">
-        <select kendo-drop-down-list id="cancha" name="cancha" data-bind="value:cancha" data-role="dropdownlist"
+        <select kendo-drop-down-list id="cancha" name="cancha" data-bind="value:cancha" data-role="dropdownlist" 
           data-value-field="value" data-text-field="text" ng-model="selected" ng-change="cambioCancha(selected, kendoEvent)" 
           required="required">
           <option selected disabled value="">Seleccionar</option>
           <option ng-repeat="cancha in data track by cancha.value" value="{{cancha.value}}" >{{cancha.text}}</option>  
         </select>
+    <div ng-show="canchaUsada"><b>La cancha no se encuentra disponible</b></div>
+    <div ng-show="canchaSinLuz"><b>La cancha seleccionada no posee luz. Por favor cambie el horario de reserva o seleccione otra cancha</b></div>
 </div>
 
 <div class="k-edit-label"><label for="total">Total</label></div>
@@ -102,10 +121,15 @@ myApp.filter('yesNo', function () {
         <span class="input-group-addon">$</span>
         <input type="number" style="text-align: right;" class="form-control" id="saldo" name="saldo" readonly="true" ng-model="saldo" data-bind="value:saldo">
     </div>
+
 </div> 
  
 <div class="btn-group col-sm-11" align="center">
+<div ng-show="horarioAnterior"><b>No se pueden crear reservas con fechas anteriores a la actual</b></div>
 <button type="button" class="btn btn-info" ng-disabled="!(dataItem.saldo != '0')"  style="width:100%" align="center" data-toggle="modal" ng-click="open(this)">Pagar</button>
+</div>
+<div ng-show="verFechaReserva" class="btn-group col-sm-11" align="right" >
+La reserva se realizó el día: {{fechaDeReserva}}
 </div>
 
 </script>
@@ -252,8 +276,6 @@ body,
 
 
 
-
-
 <style>
     .k-widget.k-window{
         z-index: 5;  top: 1em; left: 8em;
@@ -264,4 +286,16 @@ body,
     .k-edit-field{
       baa
     }
+
 </style>
+
+<script type="text/ng-template" id="modalDialogId">
+        <div class="ngdialog-message">
+            <h3 align="center"><b>AVISO</b></h3>
+            <td class="resul"><hr style="background-color: red; height: 4px;" /></td>
+            <p>No se puede crear una reserva con fecha anterior a la fecha actual</p>
+        </div>
+        <div class="ngdialog-buttons">
+            <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="closeThisDialog('button')">Aceptar</button>
+        </div>
+</script>

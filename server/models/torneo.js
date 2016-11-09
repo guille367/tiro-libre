@@ -13,7 +13,8 @@ var Torneo = new Schema({
   estado: String,
   valorInscripcion: Number,
   valorPorPartido: Number,  
-  foto: String
+  foto: String,
+  equipos: [{ type: Schema.Types.ObjectId, ref: 'Equipos' }]
 });
 
 

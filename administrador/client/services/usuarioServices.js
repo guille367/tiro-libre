@@ -29,5 +29,11 @@ app.service("usuarioServices", function($http){
     this.save = function(usuario){
       return usuario._id ? update(usuario) : create(usuario);
     };
+
+
+    this.incumplimiento = function(usuario){
+      return $http.put("http://localhost:3001/usuario/update/incumplimiento", usuario)
+        .then(extraerData);
+    };
     
 });

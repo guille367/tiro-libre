@@ -21,14 +21,14 @@ myApp.filter('yesNo', function () {
       				</div>      
     			</div>
 				<div class="list-group small">
-          			<a ng-repeat="color in colors | filter:search " ng-click="$parent.selected = color" class="list-group-item" ng-class="{active:selected==color}">{{color.name}}</a>
+          			<a ng-repeat="user in usuarios | filter:search" ng-click="$parent.selected = user; cambioUser(selected)" class="list-group-item" ng-class="{active:selected==user}">{{user.username}}</a>
         		</div>
 			</div>   
     
 		</div>
 		<div class='col-sm-7'>
 			<div class="well" style="max-height: 500px;overflow: auto;">
-				<h4>Torneos en los que participa: <B>{{selected.name }}</B></h4>
+				<h4>Torneos en los que participa: <B>{{selected.username }}</B></h4>
 				<table class="table table-striped table-bordered table-hover">
   					<thead>
     					<tr class='success'>

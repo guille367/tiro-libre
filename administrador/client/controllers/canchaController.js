@@ -123,7 +123,7 @@ angular.module('myApp').controller('modalCanchaController', function($scope, $ui
         $scope.horaMenorApertura = false;
       }
 
-      if (newCancha.horaFin > $rootScope.config.horaNocturna) {
+      if (newCancha.horaFin > $rootScope.config.horaNocturna && newCancha.luz == false) {
           $scope.horaMayorNocturna = true;
           return;
       }else{
@@ -144,6 +144,7 @@ angular.module('myApp').controller('modalCanchaController', function($scope, $ui
       }else{
         $scope.horaOk = false;
         if (form.$valid){
+          newCancha.locked = false;
         canchaService.save(newCancha)
         .then(function(res){
           $scope.newCancha = {};

@@ -39,6 +39,7 @@ var Reserva = require('./models/reserva.js');
 var Configuracion = require('./models/configuracion.js');
 var Usuario = require('./models/usuario.js');
 var Torneo = require('./models/torneo.js');
+var Equipo = require('./models/equipo.js');
 
 // create instance of express
 var app = express();
@@ -50,6 +51,7 @@ var reservasRoutes = require('./routes/reservas.js');
 var configuracionRoutes = require('./routes/configuracion.js');
 var usuariosRoutes = require('./routes/usuarios.js');
 var torneosRoutes = require('./routes/torneos.js');
+var equipoRoutes = require('./routes/equipos.js');
 
 
 
@@ -76,6 +78,9 @@ passport.use(new localStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
+/*passport.use(new localStrategy(Usuario.authenticate()));
+passport.serializeUser(Usuario.serializeUser());
+passport.deserializeUser(Usuario.deserializeUser());*/
 
 
 // routes
@@ -85,6 +90,7 @@ app.use('/reserva/', reservasRoutes);
 app.use('/configuracion/', configuracionRoutes);
 app.use('/usuario/', usuariosRoutes);
 app.use('/torneo/', torneosRoutes);
+app.use('/equipo/', equipoRoutes);
 
 app.get('/', function(req, res) {
   res.sendFile(path.join(__dirname, '../administrador/client', 'index.html'));

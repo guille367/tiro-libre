@@ -29,4 +29,10 @@ app.service("canchaService", function($http){
     this.save = function(cancha){
       return cancha._id ? update(cancha) : create(cancha);
     };
+
+    this.updateState = function(value){
+      return $http.put("http://localhost:3001/cancha/update/state", value)
+        .then(extraerData);
+    };
+
 });

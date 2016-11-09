@@ -1,15 +1,20 @@
-angular.module('myApp').controller("pagosController", function($scope){
+angular.module('myApp').controller("pagosController", function($scope, usuarioServices){
 
-    $scope.colors = [{
-    name: "User 1"},
-    {name: "User 2"},
-    {name: "User 3"},
-    {name: "User 4"},
-    {name: "User 5"},
-    {name: "User 6"},
-    {name: "User 7"},
-    {name: "User 8"},
-    ];
+    
+
+    var getUsuarios = function () {
+      usuarioServices.getAll()
+        .then(function(res){
+          $scope.usuarios = res;
+        });
+    }
+
+    getUsuarios();
+
+    //funcion que se ejecuta al seleccionar otro usuario
+    $scope.cambioUser = function(x){
+        
+    };
 
     $scope.torneos = [{nombre: "Torneo relampago"}];
 

@@ -20,6 +20,16 @@ angular.module('app.services')
 				return d.data;
 			});
 	}
+    
+    this.completarPago = function(idReserva){
+        return $http.put( generalServices.urlReservas + '/completarpago' + idReserva)
+            .then(function(d){
+                return d.data.msg;
+            })
+            .catch(function(e){
+                return e.err;
+            })
+    }
 
 	this.getReserva = function(){
 		return reserva;

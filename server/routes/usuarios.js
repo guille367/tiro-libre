@@ -18,22 +18,23 @@ router.get('/get', function(req, res, next){
   })
 });   
 
+
 router.post('/register', function(req, res) {
     var u = req.body;
-    Usuario.register(new Usuario(req.body),
+    Usuario.register(new Usuario(u),
     u.password, function(err, user) {
-
           if (err) {
             return res.status(500).json({
               err: err
             });
           }
+        
           return res.status(200).json({
               usuario: user
           });
 
-        });
     });
+});
 
 router.post('/login', function(req, res, next) {
   passport.authenticate('local', function(err, user, info) {

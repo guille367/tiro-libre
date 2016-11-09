@@ -147,7 +147,6 @@ angular.module('myApp').controller('modalusuarioController', function($scope, $u
 
         if(existeDni == 0 && existeUsername == 0){
           if (form.$name == "formEdit") {            
-            newUsuario.cantIncumplim = 0;
             usuarioServices.save(newUsuario).then(function(res){
             });        
           }else{

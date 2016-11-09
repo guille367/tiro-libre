@@ -26,7 +26,7 @@ angular.module('app.controllers')
             
             $scope.nuevoUsuario.fechaAlta = new Date();
             $scope.nuevoUsuario.estado = "Activo";
-            $scope.nuevoUsuario.cantIncumplim = 3;
+            $scope.nuevoUsuario.cantIncumplim = 0;
             $scope.nuevoUsuario.foto = '';
             
             userServices.
@@ -45,11 +45,9 @@ angular.module('app.controllers')
 
     var fnLoggeo = function(username,password){
         
-        $ionicLoading.show();
         
         user.username = username;
         user.password = password;
-
         $ionicLoading.show();
         
         userServices.loggearUsuario(user)

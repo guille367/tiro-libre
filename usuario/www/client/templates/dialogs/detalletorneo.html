@@ -1,5 +1,5 @@
 <ion-modal-view>
-	<ion-content scroll="true" class="fondo colorText">
+	<ion-content scroll="true" >
 
 		<md-divider></md-divider>
 		<md-subheader class="md-no-sticky fondoDTorneo"><b>Datos Torneo</b></md-subheader>
@@ -8,13 +8,13 @@
 				<b>Inicio</b>
 			</div>
 			<div class="col">
-				<b>{{torneo.fechaInicio}}</b>
+				<b>{{torneo.fechaInicio | date:'dd/MM/yyyy'}}</b>
 			</div>
 			<div class="col-25" style="text-align:center" layout="column">
 			<b>Fín</b>
 			</div>
 			<div class="col">
-				<b>{{torneo.fechaFin}}</b>
+				<b>{{torneo.fechaFin | date:'dd/MM/yyyy'}}</b>
 			</div>
 		</div>
 
@@ -24,13 +24,13 @@
 				<b>Jugadores: </b>
 			</div>
 			<div class="col" layout="column">
-				<b>{{torneo.jugadores}}</b>
+				<b>{{torneo.jugTitulares + torneo.jugSuplentes}}</b>
 			</div>
 			<div class="col-25" style="text-align:center" layout="column">
 				<b>Inscripción: </b>
 			</div>
 			<div class="col" layout="column">
-				<b>${{torneo.inscripcion}}</b>
+				<b>${{torneo.valorInscripcion}}</b>
 			</div>
 
 		</div>
@@ -41,13 +41,13 @@
 				<b>Titulares</b>
 			</div>
 			<div class="col" layout="column">
-				<b>{{torneo.titulares}}</b>
+				<b>{{torneo.jugTitulares}}</b>
 			</div>
 			<div class="col-25" style="text-align:center" layout="column">
 				<b>Por partido: </b>
 			</div>
 			<div class="col" layout="column">
-				<b>${{torneo.partido}}</b>
+				<b>${{torneo.valorPorPartido}}</b>
 			</div>
 
 		</div>
@@ -58,13 +58,13 @@
 				<b>Suplentes</b>
 			</div>
 			<div class="col" layout="column">
-				<b>{{torneo.suplentes}}</b>
+				<b>{{torneo.jugSuplentes}}</b>
 			</div>
 			<div class="col-25" style="text-align:center" layout="column">
 				<b>Formato: </b>
 			</div>
 			<div class="col" layout="column">
-				<b>{{torneo.formato}}</b>
+				<b>{{torneo.tipo}}</b>
 			</div>
 
 		</div>
@@ -75,7 +75,7 @@
 				<b>Equipos</b>
 			</div>
 			<div class="col" layout="column">
-				<b>{{torneo.equipos}}</b>
+				<b>{{torneo.cantEquipos}}</b>
 			</div>
 
 		</div>
@@ -83,116 +83,44 @@
 <div ng-show="loggeado">
             
 		<md-divider></md-divider>
+		<md-subheader class="md-no-sticky fondoDTorneo"><b>Nombre del Equipo</b></md-subheader>
+		<div class="row" layout="row" layout-align="center center">
+			<div class="col" >
+				<input class="prueba" type="text" ng-model="equipo.nombreEq">
+			</div>
+		</div>
 		<md-subheader class="md-no-sticky fondoDTorneo"><b>Jugadores</b></md-subheader>
 		<div class="row" layout="row" layout-align="center center">
 			<div class="col-20" style="text-align:center" layout="column">
 				<b>DNI</b>
 			</div>
-			<div class="col" layout="column">
+			<div class="col" layout="column" style="text-align:left; margin-left: 10%;">
 				<b>Nombre</b>
 			</div>
 		</div>
-		<div class="row" layout="row" layout-align="center center">
-			<div class="col-20" style="text-align:center" layout="column">
-				<input type="text" style="text-align:center">
+		<div class="row" layout="row" layout-align="center center" ng-repeat="jugador in jugadores">
+			<div class="col-20" style="text-align:center; margin-left: 5%;" layout="column" >
+				<input type="text" style="text-align:center; margin-left: 5%;" ng-model="jugador.dni">
 			</div>
 			<div class="col" layout="column">
-				<input type="text" style="text-align:center">
+				<input type="text" style="text-align:center; margin-left: 5%;" ng-model="jugador.nombre">
 			</div>
 		</div>
-		<div class="row" layout="row" layout-align="center center">
-			<div class="col-20" style="text-align:center" layout="column">
-				<input type="text" style="text-align:center">
-			</div>
-			<div class="col" layout="column">
-				<input type="text" style="text-align:center">
-			</div>
-		</div>
-		<div class="row" layout="row" layout-align="center center">
-			<div class="col-20" style="text-align:center" layout="column">
-				<input type="text" style="text-align:center">
-			</div>
-			<div class="col" layout="column">
-				<input type="text" style="text-align:center">
-			</div>
-		</div>
-		<div class="row" layout="row" layout-align="center center">
-			<div class="col-20" style="text-align:center" layout="column">
-				<input type="text" style="text-align:center">
-			</div>
-			<div class="col" layout="column">
-				<input type="text" style="text-align:center">
-			</div>
-		</div>
-		<div class="row" layout="row" layout-align="center center">
-			<div class="col-20" style="text-align:center" layout="column">
-				<input type="text" style="text-align:center">
-			</div>
-			<div class="col" layout="column">
-				<input type="text" style="text-align:center">
-			</div>
-		</div>
-		<div class="row" layout="row" layout-align="center center">
-			<div class="col-20" style="text-align:center" layout="column">
-				<input type="text" style="text-align:center">
-			</div>
-			<div class="col" layout="column">
-				<input type="text" style="text-align:center">
-			</div>
-		</div>
-		<div class="row" layout="row" layout-align="center center">
-			<div class="col-20" style="text-align:center" layout="column">
-				<input type="text" style="text-align:center">
-			</div>
-			<div class="col" layout="column">
-				<input type="text" style="text-align:center">
-			</div>
-		</div>
-		<div class="row" layout="row" layout-align="center center">
-			<div class="col-20" style="text-align:center" layout="column">
-				<input type="text" style="text-align:center">
-			</div>
-			<div class="col" layout="column">
-				<input type="text" style="text-align:center">
-			</div>
-		</div>
-		<div class="row" layout="row" layout-align="center center">
-			<div class="col-20" style="text-align:center" layout="column">
-				<input type="text" style="text-align:center">
-			</div>
-			<div class="col" layout="column">
-				<input type="text" style="text-align:center">
-			</div>
-		</div>
-		<div class="row" layout="row" layout-align="center center">
-			<div class="col-20" style="text-align:center" layout="column">
-				<input type="text" style="text-align:center">
-			</div>
-			<div class="col" layout="column">
-				<input type="text" style="text-align:center">
-			</div>
-		</div>
+
 		<md-divider></md-divider>
 		<md-subheader class="md-no-sticky fondoDTorneo"><b>Pago</b></md-subheader>
 
-
-
 		<div class="row" layout="row" layout-align="center center" ng-hide="reserva.importeAdeudado <= 0">
-			<div class="col-20" style="text-align:center" layout="column">
-				<b>Pagado</b>				
-			</div>
-			<div class="col-10" style="text-align:center" layout="column">
-				<md-checkbox ng-model="reserva.permanente" class="dotted" disabled></md-checkbox>
-			</div>
+			
 			<div class="col" layout="column">
-				<button class="button button-positive" ng-click="openPago()">Pagar con tarjeta</button>
+				<button class="button button-block button-positive" ng-click="openPago()">Pagar con tarjeta</button>
 			</div>
 
 		</div>
 </div>
         
 		<div class="row" layout="row" layout-align="center center">
-			<button class="button button-block button-positive3" ng-click="closeTorneo()"><b>Anotarse</b></button>
+			<button class="button button-block button-positive3" ng-click="anotarEquipo(jugadores)" ng-disabled="checked==true" ><b>Anotarse</b></button>
 		</div>
             
 		<div class="row" layout="row" layout-align="center center">
@@ -203,6 +131,11 @@
 </ion-modal-view>
 
 <style type="text/css">
+.prueba{
+	width: 90%;
+	text-align:center;
+	margin-left: 5%;
+}
 	.fondoDTorneo{
         background-color: green;
         color:white;
@@ -221,4 +154,10 @@
 		border:0px;
 
 	}
+	input[type="text"]
+{
+    border: 0;
+    border-bottom: 1px solid black;
+    outline: 0;
+}
 </style>

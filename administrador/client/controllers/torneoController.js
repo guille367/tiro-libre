@@ -14,6 +14,7 @@ angular.module('myApp').controller('torneoController',
       torneoServices.getAll()
         .then(function(res){
           $scope.torneos = res;
+
         });
     }
     getTorneos();
@@ -25,6 +26,7 @@ angular.module('myApp').controller('torneoController',
         });
     }
     getUsuarios();
+
 
 
     $scope.open = function (size) {
@@ -79,6 +81,7 @@ angular.module('myApp').controller('torneoController',
     };
 
 
+
     $scope.deleteConfirm = function (torneo) {
       $scope.torneoDelete = torneo;
 
@@ -97,6 +100,7 @@ angular.module('myApp').controller('torneoController',
                 });
     };
 
+    //se edita el TORNEO
     $scope.editTorneo = function (torneo, size) {
       var modalInstance = $uibModal.open({
         animation: true,
@@ -107,6 +111,9 @@ angular.module('myApp').controller('torneoController',
         size: size,
         resolve: {
           test: function () {
+            torneo.fechaInicio = moment(torneo.fechaInicio);
+            torneo.fechaFin = moment(torneo.fechaFin);
+            console.log(torneo.fechaFin);   
             return torneo;
           },
           list: function () {
@@ -116,15 +123,56 @@ angular.module('myApp').controller('torneoController',
       });
       modalInstance.result.then(function (selectedItem) {
         $scope.selected = selectedItem;
+
         }, function () {
+          getTorneos();
           $log.info('Modal dismissed at: ' + new Date());
         });
     };
 
+    //detalles del torneo
+    $scope.detalles = function (torneo) {
+
+      torneoServices.getTorneo(torneo._id)
+        .then(function(t){
+            torneo = t;
+
+            var modalInstance = $uibModal.open({
+            animation: true,
+            templateUrl: 'detalleTorneo.html',
+            controller: 'modalDetalleController',
+            backdrop  : 'static',
+            keyboard  : false,
+            size: 'lg',
+            resolve: {
+              test: function () {     
+                  return t;
+              },
+              list: function () {
+                return $scope.usuarios;
+              } 
+            }
+          });
+
+          modalInstance.result.then(function (selectedItem) {
+            $scope.selected = selectedItem;
+            }, function () {
+              $log.info('Modal dismissed at: ' + new Date());
+            });
+
+          })
+        .catch(function(e){
+        alert(e);
+        });
+      
+    };
+
+
+
 }]);
 
 angular.module('myApp').controller('modalTorneoController', function($scope, ngDialog, $uibModalInstance, $timeout,
- torneoServices, test, list, $rootScope, $http){
+ torneoServices, test, list, $rootScope, $http, bsLoadingOverlayService){
 
     $scope.options = {
     locale: 'es',
@@ -139,12 +187,35 @@ angular.module('myApp').controller('modalTorneoController', function($scope, ngD
   $scope.horaMayorNocturna = false;
   $scope.horaMenorApertura = false;
 
-  
+  //Funcion que habilita/deshabilita opciones si es formato liga
+  $scope.cambioFormato = function(formato){
+      if (formato == "Liga") {
+        $scope.newTorneo.partidosPorFecha = $scope.newTorneo.cantEquipos / 2;
+        $scope.newTorneo.cantFechas = ($scope.newTorneo.cantEquipos - 1);
+
+      }else{
+        $scope.newTorneo.partidosPorFecha = $scope.newTorneo.cantEquipos;
+        $scope.newTorneo.cantFechas = 1;
+      };
+
+  };
+
+  $scope.idaVuelta = function(value){
+
+      if (value === "true") {
+        $scope.newTorneo.cantFechas = ($scope.newTorneo.cantEquipos - 1) *2;   
+      }else{
+        $scope.newTorneo.cantFechas = ($scope.newTorneo.cantEquipos - 1);
+      }
+
+    }
 
 	$scope.cancel = function () {
     $timeout(function() {
             $uibModalInstance.dismiss('cancel');
+
         }, 300);
+
     };
 
     $scope.guardar = function (newTorneo, form) {
@@ -154,7 +225,7 @@ angular.module('myApp').controller('modalTorneoController', function($scope, ngD
               $scope.fechaMal = true;
               return;
           }else{
-          		newTorneo.estado = 'Activo';    		
+          		newTorneo.estado = 'Activo'; 		
           		torneoServices.save(newTorneo)
               	.then(function(res){
                 	$scope.newTorneo = {};
@@ -166,7 +237,8 @@ angular.module('myApp').controller('modalTorneoController', function($scope, ngD
           if (newTorneo.fechaFin < newTorneo.fechaInicio) {
               $scope.fechaMal = true;
               return;
-          }else{        
+          }else{
+         
               torneoServices.save(newTorneo)
                 .then(function(res){
                   $scope.newTorneo = {};
@@ -189,10 +261,12 @@ angular.module('myApp').controller('modalTorneoController', function($scope, ngD
         console.log($scope.newInvitacion);
         console.log($scope.newInvitacion.foto);
         console.log("invitar");
+        bsLoadingOverlayService.start();
         //$scope.sendMail(newInvitacion.mail,"nlmancuso@hotmail.com","aaaaa");
         //Request
         $http.post('/enviarmail', $scope.newInvitacion) 
         .success(function(data, status) {
+          bsLoadingOverlayService.stop();
             ngDialog.openConfirm({
                                 template: 'modalDialogIdMail',
                                 className: 'ngdialog-theme-default',
@@ -214,3 +288,39 @@ angular.module('myApp').controller('modalTorneoController', function($scope, ngD
   
 });
 
+angular.module('myApp').controller('modalDetalleController', function($scope, ngDialog, $uibModalInstance, $timeout,
+ equipoServices, test, list, $http, bsLoadingOverlayService){
+
+
+  $scope.equipos = test.equipos;
+  $scope.listaJugadores = [];
+
+  var getEquipo = function (equipo) {
+    bsLoadingOverlayService.start();
+      equipoServices.getOne(equipo)
+        .then(function(res){
+          $scope.listaJugadores = res;
+          bsLoadingOverlayService.stop();
+        }).catch(function() {
+            console.log('error');
+            bsLoadingOverlayService.stop();
+          });
+    }
+    
+  
+  $scope.cambioEquipo = function(equipo){
+    $scope.listaJugadores = [];
+    console.log(equipo);
+    getEquipo(equipo);
+    console.log($scope.listaJugadores);
+  }
+
+  $scope.cancel = function () {
+    $timeout(function() {
+            $uibModalInstance.dismiss('cancel');
+
+        }, 300);
+
+  };
+
+});

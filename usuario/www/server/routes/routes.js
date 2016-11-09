@@ -38,6 +38,7 @@ storage.get('name').then(function (name){
   
   .state('torneos', {
     url: '/torneos',
+    cache: false,
     controller:'torneoCtroller',
     templateUrl:'client/templates/torneos.html'
   })

@@ -21,6 +21,11 @@ app.service("torneoServices", function($http){
       	.then(extraerData);
     };
 
+    this.getTorneo = function(idtorneo){
+      return $http.get("http://localhost:3001/torneo/get" + idtorneo)
+        .then(extraerData);
+    }
+
     this.delete = function(torneo){
       return $http.delete("http://localhost:3001/torneo/delete" + torneo._id)
       	.then(extraerData);

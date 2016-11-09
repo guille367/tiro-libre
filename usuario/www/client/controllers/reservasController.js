@@ -1,7 +1,7 @@
 angular.module('app.controllers')
 
-.controller('reservasCtroller', ['$scope','$ionicPopup','$ionicModal','$ionicLoading','reservaService','canchaService','gralFactory','generalServices','userServices'
-    ,function($scope,$ionicPopup,$ionicModal,$ionicLoading,reservaService,canchaService,gralFactory,generalServices,userServices){
+.controller('reservasCtroller', ['$scope','$state','$ionicPopup','$ionicModal','$ionicLoading','reservaService','canchaService','gralFactory','generalServices','userServices'
+    ,function($scope,$state,$ionicPopup,$ionicModal,$ionicLoading,reservaService,canchaService,gralFactory,generalServices,userServices){
 
     $scope.reservas = getReservas();
     $scope.reserva = {};
@@ -41,21 +41,25 @@ angular.module('app.controllers')
 
     // Ir al servidor con el pago, volver a traer las reservas una vez que hizo el pago
     $scope.pagarReserva = function(form){
-        if(!form.$valid){
-            gralFactory.showError('Por favor corrobore sus datos.');
-            }
-        else{
-            console.log('form valid');
+        
             $ionicLoading.show();
-            setTimeout(function(){
-                $ionicLoading.hide();
-                // Volver a buscar las reservas.
+            
+            reservaService.completarPago($scope.reserva._id)
+                .then(function(d){
+                    $ionicLoading.hide();
+                    $scope.modalReserva.hide();
+                    $scope.modalPago.hide();
+                    $state.go('canchas');
+                    gralFactory.showMessage(d);
+                })
+                .catch(function(e){
+                    $ionicLoading.hide();
+                    gralFactory.showError(e);
+                })
+            
                 $scope.modalPago.hide();
                 $scope.modalReserva.hide();
-                gralFactory.showMessage('Pago procesado. Muchas gracias!');
-                
-            },2000);
-        }
+        
     };
     
     function getReservas(){

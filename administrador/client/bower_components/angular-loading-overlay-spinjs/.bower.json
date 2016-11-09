@@ -1,0 +1,35 @@
+{
+  "name": "angular-loading-overlay-spinjs",
+  "homepage": "https://github.com/bsalex/angular-loading-overlay-spinjs",
+  "authors": [
+    "Alexander Beshchuk <bs.alex.mail@gmail.com>"
+  ],
+  "description": "Angular loading overlay integration with SpinJS",
+  "main": "dist/angular-loading-overlay-spin.js",
+  "keywords": [
+    "angular",
+    "loading",
+    "overlay",
+    "spinner",
+    "spin.js"
+  ],
+  "license": "Apache-2.0",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "version": "1.0.1",
+  "_release": "1.0.1",
+  "_resolution": {
+    "type": "version",
+    "tag": "v1.0.1",
+    "commit": "047655469fd8ab1410b7dbe819ed3e8bf7f28108"
+  },
+  "_source": "https://github.com/bsalex/angular-loading-overlay-spinjs.git",
+  "_target": "^1.0.1",
+  "_originalSource": "angular-loading-overlay-spinjs",
+  "_direct": true
+}
