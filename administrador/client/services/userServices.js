@@ -16,23 +16,21 @@ angular.module('myApp').factory('AuthService',
       whatUser: whatUser,
       getCurrentUser: getCurrentUser,
       getAllUsers: getAllUsers,
-      update: update
-
+      update: update,
+      requestRecover: requestRecover,
+      recover: recover
     });
-
-
 
     function update (userAdmin){
       return $http.put("http://localhost:3001/user/update" + userAdmin._id, userAdmin);
     }
 
 
-
     function getAllUsers() {
       return $http.get("http://localhost:3001/user/get");
     };
 
-  
+
     function getCurrentUser() {
         if ($window.sessionStorage.getItem('currentUser')) {
             return $q.when(JSON.parse($window.sessionStorage.getItem('currentUser')));
@@ -155,6 +153,44 @@ angular.module('myApp').factory('AuthService',
       // return promise object
       return deferred.promise;
 
+    }
+
+    function requestRecover(username){
+
+      var deferred = $q.defer();
+
+      $http.post('/user/recover' + username)
+        .success(function(data, status){
+          if(status === 200){
+            deferred.resolve();
+          } else {
+            deferred.reject();
+          }
+        })
+        .error(function(data){
+          deferred.reject();
+        });
+
+        return deferred.promise;
+    }
+
+    function recover(pw,token){
+
+      var deferred = $q.defer();
+
+      $http.put('/user/recover' + token,{password:pw})
+        .success(function(data, status){
+          if(status === 200){
+            deferred.resolve();
+          } else {
+            deferred.reject();
+          }
+        })
+        .error(function(data){
+          deferred.reject(data);
+        });
+
+        return deferred.promise;
     }
 
 }]);

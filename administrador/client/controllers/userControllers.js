@@ -1,6 +1,6 @@
 angular.module('myApp').controller('loginController',
-  ['$scope', '$location', 'AuthService', '$rootScope', '$window',
-  function ($scope, $location, AuthService, $rootScope, $window) {
+  ['$scope', '$location', 'AuthService', '$rootScope', '$window','$state','$stateParams',
+  function ($scope, $location, AuthService, $rootScope, $window,$state,$stateParams) {
 
     $scope.login = function () {
 
@@ -25,6 +25,43 @@ angular.module('myApp').controller('loginController',
           $scope.loginForm = {};
         });
 
+    };
+
+    $scope.recover = function(username,pw,pwrepeat) {
+      
+      $scope.message = undefined;
+      $scope.recoverForm = {};
+      console.log($stateParams);
+      if(username && !pw){
+        AuthService.requestRecover(username)
+        .then(function(response){
+          $scope.message = "Revise su correo electronico.";
+        })
+        .catch(function(e){
+          $scope.error = true;
+          $scope.errorMessage = "No se encontro el usuario.";
+          $scope.loginForm = {};
+        });
+      }
+      else if(!username && pw){
+        if(pw != pwrepeat){
+          $scope.error = true;
+          $scope.errorMessage = "Las contrasenas no coinciden.";
+        }
+        else{
+          AuthService.recover(pw,$stateParams.token)
+            .then(function(data){
+              $scope.error = false;
+              $state.go('login');
+            })
+            .catch(function(e){
+              $scope.error = true;
+              $scope.errorMessage = e.err;
+            });
+        }
+        
+      }
+      
     };
 
 }]);

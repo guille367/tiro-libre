@@ -13,10 +13,10 @@ router.post('/post', function(req, res) {
 });
 
 router.get('/read', function(req, res, next){
-	Reserva.find(function(err, data){
-		if(err) return next(err);
-		res.json(data);
-	})
+  Reserva.find(function(err, data){
+    if(err) return next(err);
+    res.json(data);
+  })
 });
 
 router.put('/completarpago:id', function(req, res, next) {
@@ -25,6 +25,13 @@ router.put('/completarpago:id', function(req, res, next) {
         return res.status(500).json({ err: err.msg });
     
       return res.status(200).json({ msg: 'Reserva abonada.' });
+  });
+});
+
+router.put('/update', function(req, res, next) {
+  Reserva.findByIdAndUpdate(req.body.id, req.body.models[0], {new: true}, function (err, post) {
+    if (err) return next(err);
+    res.json(post);
   });
 });
 

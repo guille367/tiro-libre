@@ -2,6 +2,7 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
+
 var Equipo = new Schema({
   nombreEq: String,
   usuarioResp: String,
@@ -11,5 +12,6 @@ var Equipo = new Schema({
   idTorneo:  { type: Schema.Types.ObjectId, ref: 'Torneos' },
   usuarioCreador : String
 });
+
 
 module.exports = mongoose.model('Equipos', Equipo);

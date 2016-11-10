@@ -3,6 +3,7 @@
 <div class="col-md-4">
   <h1>Login</h1>
   <div ng-show="error" class="alert alert-danger">{{errorMessage}}</div>
+  <div ng-show="message" class="alert alert-info">{{message}}</div>
   <form class="form" ng-submit="login()">
     <div class="form-group-conf">
       <label><B>Username</B></label>
@@ -19,6 +20,7 @@
       </div>
 
   </form>
+</div>
 
 <div id="resetpass" class="modal fade" role="dialog">
   <div class="modal-dialog">
@@ -31,25 +33,25 @@
       <div class="modal-body">
           <form class="form-horizontal">
             <div class="form-group" align="left">
-            <label class="control-label col-sm-3" for="email">Usuario:</label>
-            <div class="col-sm-7">
-              <input type="text" class="form-control" id="dni" placeholder="Su usario">
+              <label class="control-label col-sm-3">Usuario:</label>
+              <div class="col-sm-7">
+                <input type="text" class="form-control" ng-model="recoverForm.username" placeholder="Su usario">
+              </div>
             </div>
-        </div>
           </form>
-          <form class="form-horizontal">
+          <!-- <form class="form-horizontal">
             <div class="form-group" align="left">
             <label class="control-label col-sm-3" for="email">Email:</label>
             <div class="col-sm-7">
               <input type="email" class="form-control" id="email" placeholder="Su email">
             </div>
         </div>
-          </form>       
+          </form>    -->    
       </div>
       <div class="modal-footer">
         <div class="row">
           <div class="col-sm-offset-3 col-sm-6 text-center">
-            <button type="submit" class="btn btn-success"  data-ng-click="" data-dismiss="modal">Enviar</button>
+            <button type="button" class="btn btn-success" ng-click="recover(recoverForm.username)">Enviar</button>
         <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
           </div>
         </div>      
@@ -59,3 +61,12 @@
   </div>
 </div>
 
+<!-- <div id="recovermsg" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content col-sm-9">
+      <div class="modal-header">
+        <h3>En estos momentos recibira un mail para reestablecer su password. Por favor, revise su correo electronico.</h3>
+      </div>
+    </div>
+  </div>
+</div> -->

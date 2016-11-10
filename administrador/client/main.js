@@ -101,6 +101,13 @@ myApp.config(function ($stateProvider, $urlRouterProvider) {
       templateUrl: 'templates/register.html',
       controller: 'registerController',
       access: {restricted: false}
+    })
+
+    .state('recover', {
+      url: '/recover/:token',
+      templateUrl:'templates/recover.html',
+      controller: 'loginController',
+      access: {restricted: false}
     });
 
     $urlRouterProvider.otherwise("/home/inicio");

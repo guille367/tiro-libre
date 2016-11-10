@@ -487,7 +487,7 @@
               <label>Fecha inicio</label>
             </div>
             <div class='col-sm-2'>
-              <label>Fecha Finalización</label>
+              <label>Fecha Finalización</label>  
             </div>
              <div class='col-sm-2'>
               <label>Cierre Inscripcion</label>
@@ -495,9 +495,9 @@
           </div>
           <div class="row">
             <div class='col-sm-2'>
-              <div class="form-group">
-                <div class='input-group date' id='datetimepicker1'>
-                  <input type="text" class="form-control" datetimepicker ng-model="newTorneo.fechaInicio" options="options" required=""/>
+             <div class="form-group">
+                <div class="input-group" datetimepicker ng-model="newTorneo.fechaInicio" options="options">
+                  <input type="text" class="form-control" />
                         <span class="input-group-addon">
                             <span class="glyphicon glyphicon-calendar"></span>
                         </span>
@@ -505,19 +505,19 @@
               </div>
             </div>
             <div class='col-sm-2'>
-              <div class="form-group">
-                <div class='input-group date' id='datetimepicker2'>
-                  <input type="text" class="form-control" datetimepicker ng-model="newTorneo.fechaFin" options="options" required=""/>
+             <div class="form-group">
+                <div class="input-group" datetimepicker ng-model="newTorneo.fechaFin" options="options">
+                  <input type="text" class="form-control" />
                         <span class="input-group-addon">
                             <span class="glyphicon glyphicon-calendar"></span>
                         </span>
                 </div>
               </div>
             </div>
-            <div class='col-sm-2'>
-              <div class="form-group">
-                <div class='input-group date' id='datetimepicker3'>
-                  <input type="text" class="form-control" datetimepicker ng-model="newTorneo.fechaCierreInscripcion" options="options" required=""/>
+           <div class='col-sm-2'>
+             <div class="form-group">
+                <div class="input-group" datetimepicker ng-model="newTorneo.fechaCierreInscripcion" options="options">
+                  <input type="text" class="form-control" />
                         <span class="input-group-addon">
                             <span class="glyphicon glyphicon-calendar"></span>
                         </span>
@@ -690,7 +690,7 @@
               <div class="text-center"><label>Equipos anotados</label></div>
 
               <div class="list-group small">
-                <a ng-repeat="equipo in equipos" ng-click="$parent.selected = equipo.equipo[0]; cambioEquipo(equipo.equipo[1])" class="list-group-item" ng-class="{active:selected==equipo.equipo[0]}">{{equipo.nombreEq}}</a>
+                <a ng-repeat="equipo in equipos" ng-click="$parent.selected = equipo.nombreEq; cambioEquipo(equipo._id)" class="list-group-item" ng-class="{active:selected==equipo.nombreEq}">{{equipo.nombreEq}}</a>
               </div>
             </div>   
           </div>
@@ -708,7 +708,7 @@
                 </tr>
             </thead>
             <tbody>
-              <tr ng-repeat="jugador in listaJugadores.jugadores" class='info'>
+              <tr ng-repeat="jugador in listaJugadores track by $index" class='info'>
                   <td>X</td>
                   <td>{{$index + 1}}</td>
                   <td>{{jugador.nombre}}</td>

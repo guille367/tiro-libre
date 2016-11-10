@@ -20,7 +20,6 @@ storage.get('name').then(function (name){
   // })
 
 
-
   .state('noticias', {
     url: '/noticias',
     templateUrl:'client/templates/noticias.html'
@@ -28,6 +27,7 @@ storage.get('name').then(function (name){
 
   .state('resetpass', {
     url: '/resetcontrasena',
+    controller: 'loginCtroller',
     templateUrl:'client/templates/resetcontrasena.html'
   })
   

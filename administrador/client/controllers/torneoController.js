@@ -113,6 +113,7 @@ angular.module('myApp').controller('torneoController',
           test: function () {
             torneo.fechaInicio = moment(torneo.fechaInicio);
             torneo.fechaFin = moment(torneo.fechaFin);
+            torneo.fechaCierreInscripcion = moment(torneo.fechaCierreInscripcion);
             console.log(torneo.fechaFin);   
             return torneo;
           },
@@ -289,30 +290,26 @@ angular.module('myApp').controller('modalTorneoController', function($scope, ngD
 });
 
 angular.module('myApp').controller('modalDetalleController', function($scope, ngDialog, $uibModalInstance, $timeout,
- equipoServices, test, list, $http, bsLoadingOverlayService){
+ test, list, $http, bsLoadingOverlayService){
 
 
   $scope.equipos = test.equipos;
   $scope.listaJugadores = [];
 
-  var getEquipo = function (equipo) {
-    bsLoadingOverlayService.start();
-      equipoServices.getOne(equipo)
-        .then(function(res){
-          $scope.listaJugadores = res;
-          bsLoadingOverlayService.stop();
-        }).catch(function() {
-            console.log('error');
-            bsLoadingOverlayService.stop();
-          });
-    }
-    
   
   $scope.cambioEquipo = function(equipo){
-    $scope.listaJugadores = [];
-    console.log(equipo);
-    getEquipo(equipo);
-    console.log($scope.listaJugadores);
+    
+    for (var i = 0; i < $scope.equipos.length; i++) {
+      
+      if ($scope.equipos[i]._id == equipo) {
+
+        $scope.listaJugadores = $scope.equipos[i].jugadores;
+        return;
+      };
+
+    };
+
+
   }
 
   $scope.cancel = function () {

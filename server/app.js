@@ -8,12 +8,13 @@ var mongoose = require('mongoose');
 var hash = require('bcrypt-nodejs');
 var path = require('path');
 var passport = require('passport');
-var localStrategy = require('passport-local' ).Strategy;
+var localStrategy = require('passport-local').Strategy;
 var cors = require('cors');
 var multer  = require('multer');
 var http = require('http');
 var bodyParser = require('body-parser');
 var nodemailer = require('nodemailer');
+var passportLocalMongoose = require('passport-local-mongoose');
 var smtpTransport = require("nodemailer-smtp-transport")
 
 
@@ -74,13 +75,29 @@ app.use(passport.session());
 app.use(express.static(path.join(__dirname, 'public')));
 
 // configure passport
-passport.use(new localStrategy(User.authenticate()));
-passport.serializeUser(User.serializeUser());
-passport.deserializeUser(User.deserializeUser());
+passport.use('user',new localStrategy(User.authenticate({
+  usernameField: 'username',
+  passwordField: 'password'
+})));
+//passport.serializeUser(User.serializeUser());
+//passport.deserializeUser(User.deserializeUser());
 
-/*passport.use(new localStrategy(Usuario.authenticate()));
+passport.serializeUser(function(user, done) {
+  done(null, user.id);
+});
+
+passport.deserializeUser(function(id, done) {
+  User.findById(id, function(err, user) {
+    done(err, user);
+  });
+});
+
+passport.use('usuario',Usuario.createStrategy({
+  usernameField: 'username',
+  passwordField: 'password',
+}));
 passport.serializeUser(Usuario.serializeUser());
-passport.deserializeUser(Usuario.deserializeUser());*/
+passport.deserializeUser(Usuario.deserializeUser());
 
 
 // routes
@@ -93,6 +110,7 @@ app.use('/torneo/', torneosRoutes);
 app.use('/equipo/', equipoRoutes);
 
 app.get('/', function(req, res) {
+  console.log(passport)
   res.sendFile(path.join(__dirname, '../administrador/client', 'index.html'));
 });
 

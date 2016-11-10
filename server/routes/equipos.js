@@ -36,4 +36,12 @@ router.put('/update:id', function(req, res, next) {
 });
 
 
+router.get('/get/one:id', function(req, res, next){
+  Equipo.findById(req.params.id, function(err, data){
+    if(err) return next(err);
+    res.json(data);
+  })
+});
+
+
 module.exports = router;
