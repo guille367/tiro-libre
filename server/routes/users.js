@@ -29,10 +29,15 @@ router.post('/register', function(req, res) {
 
 router.post('/login', function(req, res, next) {
   passport.authenticate('user', function(err, user, info) {
+      
     if (err) {
-      return next(err);
+        
+      console.log('err authenticate');
+      console.log(err);
+      return res.json({err:err});
     }
     if (!user) {
+        console.log("nono")
       return res.status(401).json({
         err: info
       });
@@ -157,29 +162,19 @@ router.put('/recover:token', function(req, res) {
           return res.status(500).json({err:'El token es invalido o expiro.'});
         }
 
-        //user.password = req.body.password;
-        user.tokenPwReset = undefined;
-        user.resetPwVencimiento = undefined;
-
-        bcrypt.genSalt(32, function(err, salt) {
-          if (err) return next(err);
-
-          bcrypt.hash(user.password, salt, null, function(err, hash) {
-            if (err) return next(err);
-
-            user.password = req.body.password;
-            user.hash = hash;
-            user.salt = salt;
-
-            user.save(function(err) {
-              if(err)
-                return res.status(500).json({err:err});
+        user.setPassword(req.body.password,function(err,user){
+            if(err)
+                res.send(err);
+            
+            user.tokenPwReset = undefined;
+            user.resetPwVencimiento = undefined;
+            
+            user.save(function(err,user){
+                if(err)
+                    return res.status(500).json({err:err});
               
               return res.status(200).json({msg: 'Password reestablecida'});
             });
-
-          });
-
         });
 
   });

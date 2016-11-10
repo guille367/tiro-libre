@@ -15,7 +15,9 @@ var Usuario = new Schema({
   foto: String,
   fechaNac: Date,
   fechaAlta: Date,
-  estado: String
+  estado: String,
+  tokenPwReset: String,
+  resetPwVencimiento: Date
 });
 
 Usuario.plugin(passportLocalMongoose);
