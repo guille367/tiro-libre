@@ -39,7 +39,7 @@ angular.module('myApp').controller('torneoController',
         size: size,
         resolve: {
           test: function () {
-            return $scope.items;
+            return null;
           },
           list: function () {
             return $scope.usuarios;
@@ -173,7 +173,7 @@ angular.module('myApp').controller('torneoController',
 }]);
 
 angular.module('myApp').controller('modalTorneoController', function($scope, ngDialog, $uibModalInstance, $timeout,
- torneoServices, test, list, $rootScope, $http, bsLoadingOverlayService){
+ torneoServices, test, list, $rootScope, $http, bsLoadingOverlayService, usuarioServices){
 
     $scope.options = {
     locale: 'es',
@@ -187,6 +187,24 @@ angular.module('myApp').controller('modalTorneoController', function($scope, ngD
   $scope.horaMayorCierre = false;
   $scope.horaMayorNocturna = false;
   $scope.horaMenorApertura = false;
+  $scope.idReserva = "";
+
+  if (test != null) {
+    if ($scope.newTorneo.cantFechas > $scope.newTorneo.cantEquipos) {
+      $scope.newTorneo.idaVuelta = "true";
+    }else{
+      $scope.newTorneo.idaVuelta = "false";
+    };
+
+    if ($scope.newTorneo.equipos.length > 0) {
+      $scope.cambioPrecio = true;
+    }else{
+      $scope.cambioPrecio = false;
+    }
+
+  };
+
+  
 
   //Funcion que habilita/deshabilita opciones si es formato liga
   $scope.cambioFormato = function(formato){
@@ -221,7 +239,16 @@ angular.module('myApp').controller('modalTorneoController', function($scope, ngD
 
     $scope.guardar = function (newTorneo, form) {
       if (form.$valid){
-      	if(form.$name == "alta"){          
+      	if(form.$name == "alta"){
+
+          if (newTorneo.fechaCierreInscripcion > newTorneo.fechaInicio || newTorneo.fechaCierreInscripcion > newTorneo.fechaFin) {
+            $scope.fechaCierreMal = true;
+            return;
+          }else{
+            $scope.fechaCierreMal = false;
+          }
+
+
           if (newTorneo.fechaFin < newTorneo.fechaInicio) {
               $scope.fechaMal = true;
               return;
@@ -229,7 +256,14 @@ angular.module('myApp').controller('modalTorneoController', function($scope, ngD
           		newTorneo.estado = 'Activo'; 		
           		torneoServices.save(newTorneo)
               	.then(function(res){
-                	$scope.newTorneo = {};
+                  //se crea el usuario para el torneo
+                  var usuarioTorneo = {username: $scope.newTorneo.nombre, nombre: $scope.newTorneo.nombre, dni: "00000000"}
+
+                  usuarioServices.save(usuarioTorneo).then(function(res){
+
+                  });
+
+                  $scope.newTorneo = {};
               	});	
           }  
       	}

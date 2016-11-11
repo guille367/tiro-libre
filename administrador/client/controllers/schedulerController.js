@@ -498,6 +498,9 @@ angular.module('myApp').controller("schedulerController", function($scope, $http
 
             if ($scope.usuarios[x].username == $scope.misReservas[i].Username) {
 
+              $http.delete("http://localhost:3001/reserva/eliminar", {params: {_id: $scope.misReservas[i]._id}}).then(function(response) {
+              });
+              
               usuarioServices.incumplimiento($scope.usuarios[x]).then(function(response) {
               });
               return;

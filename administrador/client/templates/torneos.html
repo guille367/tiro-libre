@@ -248,9 +248,9 @@
 </table>
 
 
-
+<!-- Modal nuevo Torneo -->
 <script type="text/ng-template" id="torneoNuevo.html">
-<!-- Modal Torneo -->
+
 <form id="form" name="alta" role="form" data-toggle="validator">
       <div class="modal-header">
          <button type="button" ng-click="cancel()" class="close" data-dismiss="modal">&times;</button>
@@ -320,8 +320,9 @@
             </div>
             <div class='col-sm-2'>
               <div class="form-group">
-                <label for="sel1">Jugadores titulares:</label>
-                <select class="form-control" id="sel1" ng-model="newTorneo.jugTitulares" required="">
+                <label for="sel2">Jugadores titulares:</label>
+                <select class="form-control" id="sel2" ng-model="newTorneo.jugTitulares" required="">
+                  <option>{{newTorneo.jugTitulares}}</option>
                   <option>5</option>
                   <option>6</option>
                   <option>7</option>
@@ -351,7 +352,8 @@
             <div class='col-sm-2'>
               <div class="form-group">
                 <label for="sel1">Formato del Torneo:</label>
-                <select class="form-control" id="sel1" ng-model="newTorneo.tipo" required="" ng-change="cambioFormato(newTorneo.tipo)">
+                <select class="form-control" id="sel1" name="FormatoTorneo" ng-model="newTorneo.tipo" required="" ng-change="cambioFormato(newTorneo.tipo)">
+                  <option selected disabled>{{newTorneo.tipo}}</option>
                   <option>Eliminación</option>
                   <option>Liga</option>
                 </select>
@@ -359,7 +361,8 @@
             </div>
             <div class='col-sm-2'>
               <div class="form-group">
-                <label for="precio">Precio de inscripción</label>
+                <label for="precio" ng-show="newTorneo.tipo == 'Liga'">Precio de inscripción</label>
+                <label for="precio" ng-show="newTorneo.tipo != 'Liga'">Precio del Torneo</label>
                 <div class="input-group">
                   <span class="input-group-addon">$</span>
                   <input type="number" class="form-control" id="precio1" placeholder="precio" ng-model="newTorneo.valorInscripcion" required="">
@@ -367,7 +370,7 @@
               </div>
             </div>
             <div class='col-sm-2'>
-              <div class="form-group">
+              <div class="form-group" ng-if="newTorneo.tipo == 'Liga'">
                 <label for="precio">Precio por fecha</label>
                 <div class="input-group">
                   <span class="input-group-addon">$</span>
@@ -387,13 +390,13 @@
               </div>
             </div>
             <div class='col-sm-2'>
-              <div class="form-group">
+              <div class="form-group" ng-if="newTorneo.tipo == 'Liga'">
               <label for="idaVuelta">Cantidad de Fechas</label>
                 <input type="text" class="form-control" id="fechasTorneo" name="fechasTorneo" ng-model="newTorneo.cantFechas" readonly="">
               </div>
             </div>
             <div class='col-sm-2'>
-              <div class="form-group">
+              <div class="form-group" ng-if="newTorneo.tipo == 'Liga'">
               <label for="idaVuelta">Partidos por Fechas</label>
                 <input type="text" class="form-control" id="fechasTorneo" name="fechasTorneo" ng-model="newTorneo.partidosPorFecha" readonly="">
               </div>
@@ -402,7 +405,8 @@
 
           <div class="row">
             <div class='col-sm-6' style="padding-top:15px">
-                <div data-ng-show="fechaMal" style="color:#FF0000"><b>La fecha de Inicio no puede ser posterior a la de fin</b></div>          
+                <div data-ng-show="fechaMal" style="color:#FF0000"><b>La fecha de Inicio no puede ser posterior a la de fin</b></div>
+                <div data-ng-show="fechaCierreMal" style="color:#FF0000"><b>La fecha de Cierre de inscripción no puede ser anterior a la fecha de inicio ni mayor a la de finalización del torneo.</b> </div>           
                 <br>
             </div>
           </div>
@@ -464,7 +468,7 @@
 <!-- Modal editar Torneo -->
 
 <script type="text/ng-template" id="editarTorneo.html">
-<!-- Modal Torneo -->
+
 <form id="form" name="editar" role="form" data-toggle="validator">
       <div class="modal-header">
          <button type="button" ng-click="cancel()" class="close" data-dismiss="modal">&times;</button>
@@ -574,25 +578,26 @@
             </div>
             <div class='col-sm-2'>
               <div class="form-group">
-                <label for="precio">Precio de inscripción</label>
+                <label for="precio" ng-show="newTorneo.tipo == 'Liga'">Precio de inscripción</label>
+                <label for="precio" ng-show="newTorneo.tipo != 'Liga'">Precio del Torneo</label>
                 <div class="input-group">
                   <span class="input-group-addon">$</span>
-                  <input type="number" class="form-control" id="precio1" placeholder="precio" ng-model="newTorneo.valorInscripcion" required="">
+                  <input type="number" class="form-control" id="precio1" placeholder="precio" ng-model="newTorneo.valorInscripcion" required="" ng-disabled="cambioPrecio">
                 </div>
               </div>
             </div>
             <div class='col-sm-2'>
-              <div class="form-group">
+              <div class="form-group" ng-if="newTorneo.tipo == 'Liga'">
                 <label for="precio">Precio por fecha</label>
                 <div class="input-group">
                   <span class="input-group-addon">$</span>
-                  <input type="number" class="form-control" id="precio1" placeholder="precio" ng-model="newTorneo.valorPorPartido" required="">
+                  <input type="number" class="form-control" id="precio1" placeholder="precio" ng-model="newTorneo.valorPorPartido" required=""z>
                 </div>
               </div>
             </div>
           </div>
           <div class="row">
-            <div class='col-sm-2'>
+            <div class='col-sm-2' ng-if="newTorneo.tipo == 'Liga'">
               <div class="form-group" ng-if="newTorneo.tipo == 'Liga'">
               <label for="idaVuelta">¿Ida y vuela?</label>
                 <select class="form-control" id="idaVuelta" ng-model="newTorneo.idaVuelta" required="" ng-change="idaVuelta(newTorneo.idaVuelta)">
@@ -601,14 +606,14 @@
                 </select>
               </div>
             </div>
-            <div class='col-sm-2'>
+            <div class='col-sm-2' ng-if="newTorneo.tipo == 'Liga'">
               <div class="form-group">
               <label for="idaVuelta">Cantidad de Fechas</label>
                 <input type="text" class="form-control" id="fechasTorneo" name="fechasTorneo" ng-model="newTorneo.cantFechas" readonly="">
               </div>
             </div>
             <div class='col-sm-2'>
-              <div class="form-group">
+              <div class="form-group" ng-if="newTorneo.tipo == 'Liga'">
               <label for="idaVuelta">Partidos por Fechas</label>
                 <input type="text" class="form-control" id="fechasTorneo" name="fechasTorneo" ng-model="newTorneo.partidosPorFecha" readonly="">
               </div>
@@ -617,7 +622,8 @@
 
           <div class="row">
             <div class='col-sm-6' style="padding-top:15px">
-                <div data-ng-show="fechaMal" style="color:#FF0000"><b>La fecha de Inicio no puede ser posterior a la de fin</b></div>          
+                <div data-ng-show="fechaMal" style="color:#FF0000"><b>La fecha de Inicio no puede ser posterior a la de fin</b></div>
+                <div data-ng-show="fechaCierreMal" style="color:#FF0000"><b>La fecha de Cierre de inscripción no puede ser anterior a la fecha de inicio ni mayor a la de finalización del torneo.</b> </div>            
                 <br>
             </div>
           </div>

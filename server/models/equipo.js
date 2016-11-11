@@ -10,6 +10,7 @@ var Equipo = new Schema({
   fechasImpagas: Number,
   saldo: Number,
   idTorneo:  { type: Schema.Types.ObjectId, ref: 'Torneos' }
+
 });
 
 

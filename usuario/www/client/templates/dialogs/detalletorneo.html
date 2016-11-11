@@ -2,7 +2,7 @@
 	<ion-content scroll="true" >
 
 		<md-divider></md-divider>
-		<md-subheader class="md-no-sticky fondoDTorneo"><b>Datos Torneo</b></md-subheader>
+		<md-subheader class="md-no-sticky fondoDTorneo"><b>{{torneo.nombre}}</b></md-subheader>
 		<div class="row" layout="row" layout-align="center center">
 			<div class="col-25" style="text-align:center" layout="column">
 				<b>Inicio</b>
@@ -95,37 +95,35 @@
 				<b>DNI</b>
 			</div>
 			<div class="col" layout="column" style="text-align:left; margin-left: 10%;">
-				<b>Nombre</b>
+				<b>Nombre - Apellido</b>
 			</div>
 		</div>
 		<div class="row" layout="row" layout-align="center center" ng-repeat="jugador in jugadores">
 			<div class="col-20" style="text-align:center; margin-left: 5%;" layout="column" >
-				<input type="text" style="text-align:center; margin-left: 5%;" ng-model="jugador.dni">
+				<input type="text" style="text-align:center; margin-left: 5%;" ng-model="jugador.dni" >
 			</div>
 			<div class="col" layout="column">
-				<input type="text" style="text-align:center; margin-left: 5%;" ng-model="jugador.nombre">
+				<input type="text" style="text-align:center; margin-left: 5%;" ng-model="jugador.nombre" >
 			</div>
 		</div>
 
 		<md-divider></md-divider>
 		<md-subheader class="md-no-sticky fondoDTorneo"><b>Pago</b></md-subheader>
 
-		<div class="row" layout="row" layout-align="center center" ng-hide="reserva.importeAdeudado <= 0">
+
 			
 			<div class="col" layout="column">
-				<button class="button button-block button-positive" ng-click="openPago()">Pagar con tarjeta</button>
+				<button class="button button-block button-positive4" ng-click="openPago(jugadores)" ng-disabled="bloqBtnPagar">Pagar con tarjeta</button>
 			</div>
 
-		</div>
-</div>
-        
-		<div class="row" layout="row" layout-align="center center">
-			<button class="button button-block button-positive3" ng-click="anotarEquipo(jugadores)" ng-disabled="checked==true" ><b>Anotarse</b></button>
-		</div>
-            
-		<div class="row" layout="row" layout-align="center center">
+			<div class="col" layout="column">
 			<button class="button button-block button-assertive" ng-click="closeTorneo()">Cerrar</button>
 		</div>
+
+		
+</div>
+            
+		
 	</ion-content>
     
 </ion-modal-view>
@@ -148,11 +146,12 @@
 		background-color: white;
 		width: 10px;
 	}
-	.button.button-block.button-positive3{
+	.button-positive4{
+		background-color: blue;
 		color:white;
-		background-color: #0c60ee;
-		border:0px;
-
+	}
+	.button{
+		align-content: center;
 	}
 	input[type="text"]
 {

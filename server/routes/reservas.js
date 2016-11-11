@@ -42,6 +42,13 @@ router.delete('/delete', function(req, res, next) {
   });
 });
 
+router.delete('/eliminar', function(req, res, next) {
+  Reserva.findByIdAndRemove(req.query._id,  function (err, post) {
+    if (err) return next(err);
+    res.json(post);
+  });
+});
+
 router.post('/nuevareserva',function(req,res){
   req.body._cancha = new mongoose.mongo.ObjectId(req.body.Cancha);
   
