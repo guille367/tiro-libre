@@ -94,7 +94,7 @@ router.put('/update/incumplimiento', function(req, res, next) {
   });
 });
 
-router.post('/reestablecerpw:username',function(req,res){  
+router.post('/recover:username',function(req,res){  
     async.waterfall([
     function(done) {
       crypto.randomBytes(20, function(err, buf) {
@@ -103,26 +103,25 @@ router.post('/reestablecerpw:username',function(req,res){
       });
     },
     function(token, done) {
-      Usuario.findOne({ username: req.body.username }, function(err, usuario) {
-        if (!usuario) {
-          req.flash('error', 'No se encontro el usuario.');
-          return res.redirect('../recuperarpw');
+      Usuario.findOne({ username: req.params.username }, function(err, user) {
+        if (!user) {
+          return res.status(500).json({err:'No se encontro el usuario.'});
         }
 
-        usuario.tokenPwReset = token;
-        usuario.resetPwVencimiento = Date.now() + 3600000; // 1 hour
+        user.tokenPwReset = token;
+        user.resetPwVencimiento = Date.now() + 3600000; // 1 hour
 
-        usuario.save(function(err) {
+        user.save(function(err) {
           //done(err, token, user);
-            if(err){
-                req.flash('error', 'Intente nuevamente');
-                return res.redirect('../reestablecerpw');
-            }
+            if(err)
+                return res.status(500).json({err:err});
+                
+                done(err, token, user);
         });
       });
     },
-    function(token, usuario, done) {
-      var smtpTransport = nodemailer.createTransport(smtpTransport({
+    function(token, user, done) {
+      var transporter = nodemailer.createTransport(smtpTransport({
             host : "smtp.gmail.com",
             secureConnection : false,
             port: 587,
@@ -131,54 +130,51 @@ router.post('/reestablecerpw:username',function(req,res){
                 pass : "pps2016*"
             }
         }));
-        
+        user.mail = user.mail;
       var mailOptions = {
-        to: usuario.mail,
+        to: user.mail,
         from: 'ppsfutbol2016@gmail.com',
         subject: 'TiroLibre - Recuperar password',
         text: 'Usted ha pedido el reestablecimiento de la contraseña.\n\n' +
           'Por favor clickee en el link para continuar con el proceso:\n\n' +
-          'http://' + req.headers.host + '/recover/' + token + '\n\n' +
+          'http://' + req.headers.host + '#/recover/usuario/' + token + '\n\n' +
           'Muchas gracias!'
       };
         
-      smtpTransport.sendMail(mailOptions, function(err) {
-        console.log('Mail enviado a ' + usuario.mail);
+      transporter.sendMail(mailOptions, function(err) {
+        console.log('Mail enviado a ' + user.mail);
+        done(err, 'done');
       });
     }
-    ], function(err) {
+    ], function(err, data) {
         if (err) return next(err);
-        res.redirect('/reestablecerpw');
+          return res.status(200).json(data);
     });
     
 });
-    
-router.post('/reestablecerpw:token', function(req, res) {
 
-  User.findOne({ resetPasswordToken: req.params.token, resetPasswordExpires: { $gt: Date.now() } }, function(err, usuario) {
-        if (!usuario) {
-          req.flash('error', 'Password reset token is invalid or has expired.');
-          return res.redirect('back');
+router.put('/recover:token', function(req, res) {
+
+  Usuario.findOne({ tokenPwReset: req.params.token, resetPwVencimiento: { $gt: Date.now() } }, function(err, user) {
+        if (!user) {
+          return res.status(500).json({err:'El token es invalido o expiro.'});
         }
 
-        //usuario.password = req.body.password;
-        usuario.resetPasswordToken = undefined;
-        usuario.resetPasswordExpires = undefined;
-
-        bcrypt.genSalt(5, function(err, salt) {
-          if (err) return next(err);
-
-          bcrypt.hash(user.password, salt, null, function(err, hash) {
-            if (err) return next(err);
-            user.password = hash;
-            next();
-          });
+        user.setPassword(req.body.password,function(err,user){
+            if(err)
+                res.send(err);
+            
+            user.tokenPwReset = undefined;
+            user.resetPwVencimiento = undefined;
+            
+            user.save(function(err,user){
+                if(err)
+                    return res.status(500).json({err:err});
+              
+              return res.status(200).json({msg: 'Password reestablecida'});
+            });
         });
 
-        usuario.save(function(err) {
-          res.redirect('/estadopw');
-        });
-      
   });
 
 });

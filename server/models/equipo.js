@@ -9,8 +9,7 @@ var Equipo = new Schema({
   jugadores: Array,
   fechasImpagas: Number,
   saldo: Number,
-  idTorneo:  { type: Schema.Types.ObjectId, ref: 'Torneos' },
-  usuarioCreador : String
+  idTorneo:  { type: Schema.Types.ObjectId, ref: 'Torneos' }
 });
 
 

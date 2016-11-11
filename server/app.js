@@ -79,12 +79,8 @@ passport.use('user',new localStrategy(User.authenticate({
   usernameField: 'username',
   passwordField: 'password'
 })));
-//passport.serializeUser(User.serializeUser());
-//passport.deserializeUser(User.deserializeUser());
-
-passport.serializeUser(function(user, done) {
-  done(null, user.id);
-});
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
 
 passport.deserializeUser(function(id, done) {
   User.findById(id, function(err, user) {

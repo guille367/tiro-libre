@@ -27,6 +27,8 @@ storage.get('name').then(function (name){
 
   .state('resetpass', {
     url: '/resetcontrasena',
+    cache:false,
+    controller:'loginCtroller',
     templateUrl:'client/templates/resetcontrasena.html'
   })
   

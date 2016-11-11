@@ -4,7 +4,7 @@ angular.module('app.controllers')
     
     var user = {};
     $scope.nuevoUsuario = {};
-    $scope.error = false;
+    $scope.error = false;   
 
     $scope.loggearse = function(username,password){
         fnLoggeo(username,password)
@@ -41,6 +41,30 @@ angular.module('app.controllers')
                     });
         };
         
+    };
+
+    $scope.recuperarPw = function(form,username){
+
+        $scope.errorMessage = undefined;
+        $scope.message = undefined;
+
+        if(!form.$valid){
+            $scope.errorMessage = "Ingrese un usuario.";
+        }
+        else{
+            $ionicLoading.show();
+
+            userServices.recuperarPw(username)
+                .then(function(d){
+                    $ionicLoading.hide();
+                    $scope.message = "Revise su correo electronico.";
+                })
+                .catch(function(e){
+                    $ionicLoading.hide();
+                    $scope.errorMessage = e.data.err;
+                });
+
+        }
     }
 
     var fnLoggeo = function(username,password){

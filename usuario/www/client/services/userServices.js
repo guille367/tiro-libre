@@ -30,6 +30,16 @@ angular.module('app.services')
 			});
 	}
 
+	this.recuperarPw = function(username){
+		return $http.post(generalServices.urlUsuarios + '/recover' + username)
+			.then(function(d){
+				return d.data;
+			})
+			.catch(function(e){
+				throw e;
+			});
+	}
+
 	this.cerrarSesion = function(){
         return $http.get(generalServices.urlUsuarios + '/logout')
             .then(function(){

@@ -104,7 +104,7 @@ myApp.config(function ($stateProvider, $urlRouterProvider) {
     })
 
     .state('recover', {
-      url: '/recover/:token',
+      url: '/recover/:tipousuario/:token',
       templateUrl:'templates/recover.html',
       controller: 'loginController',
       access: {restricted: false}

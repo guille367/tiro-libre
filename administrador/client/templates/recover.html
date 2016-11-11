@@ -1,20 +1,20 @@
 <div class="col-md-4">
   <h1>Recuperar password</h1>
   <div ng-show="error" class="alert alert-danger">{{errorMessage}}</div>
-  <div ng-show="!message" class="assertive">{{message}}</div>
+  <div ng-show="message" class="alert alert-info">{{message}}</div>
   <form class="form" ng-submit="login()">
     <div class="form-group-conf">
       <label><B>Nueva password</B></label>
-      <input type="text" class="form-control" name="username" ng-model="recoverForm.pw" required>
+      <input type="text" class="form-control" name="username" ng-model="recoverForm.pw" ng-disabled="message" required>
     </div>
     <div class="form-group-conf">
     <div class="form-group-conf">
       <label><B>Repetir password</B></label>
-      <input type="text" class="form-control" name="username" ng-model="recoverForm.pwrepeat" required>
+      <input type="text" class="form-control" name="username" ng-disabled="message" ng-model="recoverForm.pwrepeat" required>
     </div>
     <div class="form-group-conf">
       <div align="right">
-        <button type="button" class="btn btn-primary" ng-disabled="disabled" ng-click="recover(undefined,recoverForm.pw,recoverForm.pwrepeat)">Reestablecer</button>
+        <button type="button" class="btn btn-primary" ng-disabled="message" ng-click="recover(undefined,recoverForm.pw,recoverForm.pwrepeat)">Reestablecer</button>
       </div>
   </form>
 </div>

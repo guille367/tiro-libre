@@ -31,10 +31,11 @@ angular.module('myApp').controller('loginController',
       
       $scope.message = undefined;
       $scope.recoverForm = {};
-      console.log($stateParams);
+
       if(username && !pw){
         AuthService.requestRecover(username)
         .then(function(response){
+          $scope.error = false;
           $scope.message = "Revise su correo electronico.";
         })
         .catch(function(e){
@@ -49,10 +50,10 @@ angular.module('myApp').controller('loginController',
           $scope.errorMessage = "Las contrasenas no coinciden.";
         }
         else{
-          AuthService.recover(pw,$stateParams.token)
+          AuthService.recover(pw,$stateParams.tipousuario,$stateParams.token)
             .then(function(data){
               $scope.error = false;
-              $state.go('login');
+              $scope.message = "Contraseña reestablecida!";
             })
             .catch(function(e){
               $scope.error = true;

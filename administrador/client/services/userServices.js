@@ -174,11 +174,12 @@ angular.module('myApp').factory('AuthService',
         return deferred.promise;
     }
 
-    function recover(pw,token){
+    function recover(pw,tipousuario,token){
 
       var deferred = $q.defer();
+      var url = tipousuario == 'admin' ? 'user' : 'usuario';
 
-      $http.put('/user/recover' + token,{password:pw})
+      $http.put('/'+ url + '/recover' + token,{password:pw})
         .success(function(data, status){
           if(status === 200){
             deferred.resolve();

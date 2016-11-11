@@ -29,10 +29,15 @@ router.post('/register', function(req, res) {
 
 router.post('/login', function(req, res, next) {
   passport.authenticate('user', function(err, user, info) {
+      
     if (err) {
-      return next(err);
+        
+      console.log('err authenticate');
+      console.log(err);
+      return res.json({err:err});
     }
     if (!user) {
+        console.log("nono")
       return res.status(401).json({
         err: info
       });
@@ -101,8 +106,7 @@ router.post('/recover:username',function(req,res){
     function(token, done) {
       User.findOne({ username: req.params.username }, function(err, user) {
         if (!user) {
-          req.flash('error', 'No se encontro el usuario.');
-          return res.redirect('../login');
+          return res.status(500).json({err:'No se encontro el usuario.'});
         }
 
         user.tokenPwReset = token;
@@ -111,7 +115,7 @@ router.post('/recover:username',function(req,res){
         user.save(function(err) {
           //done(err, token, user);
             if(err)
-                req.flash('error', 'Intente nuevamente');
+                return res.status(500).json({err:err});
                 
                 done(err, token, user);
         });
@@ -127,14 +131,14 @@ router.post('/recover:username',function(req,res){
                 pass : "pps2016*"
             }
         }));
-        user.mail = "guillermo.gpa80@gmail.com";
+        user.mail = user.mail;
       var mailOptions = {
         to: user.mail,
         from: 'ppsfutbol2016@gmail.com',
         subject: 'TiroLibre - Recuperar password',
         text: 'Usted ha pedido el reestablecimiento de la contraseña.\n\n' +
           'Por favor clickee en el link para continuar con el proceso:\n\n' +
-          'http://' + req.headers.host + '#/recover/' + token + '\n\n' +
+          'http://' + req.headers.host + '#/recover/admin/' + token + '\n\n' +
           'Muchas gracias!'
       };
         
@@ -145,7 +149,7 @@ router.post('/recover:username',function(req,res){
     }
     ], function(err, data) {
         if (err) return next(err);
-        return res.status(200).json(data);
+          return res.status(200).json(data);
     });
     
 });
@@ -157,29 +161,19 @@ router.put('/recover:token', function(req, res) {
           return res.status(500).json({err:'El token es invalido o expiro.'});
         }
 
-        //user.password = req.body.password;
-        user.tokenPwReset = undefined;
-        user.resetPwVencimiento = undefined;
-
-        bcrypt.genSalt(32, function(err, salt) {
-          if (err) return next(err);
-
-          bcrypt.hash(user.password, salt, null, function(err, hash) {
-            if (err) return next(err);
-
-            user.password = req.body.password;
-            user.hash = hash;
-            user.salt = salt;
-
-            user.save(function(err) {
-              if(err)
-                return res.status(500).json({err:err});
+        user.setPassword(req.body.password,function(err,user){
+            if(err)
+                res.send(err);
+            
+            user.tokenPwReset = undefined;
+            user.resetPwVencimiento = undefined;
+            
+            user.save(function(err,user){
+                if(err)
+                    return res.status(500).json({err:err});
               
               return res.status(200).json({msg: 'Password reestablecida'});
             });
-
-          });
-
         });
 
   });
