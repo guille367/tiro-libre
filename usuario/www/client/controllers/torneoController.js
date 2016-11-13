@@ -12,7 +12,7 @@ angular.module('app.controllers')
 
     $scope.bloqBtnPagar = false;
 
-    $scope.user = userServices.getUsuario();
+    $scope.usuario = userServices.getUsuario();
     $scope.fechaActual = new Date();
 
     $scope.options = {
@@ -26,8 +26,7 @@ angular.module('app.controllers')
             .then(function(d){
                 $ionicLoading.hide();
                 $scope.torneos = d.data;
-                $scope.torneos = $scope.torneos.filter($scope.quitarCancha);
-
+                //$scope.torneos = $scope.torneos.filter($scope.quitarCancha);
             })  
             .catch(function(e){
                 $ionicLoading.hide();
@@ -37,31 +36,10 @@ angular.module('app.controllers')
 
     };
 
-    getTorneos();
-
-  $scope.quitarCancha = function(objeto){
-    var dif = moment(objeto.fechaFin).diff(moment($scope.fechaActual), 'day');
-    if(dif == 0){
-      return false;
-    }else{
-      return true;
-    };
-
-  };
-
-    $scope.quitarJugador = function(objeto){
-        if(objeto == null){
-          return false;
-        }else{
-          return true;
-        };
-    };
-
-
-
     $scope.openPago = function(form){
 
         var continuar = true;
+        var existeJugador = false;
 
         var jugadores = $scope.jugadoresTitulares.concat($scope.jugadoresSuplentes); 
 
@@ -70,56 +48,66 @@ angular.module('app.controllers')
         else
             {
 
-                jugadores.forEach(function(j){
+                jugadores.every(function(j){
 
-                    jugadores.forEach(function(h){
-                        if(j.$$hashKey != h.$$hashKey && j.dni == h.dni){
+                    existeJugador = jugadores.some(function(h){
+                        if (j.$$hashKey != h.$$hashKey && j.dni == h.dni){
                             gralFactory.showError('El dni' + j.dni + ' se encuentra repetido');
                             continuar = false;
-                            return;
+                            return true;
                             }
-                        });
+                        else
+                            return false;
+                    });
 
-                    if(continuar = false)
-                        return;
+                    if(existeJugador)
+                        return  false;
+                    else
+                        return true;
                 });
 
-                if(!continuar)
-                    return;
+                $scope.torneo.equipos.every(function(eq){
 
-                $scope.torneo.equipos.forEach(function(eq){
+                    if ($scope.usuario.username == eq.usuarioResp){
+                        gralFactory.showError('Usted ya se encuentra inscripto al torneo');
+                        continuar = false;
+                        return false;
+                    }
+
                     if ($scope.equipo.nombreEq == eq.nombreEq){
                         gralFactory.showError('El nombre del equipo ya se encuentra registrado');
                         continuar = false;
+                        return false;
                     };
 
-                    eq.jugadores.forEach(function(jugadorAnotado){
-                        jugadores.forEach(function(jugadorNuevo){
+                    eq.jugadores.every(function(jugadorAnotado){
+
+                        jugadores.some(function(jugadorNuevo){
                             if(jugadorAnotado.dni == jugadorNuevo.dni){
-                                gralFactory.showError('El nombre del equipo ya se encuentra registrado');
+                                gralFactory.showError('El dni ' + jugadorNuevo.dni + ' ya fue anotado al torneo');
                                 continuar = false;
-                                return;
-                            };
+                                return true;
+                            }
+                            else
+                                return false;   
                         });
+
                         if(!continuar)
-                            return;
+                            return false;
                     });
 
                 });       
+                
+                if(continuar){
+                    $scope.equipo.usuarioResp = $scope.usuario.username;
+                    $scope.equipo.idTorneo = $scope.torneo._id;
+                    $scope.equipo.saldo = torneo.cantFechas * torneo.valorPorPartido;
+                    $scope.equipo.fechasImpagas = torneo.cantFechas;
+                    $scope.equipo.jugadores = jugadores;
+                    $scope.modalPago.show();
+                };
 
-
-                if(continuar)
-                    alert("paso,man")
-
-            }
-
-        return;
-
-        $scope.anotarEquipo(jugadores);
-        $scope.user.nombreCompleto = $scope.user.apellido + ', ' + $scope.user.nombre;
-        if($scope.checked == true){
-            $scope.modalPago.show();
-        };
+            };
     };
 
     $scope.openTorneo = function (r) {
@@ -161,132 +149,27 @@ angular.module('app.controllers')
         });
     };
 
-    $scope.anotarEquipo = function(equipo,jugadores){
-        
-
-        $scope.contar = 0;
-        $scope.equipo.usuarioResp = $scope.user.username;
-        $scope.equipo.idTorneo = $scope.torneo._id;
-        $scope.equipo.jugadores = $scope.jugadores;
-        $scope.equipo.saldo = torneo.cantFechas * torneo.valorPorPartido;
-        $scope.equipo.fechasImpagas = torneo.cantFechas;
-
-        if($scope.equipo.nombreEq != null && $scope.equipo.nombreEq != ""){
-
-                $scope.equipo.jugadores = $scope.equipo.jugadores.filter($scope.quitarJugador);
-
-                angular.forEach($scope.equipo.jugadores, function(value, key){
-                    if(value.dni != null && value.nombre != null){
-                        if(value.dni != "" && value.nombre != ""){
-                            if(value.dni > 10000000 && value.dni < 99999999){
-                                angular.forEach($scope.equipo.jugadores, function(value2, key2){
-                                    if(value.dni == value2.dni && key == key2){
-                                        $scope.contar = $scope.contar + 1;
-                                        return;
-                                    }if(value.dni != value2.dni){
-                                        $scope.contar = $scope.contar + 1;
-                                        return;
-                                    }else{
-                                        gralFactory.showError('El dni : ' + value.dni + ' esta repetido');
-                                        $scope.checked = false;
-                                        return forEach.break();        
-                                    };
-                                });
-                                
-                            }else{
-                                gralFactory.showError('Verificar el dni: ' + value.dni);
-                                $scope.checked = false;
-                                return ;                        
-                            };
-                        }else{
-                            return ;
-                        };
-                    }else{
-                        return ;
-                    };
-                });
-
-                angular.forEach($scope.torneo.equipos, function(jugad, key){
-                    if (jugad.nombreEq != $scope.equipo.nombreEq){
-                        $scope.equipo.jugadores = $scope.equipo.jugadores.filter($scope.quitarJugador);
-                        angular.forEach($scope.equipo.jugadores, function(value, key){
-                            jugad.jugadores = jugad.jugadores.filter($scope.quitarJugador);
-                            angular.forEach(jugad.jugadores, function(jugadorDni, key){
-                                if (jugadorDni.dni == value.dni){
-                                    $scope.checked = false;
-                                    gralFactory.showError('EL dni ya se encuentra registrado: ' + value.dni);
-                                    $scope.contar = 0;
-                                    return false;
-                                }else{
-                                    return ;
-                                };
-                            });
-                        });
-                    }else{
-                        $scope.checked = false;
-                        gralFactory.showError('El nombre del equipo ya se encuentra registrado');
-                        $scope.contar = 0;
-                        return false;
-                    };
-                });       
-            }else{
-                $scope.checked = false;
-                gralFactory.showError('Completar el nombre del equipo');
-                return;
-        };
-
-
-        if($scope.contar >= $scope.torneo.jugTitulares){              
-            $scope.checked = true;       
-            equiposService.save($scope.equipo)
-                .then(function(equipo){
-
-                     torneosService.save($scope.torneo,equipo)
-                        .then(function(res){
-                            $scope.torneos = {};
-                            $scope.torneo = {};
-                            getTorneos();
-                        });             
-                    $scope.equipo = {};
+    $scope.anotarEquipo = function(){
+      
+        equiposService.save($scope.equipo)
+            .then(function(equipo){
+                 torneosService.save($scope.torneo,equipo)
+                    .then(function(res){
+                        $state.go('torneos');
+                        $scope.modalPago.show();
+                        gralFactory.showMessage('Muchas gracias por anotarse!');
+                        getTorneos();
+                    })
+                    .catch(function(e){
+                        gralFactory.showError('Ha ocurrido un error en la inscripcion.');
+                    });            
             });
-                     
-        }else{
-            $scope.checked = false;
-            gralFactory.showError('Completar los datos de los jugadores. Mínimo de jugadores: ' + $scope.torneo.jugTitulares);
-            
-        };
-
 
     };
 
     $scope.closeTorneo = function () {
         $scope.modalTorneo.hide();
         getTorneos();
-    };
-
-    $scope.pagarInscripcion = function(form){
-
-        if(form.$valid)
-            alert(true);
-        else
-            alert(false)
-
-        return;
-
-        if(!form.$valid){
-            gralFactory.showError('Por favor corrobore sus datos.');
-            }
-        else{
-            console.log('form valid');
-            $ionicLoading.show();
-            setTimeout(function(){
-                $ionicLoading.hide();
-                $scope.modalPago.hide();
-                $scope.modalTorneo.hide();
-                $state.go('torneos');
-                gralFactory.showMessage('Su equipo fue anotado, el pago procesado. Muchas gracias!');
-            },2000);
-        }
     };
 
     $scope.closePago = function () {
@@ -296,11 +179,10 @@ angular.module('app.controllers')
     $ionicModal.fromTemplateUrl('client/templates/dialogs/detalletorneo.html',{
         scope: $scope,
         animation:'slide-in-up',
-
     }).then(function(modal){
-
         $scope.modalTorneo = modal;
     });    
+
     $ionicModal.fromTemplateUrl('client/templates/dialogs/pagotarjeta.html',{
         scope: $scope,
         animation:'slide-in-up',
@@ -309,4 +191,5 @@ angular.module('app.controllers')
         $scope.modalPago = modal;
     });
 
+    getTorneos();
 }])

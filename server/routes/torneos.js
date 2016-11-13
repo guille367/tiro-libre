@@ -11,10 +11,14 @@ router.post('/post', function(req, res) {
 });
 
 router.get('/get', function(req, res, next){
-	Torneo.find(function(err, data){
-		if(err) return next(err);
-		res.json(data);
-	})
+  Torneo.find()
+        .populate('equipos')
+      .exec(function(err,torneo){
+          if(err)
+            return res.status(500).json({err:err});
+
+          res.json(torneo);
+      });
 });
 
 router.get('/get:idtorneo',function(req,res){

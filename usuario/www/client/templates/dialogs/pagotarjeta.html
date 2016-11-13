@@ -58,7 +58,9 @@
 			<md-input-container>
 		        <label>Nombre del titular</label>
 		        <input md-maxlength="20" required ng-model="user.nombreCompleto">
-		        <div ng-message="required">Campo obligatorio</div>
+		        <ng-messages for="form.user.nombreCompleto.$error">
+		        	<div ng-message="md-maxlength">You did not enter a field</div>
+		        </ng-messages>
 	      	</md-input-container>
 		</div>
 
@@ -66,7 +68,9 @@
 			<md-input-container>
 		        <label>Número de tarjeta</label>
 		        <input md-maxlength="20" required ng-model="user.numero">
-		        <div ng-message="required">Campo obligatorio</div>
+		        <ng-messages for="form.user.numero.$error">
+		        	<div ng-message="md-maxlength">Tarjeta invalida</div>
+		        </ng-messages>
 	      	</md-input-container>
 		</div>
 
@@ -75,24 +79,30 @@
 			<div layout="column" flex="33">
 				<md-input-container>
 			        <label>MM</label>
-			        <input md-maxlength="2" required ng-model="user.mm" >
-			        <div ng-message="required">Campo obligatorio</div>
+			        <input md-maxlength="2" required ng-model="user.mm">
+			        <ng-messages for="form.user.mm.$error">
+			        	<div ng-message="md-maxlength"></div>
+			        </ng-messages>
 		      	</md-input-container>
 	      	</div>
 	      		/
 	      	<div layout="column" flex="33">
 				<md-input-container>
 			        <label>AA</label>
-			        <input md-maxlength="2" required ng-model="user.aa" >
-			        <div ng-message="required">Campo obligatorio</div>
+			        <input md-maxlength="2" required ng-model="user.aa">
+			        <ng-messages for="form.user.aa.$error">
+			        	<div ng-message="md-maxlength"></div>
+			        </ng-messages>
 		      	</md-input-container>
 	      	</div>
 
 	      	<div layout="column" flex="33">
 				<md-input-container>
 			        <label>CSV</label>
-			        <input md-maxlength="4" required ng-model="user.csv" >
-			        <div ng-message="required">Campo obligatorio</div>
+			        <input md-maxlength="4" required ng-model="user.csv" >	
+			        <ng-messages for="form.user.csv.$error">
+			        	<div ng-message="md-maxlength"></div>
+			        </ng-messages>
 		      	</md-input-container>
 	      	</div>
 
@@ -100,7 +110,8 @@
 		</div>
 
 		<section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
-	      <md-button class="md-raised md-primary" ng-click="pagarReserva(form)">Confirmar</md-button>
+	      <md-button class="md-raised md-primary" ng-show="!torneo && reserva" ng-click="pagarReserva(form)">Confirmar</md-button>
+	      <md-button class="md-raised md-primary" ng-show="!reserva && torneo" ng-click="anotarEquipo()">Confirmar t</md-button>
 	      <md-button class="md-raised md-warn" ng-click="closePago()">Cerrar</md-button>
   	    </section>
             

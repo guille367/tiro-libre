@@ -115,7 +115,7 @@
 							<div layout="column" flex="33">
 						    <md-input-container style="margin-bottom:0 px;margin-top:0 !important">
 							    <label>DNI</label>
-							    <input ng-model="jugador.dni" md-maxlength="10" name="jugador_dni_{{$index}}" ng-model="jugador.dni" required>
+							    <input ng-model="jugador.dni" ng-minlength="7" md-maxlength="10" name="jugador_dni_{{$index}}" ng-model="jugador.dni" required>
 							    <div ng-messages="form['jugador_dni_'+$index].$error">
 						            <div ng-message="required" class="error">Requerido</div>
 						            <div ng-message="md-maxlength" class="error">DNI Invalido</div>
@@ -154,7 +154,7 @@
 							<div layout="column" flex="33">
 								<md-input-container style="margin-bottom:0 !important;margin-top:0 !important">
 								    <label>DNI</label>
-								    <input ng-model="jugador.dni" md-maxlength="10" name="jugador_dni_{{$index}}" ng-model="jugador.dni" required>
+								    <input ng-model="jugador.dni" ng-minlength="7" md-maxlength="10" name="jugador_dni_{{$index}}" ng-model="jugador.dni" required>
 								    <div ng-messages="form['jugador_dni_'+$index].$error">
 							            <div ng-message="required" class="error">Requerido</div>
 							            <div ng-message="md-maxlength" class="error">DNI Invalido</div>
