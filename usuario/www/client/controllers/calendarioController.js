@@ -12,7 +12,9 @@ angular.module('app.controllers')
         $scope.habilitarReserva = false;
         $scope.datosClub = {};
         $scope.calendar.eventSource = {};
-        
+
+        $scope.user = userServices.getUsuario();
+
         $scope.reserva = {
             abonaTotal: false
         };
@@ -118,7 +120,8 @@ angular.module('app.controllers')
                 //$scope.horario.time.to = selectedTime
             }
 
-            $scope.habilitarReserva = (events !== undefined && events.length !== 0);
+            $scope.habilitarReserva = (events !== undefined && events.length !== 0)
+                || selectedTime.getTime() <= ( new Date().getTime() + 360000 );
         };
 
         function createRandomEvents() {
@@ -170,7 +173,7 @@ angular.module('app.controllers')
             
             $scope.reserva.PrecioTotal = precio;
             $scope.reserva.PrecioReserva = precio * ($scope.datosClub.porcReserva * 0.01);
-
+            $scope.user.nombreCompleto = $scope.user.apellido + ', ' + $scope.user.nombre;  
             $scope.modalPago.show();
         }
 
@@ -195,8 +198,6 @@ angular.module('app.controllers')
         loadReservas();
 
         $scope.pagarReserva = function(form){
-
-            var usuario = userServices.getUsuario();
                     
             if(!form.$valid)
                 gralFactory.showError('Por favor corrobore sus datos.');
@@ -213,9 +214,9 @@ angular.module('app.controllers')
             var saldo = $scope.reserva.abonaTotal ? 0 : $scope.reserva.PrecioTotal - $scope.reserva.PrecioReserva;
             
             $scope.reserva.TaskID = uuid.v4();
-            $scope.reserva.Username = usuario.username;
+            $scope.reserva.Username = usuarioActual.username;
             $scope.reserva.Cancha = $scope.cancha._id;
-            $scope.reserva.Description = 'Reserva ' + usuario.username;
+            $scope.reserva.Description = 'Reserva ' + usuarioActual.username;
             $scope.reserva.Start = fechaInicio;
             $scope.reserva.End = fechaFin;
             $scope.reserva.Saldo = saldo;

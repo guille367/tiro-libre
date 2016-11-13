@@ -6,6 +6,7 @@ angular.module('app.controllers')
     $scope.reservas = getReservas();
     $scope.reserva = {};
     $scope.time = new Date();
+    $scope.user = userServices.getUsuario();
     $scope.datosClub = generalServices.getDatosClub();
     $ionicModal.fromTemplateUrl('client/templates/dialogs/detallereserva.html',{
         scope: $scope,
@@ -22,6 +23,7 @@ angular.module('app.controllers')
     });
 
     $scope.openPago = function(){
+        $scope.user.nombreCompleto = $scope.user.apellido + ', ' + $scope.user.nombre; 
         $scope.modalPago.show();
     };
 

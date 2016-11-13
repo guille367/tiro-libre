@@ -1,129 +1,205 @@
 <ion-modal-view>
-	<ion-content scroll="true" >
-
-		<md-divider></md-divider>
-		<md-subheader class="md-no-sticky fondoDTorneo"><b>{{torneo.nombre}}</b></md-subheader>
-		<div class="row" layout="row" layout-align="center center">
-			<div class="col-25" style="text-align:center" layout="column">
-				<b>Inicio</b>
-			</div>
-			<div class="col">
-				<b>{{torneo.fechaInicio | date:'dd/MM/yyyy'}}</b>
-			</div>
-			<div class="col-25" style="text-align:center" layout="column">
-			<b>Fín</b>
-			</div>
-			<div class="col">
-				<b>{{torneo.fechaFin | date:'dd/MM/yyyy'}}</b>
-			</div>
-		</div>
-
-		<div class="row" layout="row" layout-align="center center">
-
-			<div class="col-25" style="text-align:center" layout="column">
-				<b>Jugadores: </b>
-			</div>
-			<div class="col" layout="column">
-				<b>{{torneo.jugTitulares + torneo.jugSuplentes}}</b>
-			</div>
-			<div class="col-25" style="text-align:center" layout="column">
-				<b>Inscripción: </b>
-			</div>
-			<div class="col" layout="column">
-				<b>${{torneo.valorInscripcion}}</b>
+	<ion-content scroll="true">
+		<form name="form" role="form">
+			<md-divider></md-divider>
+			<md-subheader class="md-no-sticky fondoDTorneo"><b>{{torneo.nombre}}</b></md-subheader>
+			<div class="row" layout="row" layout-align="center center">
+				<div class="col-25" style="text-align:center" layout="column">
+					<b>Inicio</b>
+				</div>
+				<div class="col">
+					<b>{{torneo.fechaInicio | date:'dd/MM/yyyy'}}</b>
+				</div>
+				<div class="col-25" style="text-align:center" layout="column">
+				<b>Fín</b>
+				</div>
+				<div class="col">
+					<b>{{torneo.fechaFin | date:'dd/MM/yyyy'}}</b>
+				</div>
 			</div>
 
-		</div>
+			<div class="row" layout="row" layout-align="center center">
 
-		<div class="row" layout="row" layout-align="center center" >
+				<div class="col-25" style="text-align:center" layout="column">
+					<b>Jugadores: </b>
+				</div>
+				<div class="col" layout="column">
+					<b>{{torneo.jugTitulares + torneo.jugSuplentes}}</b>
+				</div>
+				<div class="col-25" style="text-align:center" layout="column">
+					<b>Inscripción: </b>
+				</div>
+				<div class="col" layout="column">
+					<b>${{torneo.valorInscripcion}}</b>
+				</div>
 
-			<div class="col-25" style="text-align:center" layout="column">
-				<b>Titulares</b>
-			</div>
-			<div class="col" layout="column">
-				<b>{{torneo.jugTitulares}}</b>
-			</div>
-			<div class="col-25" style="text-align:center" layout="column">
-				<b>Por partido: </b>
-			</div>
-			<div class="col" layout="column">
-				<b>${{torneo.valorPorPartido}}</b>
-			</div>
-
-		</div>
-
-		<div class="row" layout="row" layout-align="center center">
-
-			<div class="col-25" style="text-align:center" layout="column">
-				<b>Suplentes</b>
-			</div>
-			<div class="col" layout="column">
-				<b>{{torneo.jugSuplentes}}</b>
-			</div>
-			<div class="col-25" style="text-align:center" layout="column">
-				<b>Formato: </b>
-			</div>
-			<div class="col" layout="column">
-				<b>{{torneo.tipo}}</b>
 			</div>
 
-		</div>
+			<div class="row" layout="row" layout-align="center center" >
 
-		<div class="row" layout="row" layout-align="center center">
+				<div class="col-25" style="text-align:center" layout="column">
+					<b>Titulares</b>
+				</div>
+				<div class="col" layout="column">
+					<b>{{torneo.jugTitulares}}</b>
+				</div>
+				<div class="col-25" style="text-align:center" layout="column">
+					<b>Por partido: </b>
+				</div>
+				<div class="col" layout="column">
+					<b>${{torneo.valorPorPartido}}</b>
+				</div>
 
-			<div class="col-25" style="text-align:center" layout="column">
-				<b>Equipos</b>
-			</div>
-			<div class="col" layout="column">
-				<b>{{torneo.cantEquipos}}</b>
-			</div>
-
-		</div>
-        
-<div ng-show="loggeado">
-            
-		<md-divider></md-divider>
-		<md-subheader class="md-no-sticky fondoDTorneo"><b>Nombre del Equipo</b></md-subheader>
-		<div class="row" layout="row" layout-align="center center">
-			<div class="col" >
-				<input class="prueba" type="text" ng-model="equipo.nombreEq">
-			</div>
-		</div>
-		<md-subheader class="md-no-sticky fondoDTorneo"><b>Jugadores</b></md-subheader>
-		<div class="row" layout="row" layout-align="center center">
-			<div class="col-20" style="text-align:center" layout="column">
-				<b>DNI</b>
-			</div>
-			<div class="col" layout="column" style="text-align:left; margin-left: 10%;">
-				<b>Nombre - Apellido</b>
-			</div>
-		</div>
-		<div class="row" layout="row" layout-align="center center" ng-repeat="jugador in jugadores">
-			<div class="col-20" style="text-align:center; margin-left: 5%;" layout="column" >
-				<input type="text" style="text-align:center; margin-left: 5%;" ng-model="jugador.dni" >
-			</div>
-			<div class="col" layout="column">
-				<input type="text" style="text-align:center; margin-left: 5%;" ng-model="jugador.nombre" >
-			</div>
-		</div>
-
-		<md-divider></md-divider>
-		<md-subheader class="md-no-sticky fondoDTorneo"><b>Pago</b></md-subheader>
-
-
-			
-			<div class="col" layout="column">
-				<button class="button button-block button-positive4" ng-click="openPago(jugadores)" ng-disabled="bloqBtnPagar">Pagar con tarjeta</button>
 			</div>
 
-			<div class="col" layout="column">
-			<button class="button button-block button-assertive" ng-click="closeTorneo()">Cerrar</button>
-		</div>
+			<div class="row" layout="row" layout-align="center center">
 
-		
-</div>
-            
-		
+				<div class="col-25" style="text-align:center" layout="column">
+					<b>Suplentes</b>
+				</div>
+				<div class="col" layout="column">
+					<b>{{torneo.jugSuplentes}}</b>
+				</div>
+				<div class="col-25" style="text-align:center" layout="column">
+					<b>Formato: </b>
+				</div>
+				<div class="col" layout="column">
+					<b>{{torneo.tipo}}</b>
+				</div>
+
+			</div>
+
+			<div class="row" layout="row" layout-align="center center">
+
+				<div class="col-25" style="text-align:center" layout="column">
+					<b>Equipos</b>
+				</div>
+				<div class="col" layout="column">
+					<b>{{torneo.cantEquipos}}</b>
+				</div>
+
+			</div>
+	        
+			<div ng-show="loggeado">
+			            
+					<md-divider></md-divider>
+					<md-subheader class="md-no-sticky fondoDTorneo"><b>Equipo</b></md-subheader>
+					
+					<md-content>
+						<md-input-container class="md-block" >
+							<div layout="row">
+								<label>Nombre del equipo</label>
+								<input type="text" ng-model="equipo.nombreEq" required>
+							</div>
+						</md-input-container>
+					</md-content>
+					
+
+					<!-- <div class="row" layout="row" layout-align="center center">
+						<div class="col" >
+							<input class="prueba" type="text" ng-model="equipo.nombreEq">
+						</div>
+					</div> -->
+
+					<md-subheader class="md-no-sticky fondoDTorneo"><b>Jugadores</b></md-subheader>
+					&nbsp;
+					<div class="row" layout="row" layout-align="center center">
+						<div layout="column">
+							Titulares
+						</div>
+					</div>
+			        <md-divider></md-divider>
+
+				  	<md-content>
+						<div layout="row" ng-repeat="jugador in jugadoresTitulares">
+							<div layout="column" flex="33">
+						    <md-input-container style="margin-bottom:0 px;margin-top:0 !important">
+							    <label>DNI</label>
+							    <input ng-model="jugador.dni" md-maxlength="10" name="jugador_dni_{{$index}}" ng-model="jugador.dni" required>
+							    <div ng-messages="form['jugador_dni_'+$index].$error">
+						            <div ng-message="required" class="error">Requerido</div>
+						            <div ng-message="md-maxlength" class="error">DNI Invalido</div>
+						            <div ng-message="minlength" class="error">DNI Invalido</div>
+						        </div>
+						    </md-input-container>
+						    </div>
+						    <div layout="column" flex="66">
+						    <md-input-container style="margin-bottom:0 !important;margin-top:0 !important">
+							    <label>Nombre</label>
+							    <input ng-model="jugador.nombre" name="jugador_nombre_{{$index}}" ng-model="jugador.dni" required>
+							    <div ng-messages="form['jugador_nombre_'+$index].$error">
+						            <div ng-message="required" class="error">Requerido</div>
+						        </div>
+						    </md-input-container>
+						    </div>
+						</div>
+					</md-content>
+					&nbsp;
+					&nbsp;
+					<div class="row" layout="row" layout-align="center center">
+						<div layout="column">
+							Suplentes (restan: {{ torneo.jugSuplentes - jugadoresSuplentes.length }})
+						</div>
+						<div layout="column" flex="10"></div>
+						<div layout="column">
+							<button class="btn btn-primary" ng-click="agregarSuplente()" ng-disabled="torneo.jugSuplentes - jugadoresSuplentes.length <= 0">Agregar suplente</button>
+						</div>
+						
+					</div>
+
+			        <md-divider></md-divider>
+
+			         <md-content>
+						<div layout="row" ng-repeat="jugador in jugadoresSuplentes">
+							<div layout="column" flex="33">
+								<md-input-container style="margin-bottom:0 !important;margin-top:0 !important">
+								    <label>DNI</label>
+								    <input ng-model="jugador.dni" md-maxlength="10" name="jugador_dni_{{$index}}" ng-model="jugador.dni" required>
+								    <div ng-messages="form['jugador_dni_'+$index].$error">
+							            <div ng-message="required" class="error">Requerido</div>
+							            <div ng-message="md-maxlength" class="error">DNI Invalido</div>
+							            <div ng-message="minlength" class="error">DNI Invalido</div>
+							        </div>
+							    </md-input-container>
+						    </div>
+						    <div layout="column" flex="33">
+							    <md-input-container style="margin-bottom:0 !important;margin-top:0 !important">
+								    <label>Nombre</label>
+								    <input ng-model="jugador.nombre" name="jugador_nombre_{{$index}}" ng-model="jugador.dni" required>
+								    <div ng-messages="form['jugador_nombre_'+$index].$error">
+							            <div ng-message="required" class="error">Requerido</div>
+							        </div>
+							    </md-input-container>
+						    </div>	
+						    <div class="col" layout="column">
+								<button class="btn btn-danger" ng-click="eliminarSuplente(jugador.$$hashKey)">X</button>
+							</div>	
+						</div>
+					</md-content>
+
+					<!-- <div class="row" layout="row" layout-align="center center" ng-repeat="jugador in jugadoresSuplentes">
+						<div class="col-20" style="text-align:center; margin-left: 5%;" layout="column" >
+							<input type="text" style="text-align:center; margin-left: 5%;" ng-minlength="7" ng-minlength="10"  ng-model="jugador.dni" required>
+						</div>
+						<div class="col" layout="column">
+							<input type="text" style="text-align:center; margin-left: 5%;" ng-model="jugador.nombre" required>
+						</div>
+						<div class="col" layout="column">
+							<button class="btn btn-danger" ng-click="eliminarSuplente(jugador.$$hashKey)">X</button>
+						</div>
+					</div> -->
+
+					<md-divider></md-divider>
+					<md-subheader class="md-no-sticky fondoDTorneo"><b>Pago</b></md-subheader>		
+						<div class="col" layout="column">
+							<button class="button button-block button-positive4" ng-minlength="7" ng-minlength="10" ng-click="openPago(form)" ng-disabled="bloqBtnPagar">Pagar con tarjeta</button>
+						</div>
+
+						<div class="col" layout="column">
+						<button class="button button-block button-assertive" ng-click="closeTorneo()">Cerrar</button>
+					</div>
+			</div>
+		</form>
 	</ion-content>
     
 </ion-modal-view>

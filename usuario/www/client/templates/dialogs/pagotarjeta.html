@@ -1,9 +1,9 @@
 <ion-modal-view>
-	<ion-content scroll="true" ng-controller="pagoTarjetaCtroller">
+	<ion-content scroll="true">
         <form name="form" role="form">
 		<md-subheader>Pagar con tarjeta</md-subheader>
         
-        <div layout="row" layout-align="center center" ng-show="!reserva._id">
+        <div layout="row" layout-align="center center" ng-show="!reserva._id && !torneo">
 
             <div layout="column" flex="33">
 				<md-input-container>
@@ -38,10 +38,26 @@
             
 		</div>
         
+		<div layout="row" layout-align="center center" ng-show="torneo">
+
+            <div layout="column" flex="33">
+				<md-input-container>
+                    <div layout="row" layout-align="center center">
+                        Abonar Inscripción
+                    </div>
+                    <div layout="row" layout-align="center center">
+                        <b>({{torneo.valorInscripcion | currency}})</b>
+                    </div>
+                </md-input-container>
+            </div>
+            
+            
+		</div>
+
 		<div layout="row" layout-align="center center">
 			<md-input-container>
 		        <label>Nombre del titular</label>
-		        <input md-maxlength="20" required ng-model="user.nombretitular">
+		        <input md-maxlength="20" required ng-model="user.nombreCompleto">
 		        <div ng-message="required">Campo obligatorio</div>
 	      	</md-input-container>
 		</div>
