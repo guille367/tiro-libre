@@ -51,7 +51,12 @@
                     <label>Fecha de Nacimiento</label>
                     <md-datepicker ng-model="nuevoUsuario.fechaNac"></md-datepicker>
                 </md-input-container>
-
+                
+                <md-input-container> 
+                    Foto de perfil:
+                    <input type="file" id="input-1" name="input-1">
+                </md-input-container>
+                    
                 <md-input-container class="md-block">
                     <label>Contraseña</label>
                     <input required type="password" md-no-asterisk ng-model="nuevoUsuario.password">

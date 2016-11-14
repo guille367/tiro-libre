@@ -59,12 +59,9 @@
                         <div ng-message="required">Campo obligatorio</div>
                     </div>
                 </md-input-container> 
-
-                <md-input-container class="md-block">
-                    <label>foto</label>
-                    <input type="file" id="input-1" onchange="angular.element(this).scope().setImage(this.files)" name="input-1">
-                </md-input-container>
-
+                
+                Foto de perfil:
+                <input type="file" id="input-1" name="input-1">
 
                 <div class="md-block">
                     <button class="button button-positive button-block" type="submit" ng-click="confirmarModif(form)">Confirmar modificaciones</button>

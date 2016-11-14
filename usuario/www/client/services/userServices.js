@@ -31,7 +31,9 @@ angular.module('app.services')
 	}
 
 	this.sendPhoto = function(f){
-		$http.post("http://localhost:3001/api/photo",f)
+		$http.post("http://localhost:3001/api/photo",f,
+                  {transformRequest: angular.identity,
+   headers: {'Content-Type': undefined}})
 		.then(function(d){
 			alert("see");
 			console.log(d);

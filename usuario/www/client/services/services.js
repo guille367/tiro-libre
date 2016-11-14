@@ -43,4 +43,14 @@ angular.module('app.services', [])
 					})
 	}
     
+    this.uploadImage = function(form){
+        return $http.post(url + '/api/photo',form)
+					then(function(d){
+						return d.data[0];
+					})
+					.catch(function(e){
+						throw e.data;
+					})
+    }
+    
 }]);

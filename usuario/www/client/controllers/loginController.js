@@ -29,16 +29,38 @@ angular.module('app.controllers')
             $scope.nuevoUsuario.cantIncumplim = 0;
             $scope.nuevoUsuario.foto = '';
             
-            userServices.
-                registrarUsuario($scope.nuevoUsuario)
-                    .then(function(d){
-                        fnLoggeo(d.username,d.password);
-                    })
-                    .catch(function(e){
-                        $ionicLoading.hide();
-                        var err = e.data != undefined ? e.data : 'No pudo ser registrado';
-                        gralFactory.showError(err);
-                    });
+            var myUploader = new uploader(document.getElementById('input-1'));
+            var archivo = myUploader.input.files[0];
+
+            var q = new FormData();
+            q.append('input-1',archivo);
+
+            generalServices.uploadImage(q)
+            .then(function(d){
+                $scope.nuevoUsuario.foto = archivo.name; 
+            })
+            .catch(function(e){
+                if(archivo){
+                    console.log(e);
+                    gralFactory.showError('Ocurrio un error al subir la imagen');
+                }
+                $scope.nuevoUsuario.foto = 'logo_default.png';
+            })
+            .then(function(){
+            
+                userServices.
+                    registrarUsuario($scope.nuevoUsuario)
+                        .then(function(d){
+                            fnLoggeo(d.username,d.password);
+                        })
+                        .catch(function(e){
+                            $ionicLoading.hide();
+                            var err = e.data != undefined ? e.data : 'No pudo ser registrado';
+                            gralFactory.showError(err);
+                        });
+                
+            });
+            
         };
         
     };
