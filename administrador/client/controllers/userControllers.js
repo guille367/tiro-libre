@@ -1,6 +1,6 @@
 angular.module('myApp').controller('loginController',
-  ['$scope', '$location', 'AuthService', '$rootScope', '$window','$state','$stateParams',
-  function ($scope, $location, AuthService, $rootScope, $window,$state,$stateParams) {
+  ['$scope', '$location', 'AuthService', '$rootScope', '$window','$state','$stateParams', 'bsLoadingOverlayService', '$timeout',
+  function ($scope, $location, AuthService, $rootScope, $window,$state,$stateParams, bsLoadingOverlayService, $timeout) {
 
     $scope.login = function () {
 
@@ -33,15 +33,19 @@ angular.module('myApp').controller('loginController',
       $scope.recoverForm = {};
 
       if(username && !pw){
+        bsLoadingOverlayService.start();
         AuthService.requestRecover(username)
         .then(function(response){
           $scope.error = false;
           $scope.message = "Revise su correo electronico.";
+          bsLoadingOverlayService.stop();
+
         })
         .catch(function(e){
           $scope.error = true;
           $scope.errorMessage = "No se encontro el usuario.";
           $scope.loginForm = {};
+          bsLoadingOverlayService.stop();
         });
       }
       else if(!username && pw){
@@ -53,7 +57,12 @@ angular.module('myApp').controller('loginController',
           AuthService.recover(pw,$stateParams.tipousuario,$stateParams.token)
             .then(function(data){
               $scope.error = false;
-              $scope.message = "Contraseña reestablecida!";
+              $scope.message = "Contraseña reestablecida! Redireccionando...";
+
+              $timeout(function() {
+                $location.path("login");
+              }, 1500);
+
             })
             .catch(function(e){
               $scope.error = true;

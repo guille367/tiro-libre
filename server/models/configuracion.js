@@ -9,7 +9,9 @@ var Configuracion = new Schema({
   mail: String,
   telefono: String,
   direccion: String,
-  porcReserva: Number
+  porcReserva: Number,
+  imagen: String,
+  nombre: String
 });
 
 module.exports = mongoose.model('configuracion', Configuracion);

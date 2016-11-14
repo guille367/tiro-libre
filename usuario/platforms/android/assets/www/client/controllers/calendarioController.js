@@ -1,22 +1,41 @@
 angular.module('app.controllers')
 
-.controller('calendarioCtroller',['$scope','$ionicModal', function ($scope,$ionicModal) {
+.controller('calendarioCtroller',['$scope','$state','$ionicModal','$ionicLoading','canchaService','reservaService','userServices','gralFactory','generalServices','uuid',
+    function ($scope,$state,$ionicModal,$ionicLoading,canchaService,reservaService,userServices,gralFactory,generalServices,uuid) {
         'use strict';
+        
+        $scope.cancha = canchaService.getCancha();
         $scope.calendar = {};
         $scope.reservasDia = {};
         $scope.modo = 'mes';
-        $scope.fechaSeleccionada;
+        $scope.fechaSeleccionada = new Date();
         $scope.habilitarReserva = false;
+        $scope.datosClub = {};
+        $scope.calendar.eventSource = {};
+
+        $scope.user = userServices.getUsuario();
 
         $scope.reserva = {
-            fechaInicio : new Date(),
-            fechaFin : new Date()
-        }
+            abonaTotal: false
+        };
+        
+        var reservasCancha = [];
+        var reservasDelDia = [];
 
+        $scope.horario = {
+                time: { 
+                    step: 60, // step width
+                    minRange: 60, // min range
+                    hours24: false, // true for 24hrs based time | false for PM and AM
+                    dFrom: 0,
+                    dTo: 1440
+                }
+        };
+        
         $ionicModal.fromTemplateUrl('client/templates/dialogs/reserva.html', {
                 scope: $scope,
                 animation: 'slide-in-up',
-                title:'Reserva',
+                title:'Reserva'
             }).then(function(modal) {
                 $scope.modalReserva = modal;
         });
@@ -29,9 +48,22 @@ angular.module('app.controllers')
         });
 
         $scope.changeMode = function () {
+
             $scope.calendar.mode = $scope.calendar.mode == 'month' ? 'day' : 'month';
-            $scope.modo = $scope.calendar.mode === 'day' ? 'día' : 'mes';
-            console.log($scope.modo)
+            $scope.modo = $scope.calendar.mode === 'day' ? 'dia' : 'mes';
+            console.log($scope.calendar.eventSource);
+            if($scope.modo == 'dia'){
+                reservasDelDia = 
+                $scope.calendar.eventSource.filter(function(d){
+                    return (d.startTime.getDate() == $scope.fechaSeleccionada.getDate()) && 
+                    (d.startTime.getMonth() == $scope.fechaSeleccionada.getMonth())
+                    });
+
+                //$scope.calendar.eventSource = reservasDelDia;
+            }
+            else{
+                //$scope.calendar.eventSource = reservasCancha;
+            }
         };
 
         $scope.loadEvents = function () {
@@ -60,12 +92,40 @@ angular.module('app.controllers')
         };
 
         $scope.onTimeSelected = function (selectedTime, events) {
-            console.log('Selected time: ' + selectedTime + ', hasEvents: ' + (events !== undefined && events.length !== 0));
+            console.log('Selected time: ' + selectedTime + ', hasEvents: ' + (events !== undefined && events.length !== 0));            
             $scope.fechaSeleccionada = selectedTime;
-            $scope.habilitarReserva = (events !== undefined && events.length !== 0);
+            
+            reservasDelDia = 
+                $scope.calendar.eventSource.filter(function(d){
+                    return (d.startTime.getDate() == $scope.fechaSeleccionada.getDate()) && 
+                    (d.startTime.getMonth() == $scope.fechaSeleccionada.getMonth())
+                    });
+
+            $scope.horario.time.from = selectedTime.getHours() * 60;
+            $scope.horario.time.dFrom = $scope.horario.time.from;
+            var to;
+
+            if($scope.modo == 'dia' && reservasDelDia.length > 0){
+                to = reservasDelDia.find(function(e){
+                    return selectedTime.getHours() < (e.startTime.getHours())
+                })
+            }
+
+            if(to){
+                $scope.horario.time.dTo = to.startTime.getHours() * 60;
+                $scope.horario.time.to = to.startTime.getHours() * 60;
+            }
+            else{
+                $scope.horario.time.dTo = Number($scope.cancha.horaFin.split(':')[0]) * 60;
+                //$scope.horario.time.to = selectedTime
+            }
+
+            $scope.habilitarReserva = (events !== undefined && events.length !== 0)
+                || selectedTime.getTime() <= ( new Date().getTime() + 360000 );
         };
 
         function createRandomEvents() {
+
             var events = [];
             for (var i = 0; i < 50; i += 1) {
                 var date = new Date();
@@ -86,13 +146,99 @@ angular.module('app.controllers')
             return events;
         }
 
+        $scope.openReserva = function(){
+            $scope.modalReserva.show();
+        }
+
         $scope.closeReserva = function() {
             $scope.modalReserva.hide();
+        }
+
+        $scope.openPago = function(){
+            
+            var horarioNocturno = Number($scope.datosClub.horaNocturna.split(':')[0]);
+            var cantHoras = ($scope.horario.time.to / 60) - ($scope.horario.time.from / 60);
+            var precio = 0;
+
+            for(var i = 0 ; i < cantHoras ; i ++){
+
+                var q = ($scope.horario.time.from / 60) + i;
+                
+                if(q >= horarioNocturno)
+                    precio += $scope.cancha.pNocturno;
+                else
+                    precio += $scope.cancha.pDiurno;
+
+            }
+            
+            $scope.reserva.PrecioTotal = precio;
+            $scope.reserva.PrecioReserva = precio * ($scope.datosClub.porcReserva * 0.01);
+            $scope.user.nombreCompleto = $scope.user.apellido + ', ' + $scope.user.nombre;  
+            $scope.modalPago.show();
         }
 
         $scope.closePago = function() {
             $scope.modalPago.hide();
         }
+
+        var loadReservas = function(){
+            console.log(canchaService.getCancha().reservas);
+            reservasCancha = canchaService.getCancha().reservas;
+            $scope.calendar.eventSource = reservasCancha;
+        };
+        
+        var getDatosClub = function(){
+            generalServices.getDatosClub()
+                .then(function(d){
+                    $scope.datosClub = d.data[0];
+                });
+        };
+
+        getDatosClub();
+        loadReservas();
+
+        $scope.pagarReserva = function(form){
+                    
+            if(!form.$valid)
+                gralFactory.showError('Por favor corrobore sus datos.');
+            else{
+
+            $ionicLoading.show();
+                
+            var reserva = {};
+            var fechaInicio = angular.copy($scope.fechaSeleccionada);
+            fechaInicio.setHours($scope.horario.time.from / 60,0,0,0);
+            var fechaFin = angular.copy($scope.fechaSeleccionada);
+            fechaFin.setHours($scope.horario.time.to / 60,0,0,0);
+
+            var saldo = $scope.reserva.abonaTotal ? 0 : $scope.reserva.PrecioTotal - $scope.reserva.PrecioReserva;
+            
+            $scope.reserva.TaskID = uuid.v4();
+            $scope.reserva.Username = usuarioActual.username;
+            $scope.reserva.Cancha = $scope.cancha._id;
+            $scope.reserva.Description = 'Reserva ' + usuarioActual.username;
+            $scope.reserva.Start = fechaInicio;
+            $scope.reserva.End = fechaFin;
+            $scope.reserva.Saldo = saldo;
+            $scope.reserva.FechaReserva = new Date();
+
+            reservaService
+                .createReserva($scope.reserva)
+                    .then(function(d){
+                    $ionicLoading.hide();
+                    $scope.modalReserva.hide();
+                    $scope.modalPago.hide();
+                    $state.go('canchas')
+                    gralFactory.showMessage('Pago procesado. Muchas gracias!');
+                    })
+                    .catch(function(e){
+                    $ionicLoading.hide();
+
+                    gralFactory.showError(e.data.err);
+                    });
+         
+            }
+    };
 
     }]);
 

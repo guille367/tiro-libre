@@ -127,6 +127,11 @@
     color: white;
 }
 
+.row-selected-time{
+    background-color: #79d95a;
+    color: white;
+}
+
 .monthview-current {
     background-color: lightgrey;
 }
@@ -208,7 +213,7 @@
 
 @media (max-width: 750px) {
     .weekview-allday-label, .dayview-allday-label, .calendar-hour-column {
-        width: 31px;
+        width: 43px;
         font-size: 12px;
     }
 

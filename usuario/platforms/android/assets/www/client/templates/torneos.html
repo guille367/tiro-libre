@@ -1,39 +1,24 @@
-<ion-view title="Canchas" class="fondo">
+
+<ion-view title="Torneo" class="fondo">
     <ion-content padding="true" class="has-header">
-        <div class="list card" id="canchas-card21">
-            <ion-item class="item-icon-right" id="canchas-list-item1">Torneo Apertura
+        <div class="list card" id="torneos-card21" ng-repeat="c in torneos">
+            <ion-item class="item-icon-right" id="torneos-list-item1">{{c.nombre}}
                 <i class="icon ion-ios-football-outline"></i>
             </ion-item>
             <div class=" item item-image">
-                <img src="img/ta.png" width="100%" height="auto" style="display: block; margin-left: auto; margin-right: auto;">
+                <img src="http://localhost:3001/img/{{c.foto}}" width="100%" height="auto" style="display: block; margin-left: auto; margin-right: auto;">
             </div>
-            <div id="canchas-markdown1" style="color:#000000;text-align:center;" class="padding-top">
+            <div id="torneos-markdown1" style="color:#000000;text-align:center;" class="padding-top">
                 <p>
-                    <strong>Equipos</strong>: 10 -
-                    <strong>Jugadores</strong>: 10 -
-                    <strong>Tipo de Torneo</strong>: Liguilla -
-                    <strong>Fecha de Inicio</strong>: 24/09/2016</p>
+                    <strong>Equipos</strong>: {{c.cantEquipos}} -
+                    <strong>Jugadores</strong>: {{c.jugTitulares + c.jugSuplentes}} -
+                    <strong>Tipo de torneo</strong>: {{c.tipo}} -
+                    <strong>Fecha de Incio</strong>: {{c.fechaInicio | date:'dd/MM/yyyy'}} -</p>
             </div>
-            
-            <button id="canchas-button1" class="button button-positive  button-block" ng-click="openTorneo()">Inscribirse</button>
+            <button ng-click="openTorneo(c)" class="button button-positive button-block">Inscripción</button>
             
         </div>
-        <div class="list card" id="canchas-card22">
-            <ion-item class="item-icon-right" id="canchas-list-item3">Torneo Clausura
-                <i class="icon ion-ios-football-outline"></i>
-            </ion-item>
-            <div class=" item item-image">
-                <img src="img/tc.jpg" width="100%" height="auto" style="display: block; margin-left: auto; margin-right: auto;">
-            </div>
-            <div id="canchas-markdown2" style="color:#000000;text-align:center;" class="padding-top">
-                <p>
-                    <strong>Equipos</strong>: 10 -
-                    <strong>Jugadores</strong>: 10 -
-                    <strong>Tipo de Torneo</strong>: Eliminación -
-                    <strong>Fecha de Inicio</strong>: 24/09/2016</p>
-            </div>
-            <button id="canchas-button4" class="button button-positive button-block " ng-click="openTorneo()">Inscribirse</button>
-        </div>
+    
     </ion-content>
 </ion-view>
 
@@ -49,3 +34,4 @@
     }
 
 </style>
+

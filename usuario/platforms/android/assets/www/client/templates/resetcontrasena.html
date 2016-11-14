@@ -1,22 +1,24 @@
 <ion-view title="Iniciar Sesion" class="fondo">
     <ion-content padding="true" class="has-header">
-        <div class="col-md-4 loginText">
-          <h2 class="loginText">Resetear Contraseña</h2>
-            <div ng-show="error" class="alert alert-danger">{{errorMessage}}</div>
-            <form class="form">
-                <br>
-                <div class="form-group-conf">
-                    <label><B>Mail</B></label>
-                    <input type="text" class="form-control input" name="username" ng-model="loginForm.username" required>
-                </div>
-                <br>
-                <div align="right">
-                    <h1></h1>
-                    <button type="submit" class="button button-positive" ng-disabled="disabled">Resetear</button>
-                </div>    
-            </form>
-        </div>
-
+        <form role="form" name="form">
+            <div class="col-md-4 loginText">
+              <h2 class="loginText">Resetear Password</h2>
+                <div ng-show="errorMessage" class="alert alert-danger">{{errorMessage}}</div>
+                <div ng-show="message" class="alert alert-info">{{message}}</div>
+                <form class="form">
+                    <br>
+                    <div class="form-group-conf">
+                        <label><B>Usuario</B></label>
+                        <input type="text" class="form-control input" name="username" ng-model="loginForm.username" required>
+                    </div>
+                    <br>
+                    <div align="right">
+                        <h1></h1>
+                        <button type="submit" class="button button-positive" ng-click="recuperarPw(form,loginForm.username)" ng-disabled="message">Reestablecer</button>
+                    </div>    
+                </form>
+            </div>
+        </form>
     </ion-content>
 </ion-view>
 

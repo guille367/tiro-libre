@@ -11,8 +11,8 @@ router.post('/post', function(req, res) {
 });
 
 router.get('/get', function(req, res, next){
-  Torneo.find()
-        .populate('equipos')
+	Torneo.find()
+		    .populate('equipos')
       .exec(function(err,torneo){
           if(err)
             return res.status(500).json({err:err});

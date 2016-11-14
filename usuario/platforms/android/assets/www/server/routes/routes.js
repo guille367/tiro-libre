@@ -27,43 +27,43 @@ storage.get('name').then(function (name){
 
   .state('resetpass', {
     url: '/resetcontrasena',
-    controller: 'loginCtroller',
+    cache:false,
+    controller:'loginCtroller',
     templateUrl:'client/templates/resetcontrasena.html'
   })
   
   .state('canchas', {
     url: '/canchas',
+    controller: 'canchasCtroller',
     templateUrl:'client/templates/canchas.html'
   })
   
   .state('torneos', {
     url: '/torneos',
-    controller:'miTorneoCtroller',
+    cache: false,
+    controller:'torneoCtroller',
     templateUrl:'client/templates/torneos.html'
   })
   
   .state('misreservas', {
     url: '/misreservas',
-    controller:'misReservasCtroller',
+    cache: false,
+    controller:'reservasCtroller',
     templateUrl:'client/templates/misreservas.html'
   })
 
   .state('calendario',{
     url:'/calendario',
+    cache: false,
     controller: 'calendarioCtroller',
     templateUrl:'client/templates/calendario.html'
   })
   
   .state('perfil', {
     url: '/perfil',
+    controller:'misDatosController',
     templateUrl:'client/templates/perfil.html'
   })
-
-  .state('perfilNo', {
-    url: '/perfilNo',
-    templateUrl:'client/templates/perfilNo.html'
-  })
-  
 
   .state('login', {
     url: '/login',
@@ -73,6 +73,7 @@ storage.get('name').then(function (name){
 
   .state('registro', {
     url: '/registro',
+    controller: 'loginCtroller',
     templateUrl:'client/templates/registro.html'
   })
 
@@ -107,6 +108,7 @@ storage.get('name').then(function (name){
 
   .state('contacto', {
     url: '/contacto',
+    controller:'contactoCtroller',
     templateUrl:'client/templates/contacto.html'
   })
 

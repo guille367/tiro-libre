@@ -1,24 +1,26 @@
 <ion-view>
 	<ion-content>
-		<div>
+		<div class="list card" id="torneos-card21" ng-repeat="t in misTorneos | orderBy:'fechaIncio':true" >
+			<div class="list card" id="torneos-card21" ng-repeat="e in equipos" ng-if="t._id == e.idTorneo">			  
+			    <div class="item item-icon-left">
+			    <i class="icon ion-star"></i>
+			    <h2><strong>Equipo: </strong> {{e.nombreEq}} <strong>Torneo: </strong> {{t.nombre}}</h2>
+			  </div>		  
 
-		  <div class="item item-icon-left">
-		    <i class="icon ion-star"></i>
-		    <h2>Pinocho B</h2>
-		  </div>
-
-		  <div class="item item-body">
-		    <img class="full-image" src="img/pinocho.jpg">
-		    <p>
-		      Formado en 2016 por un grupo de aburridos con el objetivo de hacer una aplicación para la facultad
-		    </p>
-		    <p>
-		      <button ng-click="openIntegrantes()" class="button button-full button-positive">
-		      	Ver Integrantes
-		      </button>
-		    </p>
-		  </div>
-
+			  <div class="item item-body">
+			    <img class="full-image" src="http://localhost:3001/img/{{t.foto}}">
+			    <p>
+			      Prepara a tu equipo, porque el <b>{{t.fechaInicio | date:'dd/MM/yyyy'}}</b> comienza el torneo, va ser duro hasta su finalizacion <b>{{t.fechaFin | date:'dd/MM/yyyy'}}</b>. Podes modificar la lista de jugadores hasta <b>{{t.fechaCierreInscripcion | date:'dd/MM/yyyy'}}</b>.
+			      Recordar que para cada partido deben llevar el DNI todos los jugadores.<br>
+			      <b>Suerte!!!</b>
+			    </p>
+			    <p>
+			      <button ng-click="openIntegrantes(e)" class="button button-full button-positive">
+			      	Ver Integrantes
+			      </button>
+			    </p>
+			  </div>
+		</div>
 		</div>
 	</ion-content>
 </ion-view>

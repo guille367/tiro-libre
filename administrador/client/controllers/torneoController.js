@@ -1,7 +1,9 @@
+
 angular.module('myApp').controller('torneoController',
-  ['$scope', '$uibModal', '$log', 'torneoServices', 'ngDialog', 'usuarioServices',
+  ['$scope', '$uibModal', '$log', 'torneoServices', 'ngDialog', 'usuarioServices', 
    function ($scope, $uibModal, $log, torneoServices, ngDialog, usuarioServices) {
 
+  $scope.torneos = [];
   $scope.newTorneo = {};
   $scope.usuarios = {};
   $scope.options = {
@@ -9,11 +11,22 @@ angular.module('myApp').controller('torneoController',
     format: 'l',
     };
 
+    var cambioEstado = function(torneo){
+      if (new Date(torneo.fechaFin) > new Date()) {
+        torneo.estado = "Activo"
+      }else{
+        torneo.estado = "Finalizado"
+      }
+      return torneo;
+    }
 
     var getTorneos = function () {
       torneoServices.getAll()
         .then(function(res){
-          $scope.torneos = res;
+           
+          for (var i = 0; i < res.length; i++) {
+            $scope.torneos.push(cambioEstado(res[i]));
+          }
 
         });
     }
@@ -134,9 +147,7 @@ angular.module('myApp').controller('torneoController',
     //detalles del torneo
     $scope.detalles = function (torneo) {
 
-      torneoServices.getTorneo(torneo._id)
-        .then(function(t){
-            torneo = t;
+      
 
             var modalInstance = $uibModal.open({
             animation: true,
@@ -147,7 +158,7 @@ angular.module('myApp').controller('torneoController',
             size: 'lg',
             resolve: {
               test: function () {     
-                  return t;
+                  return torneo;
               },
               list: function () {
                 return $scope.usuarios;
@@ -161,10 +172,7 @@ angular.module('myApp').controller('torneoController',
               $log.info('Modal dismissed at: ' + new Date());
             });
 
-          })
-        .catch(function(e){
-        alert(e);
-        });
+
       
     };
 
@@ -201,7 +209,10 @@ angular.module('myApp').controller('modalTorneoController', function($scope, ngD
     }else{
       $scope.cambioPrecio = false;
     }
+    $scope.nombreDisabled = true;
 
+  }else{
+      $scope.nombreDisabled = false;
   };
 
   
@@ -317,6 +328,7 @@ angular.module('myApp').controller('modalTorneoController', function($scope, ngD
         })
         .error(function(data, status) {
             console.log("Error");
+            bsLoadingOverlayService.stop();
         })
     };
 
@@ -324,11 +336,12 @@ angular.module('myApp').controller('modalTorneoController', function($scope, ngD
 });
 
 angular.module('myApp').controller('modalDetalleController', function($scope, ngDialog, $uibModalInstance, $timeout,
- test, list, $http, bsLoadingOverlayService){
+ test, list, $http, bsLoadingOverlayService, $uibModal){
 
-
+  $scope.usuarios = list;
   $scope.equipos = test.equipos;
   $scope.listaJugadores = [];
+  $scope.equipoSeleccionado = {};
 
   
   $scope.cambioEquipo = function(equipo){
@@ -337,13 +350,82 @@ angular.module('myApp').controller('modalDetalleController', function($scope, ng
       
       if ($scope.equipos[i]._id == equipo) {
 
+        $scope.equipoSeleccionado = $scope.equipos[i];
         $scope.listaJugadores = $scope.equipos[i].jugadores;
         return;
       };
 
     };
 
+  }
 
+     $scope.cambioCapitan = function (equipo, size) {
+      var modalInstance = $uibModal.open({
+        animation: true,
+        templateUrl: 'cambioCapitan.html',
+        controller: 'cambioCapitanController',
+        backdrop  : 'static',
+        keyboard  : false,
+        size: 'sm',
+        resolve: {
+          test: function () {
+            return $scope.equipoSeleccionado;
+          },
+          usuarios: function(){
+            return $scope.usuarios;
+          }
+        }
+      });
+      modalInstance.result.then(function (selectedItem) {
+        $scope.selected = selectedItem;
+        }, function () {
+          $log.info('Modal dismissed at: ' + new Date());
+          getTorneos();
+        });
+    };
+    
+
+
+
+
+  $scope.cancel = function () {
+    $timeout(function() {
+            $uibModalInstance.dismiss('cancel');
+
+        }, 300);
+
+  };
+
+});
+
+
+
+angular.module('myApp').controller('cambioCapitanController', function($scope, $uibModalInstance, $timeout,
+ test, usuarios, $log, equipoServices){
+
+  $scope.equipo = test;
+  $scope.usuarios = usuarios;
+  $scope.selected = {};
+
+  console.log(usuarios);
+
+
+  $scope.guardar = function(nuevoCapitan){
+      
+       if(nuevoCapitan == null){
+          return;
+       }else{
+
+          $scope.equipo.usuarioResp = nuevoCapitan;
+          equipoServices.save($scope.equipo).then(function(res){
+
+            });
+
+       }; 
+
+       $timeout(function() {
+            $uibModalInstance.dismiss('cancel');
+        }, 300);
   }
 
   $scope.cancel = function () {
@@ -353,5 +435,6 @@ angular.module('myApp').controller('modalDetalleController', function($scope, ng
         }, 300);
 
   };
+
 
 });

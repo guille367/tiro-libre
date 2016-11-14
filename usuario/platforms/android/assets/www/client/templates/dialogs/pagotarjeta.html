@@ -1,45 +1,108 @@
-<ion-modal-view class ="has-header fondo textColor">
-	<ion-content  scroll="true">
-		<md-subheader class="md-no-sticky fondoDReserva">Pagar con tarjeta</md-subheader>
-		<div layout="row" layout-align="center center" >
-			<md-input-container style="background-color: transparent">
+<ion-modal-view>
+	<ion-content scroll="true">
+        <form name="form" role="form">
+		<md-subheader>Pagar con tarjeta</md-subheader>
+        
+        <div layout="row" layout-align="center center" ng-show="!reserva._id && !torneo">
+
+            <div layout="column" flex="33">
+				<md-input-container>
+                    <div layout="row" layout-align="center center">
+                        Abonar reserva 
+                    </div>
+                    <div layout="row" layout-align="center center">
+                        <b>({{reserva.PrecioReserva | currency}})</b>
+                    </div>
+                </md-input-container>
+            </div>
+            
+            <div layout="column" flex="33" layout-align="center center">
+            	<label class="toggle">
+				     <input type="checkbox" ng-model="reserva.abonaTotal">
+				     <div class="track">
+				         <div class="handle"></div>
+				     </div>
+				</label>
+            </div>
+            
+            <div layout="column" flex="33">
+                <md-input-container>
+                    <div layout="row" layout-align="center center">
+                        Pago total
+                    </div>
+                    <div layout="row" layout-align="center center">
+                        <b>({{reserva.PrecioTotal | currency}})</b>
+                    </div>
+                </md-input-container>
+            </div>
+            
+		</div>
+        
+		<div layout="row" layout-align="center center" ng-show="torneo">
+
+            <div layout="column" flex="33">
+				<md-input-container>
+                    <div layout="row" layout-align="center center">
+                        Abonar Inscripción
+                    </div>
+                    <div layout="row" layout-align="center center">
+                        <b>({{torneo.valorInscripcion | currency}})</b>
+                    </div>
+                </md-input-container>
+            </div>
+            
+            
+		</div>
+
+		<div layout="row" layout-align="center center">
+			<md-input-container>
 		        <label>Nombre del titular</label>
-		        <input required ng-model="user.nombretitular">
-		        <div ng-message="required">Campo obligatorio</div>
+		        <input md-maxlength="20" required ng-model="user.nombreCompleto">
+		        <ng-messages for="form.user.nombreCompleto.$error">
+		        	<div ng-message="md-maxlength">You did not enter a field</div>
+		        </ng-messages>
 	      	</md-input-container>
 		</div>
 
 		<div layout="row" layout-align="center center">
-			<md-input-container style="background-color: transparent">
+			<md-input-container>
 		        <label>Número de tarjeta</label>
-		        <input md-maxlength="20" required ng-model="user.numero" >
-		        <div ng-message="required">Campo obligatorio</div>
+		        <input md-maxlength="20" required ng-model="user.numero">
+		        <ng-messages for="form.user.numero.$error">
+		        	<div ng-message="md-maxlength">Tarjeta invalida</div>
+		        </ng-messages>
 	      	</md-input-container>
 		</div>
 
 		<div layout="row" layout-align="center center" layout-margin>
 
 			<div layout="column" flex="33">
-				<md-input-container style="background-color: transparent">
+				<md-input-container>
 			        <label>MM</label>
-			        <input md-maxlength="2" required ng-model="user.mm" >
-			        <div ng-message="required">Campo obligatorio</div>
+			        <input md-maxlength="2" required ng-model="user.mm">
+			        <ng-messages for="form.user.mm.$error">
+			        	<div ng-message="md-maxlength"></div>
+			        </ng-messages>
 		      	</md-input-container>
 	      	</div>
 	      		/
 	      	<div layout="column" flex="33">
-				<md-input-container style="background-color: transparent">
+				<md-input-container>
 			        <label>AA</label>
-			        <input md-maxlength="2" required ng-model="user.aa" >
-			        <div ng-message="required">Campo obligatorio</div>
+			        <input md-maxlength="2" required ng-model="user.aa">
+			        <ng-messages for="form.user.aa.$error">
+			        	<div ng-message="md-maxlength"></div>
+			        </ng-messages>
 		      	</md-input-container>
 	      	</div>
 
 	      	<div layout="column" flex="33">
-				<md-input-container style="background-color: transparent">
+				<md-input-container>
 			        <label>CSV</label>
-			        <input md-maxlength="4" required ng-model="user.csv" >
-			        <div ng-message="required">Campo obligatorio</div>
+			        <input md-maxlength="4" required ng-model="user.csv" >	
+			        <ng-messages for="form.user.csv.$error">
+			        	<div ng-message="md-maxlength"></div>
+			        </ng-messages>
 		      	</md-input-container>
 	      	</div>
 
@@ -47,27 +110,11 @@
 		</div>
 
 		<section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
-	      <md-button class="md-raised md-primary">Confirmar</md-button>
+	      <md-button class="md-raised md-primary" ng-show="!torneo && reserva" ng-click="pagarReserva(form)">Confirmar</md-button>
+	      <md-button class="md-raised md-primary" ng-show="!reserva && torneo" ng-click="anotarEquipo()">Confirmar t</md-button>
 	      <md-button class="md-raised md-warn" ng-click="closePago()">Cerrar</md-button>
   	    </section>
-		
+            
+		</form>
 	</ion-content>
-</ion-view>
-
-<style type="text/css">
-
-	.fondoDReserva{
-        background-color: green;
-        color:white;
-        size:100px;
-        font-weight:bold;
-	}
-	.textColor{
-		color: white;
-		font-weight:bold;
-	}
-	.fondoPago{
-		background-color: white;
-		border-radius: 15px;
-	}
-</style>
+</ion-modal-view>

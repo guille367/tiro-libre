@@ -17,9 +17,11 @@ myApp.filter('yesNo', function () {
     ></checkbox></h1></span>
  </div>
 
+<!--
 <div>
   <button type="button" data-toggle="modal" ng-click="verificarReservas()" class="btn btn-info btn-sm">Verificar reservas incumplidas</button>
 </div>
+--> 
 
 <div id="example">
     <div ng-controller="schedulerController">
@@ -43,7 +45,7 @@ myApp.filter('yesNo', function () {
       <option ng-repeat="usuario in usuarios">{{usuario.username}}</option>
               
   </select>
-  
+  <div ng-show="incumplimiento"><font color="red"><b>El usuario no está habilitado para reservar.</b></font></div>
 </div>
 
 <div class="k-edit-label"><label for="start">Inicio</label></div>
@@ -99,24 +101,24 @@ myApp.filter('yesNo', function () {
     <div ng-show="canchaSinLuz"><b>La cancha seleccionada no posee luz. Por favor cambie el horario de reserva o seleccione otra cancha</b></div>
 </div>
 
-<div class="k-edit-label"><label for="total">Total</label></div>
-  <div data-container-for="total" class="k-edit-field">
+<div class="k-edit-label"><label for="total" ng-show="mostrar">Total</label></div>
+  <div data-container-for="total" class="k-edit-field" ng-show="mostrar">
     <div class="input-group col-sm-4">
         <span class="input-group-addon">$</span>
         <input type="text" class="form-control" ng-model="precioTotal"  id="precio1" data-bind="value:precioTotal" readonly>
    </div>
 </div> 
 
-<div class="k-edit-label"><label for="reserva">Reserva</label></div>
-  <div data-container-for="reserva" class="k-edit-field">
+<div class="k-edit-label"><label for="reserva" ng-show="mostrar">Reserva</label></div>
+  <div data-container-for="reserva" class="k-edit-field" ng-show="mostrar">
     <div class="input-group col-sm-4">
         <span class="input-group-addon">$</span>
         <input type="number" class="form-control" id="reserva" name="reserva" readonly="true" ng-model="reserva" data-bind="reserva">
     </div>
 </div>
 
-<div class="k-edit-label"><label for="saldo">Saldo</label></div>
-  <div data-container-for="saldo" class="k-edit-field">
+<div class="k-edit-label"><label for="saldo" ng-show="mostrar">Saldo</label></div>
+  <div data-container-for="saldo" class="k-edit-field" ng-show="mostrar">
     <div class="input-group col-sm-4">
         <span class="input-group-addon">$</span>
         <input type="number" style="text-align: right;" class="form-control" id="saldo" name="saldo" readonly="true" ng-model="saldo" data-bind="value:saldo">

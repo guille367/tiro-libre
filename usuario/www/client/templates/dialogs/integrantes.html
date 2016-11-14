@@ -4,38 +4,26 @@
    </ion-header-bar>
 	
    <ion-content>
+   		<div class="list card" id="torneos-card21" ng-repeat="e in equipo.jugadores">
 
 		<a class="item item-icon-left">
 			<i class="icon ion-ios-contact"></i>
-			<h2>Pytel, Marcos</h2>
-			<p><i class="item ion-star">Delantero</i></p>
+			<div class="row">
+		      	<div class="col-90">			
+					<p>DNI: <b>{{e.dni}}</b>, Nombre/Apellido: <b>{{e.nombre}}</b></p>
+				</div>
+		      	<div class="col-10">
+					<button class="button button-small button-assertive" ng-click="eliminarJugador(equipo, e.dni)">Eliminar</button>
+			    </div>
+			</div>		      		
 		</a>
-		<a class="item item-icon-left">
-			<i class="icon ion-ios-contact"></i>
-			<h2>Mancuso, Nicolás</h2>
-			<p><i class="item ion-star">Mediocampista</i></p>
-		</a>
-		<a class="item item-icon-left">
-			<i class="icon ion-ios-contact"></i>
-			<h2>Ponce Andrés, Guillermo</h2>
-			<p><i class="item ion-star">Lateral Derecho</i></p>
-		</a>
-		<a class="item item-icon-left">
-			<i class="icon ion-ios-contact"></i>
-			<h2>Ponce Andrés, Alejo</h2>
-			<p><i class="item ion-star">Lateral Izquierdo</i></p>
-		</a>
-		<a class="item item-icon-left">
-			<i class="icon ion-ios-contact"></i>
-			<h2>Larrategui, Fernando</h2>
-			<p><i class="item ion-star">Arquero</i></p>
-		</a>
-
+		
+</div>
 		<div class="button-bar">
-		  <a class="button button-positive">Agregar jugador</a>
+		  <a class="button button-positive" ng-click="nuevoJugador(equipo)">Agregar jugador</a>
 		  <a class="button button-assertive" ng-click="closeIntegrantes()">Cerrar</a>
-		</div>
-
+		
+	</div>
    </ion-content>
 
 </ion-modal-view>

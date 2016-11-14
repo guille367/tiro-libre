@@ -3,32 +3,37 @@
 <td>
     <ion-content scroll="true">
             <div class="row">
-                <div class="col-25"></div>
-                <div class="col-50">
+                <div class="col-20"></div>
+                <div class="col-60">
                     <div class="row">
-                        <img class="img-perfil" src="img/escudo.png">
+                        <img class="img-perfil" src="http://localhost:3001/img/{{datos.imagen}}">
+                    </div>
+                    <div class="row">
                     </div>
                     <div style="text-align:center;">
-                        <h3>Club Tiro Libre</h3>
+                        <h3><b>{{datos.nombre}}</b></h3>
                     </div>
                     <div style="text-align:center;">
-                        <h5>Telefono: {{datos.telefono}}</h5>
+                        <h5><b>Telefono: {{datos.telefono}}</b></h5>
                     </div>
                     <div style="text-align:center;">
-                        <h5>Mail: {{datos.mail}}</h5>
+                        <h5><b>Mail: {{datos.mail}}</b></h5>
                     </div>
                     <div style="text-align:center;">
-                        <h5>Dirección {{datos.direccion}}</h5>
+                        <h5><b>Dirección {{datos.direccion}}</b></h5>
+                    </div>
+                    <div style="text-align:center;">
+                        <h5><b>Horario: {{datos.horaApertura}} a {{datos.horaCierre}}</b></h5>
                     </div>
                 </div>
-                <div class="col-25"></div>
+                <div class="col-20"></div>
             </div>
 </td>
 
 </ion-view>     
 
 <style type="text/css">
-    h3, h5{
+    h3, h5, h5{
         color:white;
     }
 

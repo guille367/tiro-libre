@@ -223,12 +223,28 @@ angular.module('myApp').controller("schedulerController", function($scope, $http
 
               
             }else{
+
+              for (var u = 0; u < $scope.usuarios.length; u++) {
+              if (e.event.username == $scope.usuarios[u].username) {
+                
+                if ($scope.usuarios[u].dni == 0) {
+                  { break; }
+                }else{
+
+                  if (e.event.saldo == '0') {
+                    var buttonsContainer = e.container.find(".k-edit-buttons");
+                    var cancelButton = buttonsContainer.find(".k-scheduler-update");
+                    cancelButton.hide();
+                    { break; }
+                  };
+
+                  
+                }
+
+              } 
               
-              if (e.event.saldo == '0') {
-                var buttonsContainer = e.container.find(".k-edit-buttons");
-                var cancelButton = buttonsContainer.find(".k-scheduler-update");
-                cancelButton.hide();
-              };
+            };
+              
               
               $scope.verFechaReserva = true;
             $scope.fechaDeReserva = moment(e.event.fechaReserva).format('LLLL');
@@ -244,8 +260,25 @@ angular.module('myApp').controller("schedulerController", function($scope, $http
             e.event.set('precioTotal', precio);          
             reserva.value = (precio * $rootScope.config.porcReserva) / 100;
             
+            for (var u = 0; u < $scope.usuarios.length; u++) {
+              if (e.event.username == $scope.usuarios[u].username) {
+                
+                if ($scope.usuarios[u].dni == 0) {
+                  e.event.set('saldo', 0);
+                  $scope.mostrar = false;
+                  $scope.$digest();
+                  return;
+                }else{
+                  $scope.mostrar = true;
+                  $scope.$digest();
+                }
 
+              } 
+              
+            };
             
+            $scope.mostrar = true;
+            $scope.$digest();
             
             
 
@@ -277,6 +310,25 @@ angular.module('myApp').controller("schedulerController", function($scope, $http
 
             };
 
+
+            for (var u = 0; u < $scope.usuarios.length; u++) {
+              if (e.event.username == $scope.usuarios[u].username) {
+                if ($scope.usuarios[u].cantIncumplim >= 3) {
+                  $scope.incumplimiento = true;
+                  $scope.$digest();
+                  e.preventDefault();
+                  return;
+                }else{
+                  $scope.incumplimiento = false;
+                }
+
+                if ($scope.usuarios[u].dni == 0) {
+                  e.event.set('saldo', 0);
+                }
+
+              } 
+              
+            };
             
 
             //verificar que el horario seleccionado este dentro de los horarios de la cancha
@@ -477,7 +529,7 @@ angular.module('myApp').controller("schedulerController", function($scope, $http
   };
 
 
-
+  /*
   //Funcion para verificar las reservas vencidas
   $scope.verificarReservas = function(){
 
@@ -489,7 +541,7 @@ angular.module('myApp').controller("schedulerController", function($scope, $http
 
       for (var i=0; i<$scope.misReservas.length; i++) {
 
-        var horaReserva = moment($scope.misReservas[i].FechaReserva).format();
+        var horaReserva = moment($scope.misReservas[i].Start).format();
         var dif = moment(horaReserva).diff(moment(horaActual), 'hours');
         
         if (dif < 48 && dif >=0 && $scope.misReservas[i].Saldo == $scope.misReservas[i].PrecioTotal) {
@@ -508,7 +560,6 @@ angular.module('myApp').controller("schedulerController", function($scope, $http
 
           };
 
-          //Se elimina la reserva
 
         };
       }
@@ -516,8 +567,8 @@ angular.module('myApp').controller("schedulerController", function($scope, $http
 
     });
 
-  
   };
+  */
 
   
   //Final del controller

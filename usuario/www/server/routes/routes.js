@@ -61,6 +61,7 @@ storage.get('name').then(function (name){
   
   .state('perfil', {
     url: '/perfil',
+    controller:'misDatosController',
     templateUrl:'client/templates/perfil.html'
   })
 

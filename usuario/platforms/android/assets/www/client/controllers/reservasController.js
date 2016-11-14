@@ -1,10 +1,16 @@
 angular.module('app.controllers')
 
-.controller('misReservasCtroller', ['$scope','$ionicPopup','$ionicModal',function($scope,$ionicPopup,$ionicModal){
+.controller('reservasCtroller', ['$scope','$state','$ionicPopup','$ionicModal','$ionicLoading','reservaService','canchaService','gralFactory','generalServices','userServices'
+    ,function($scope,$state,$ionicPopup,$ionicModal,$ionicLoading,reservaService,canchaService,gralFactory,generalServices,userServices){
 
+    $scope.reservas = getReservas();
+    $scope.reserva = {};
+    $scope.time = new Date();
+    $scope.user = userServices.getUsuario();
+    $scope.datosClub = generalServices.getDatosClub();
     $ionicModal.fromTemplateUrl('client/templates/dialogs/detallereserva.html',{
         scope: $scope,
-        animation:'slide-in-up',
+        animation:'slide-in-up'
     }).then(function(modal){
         $scope.modalReserva = modal;
     });
@@ -17,26 +23,15 @@ angular.module('app.controllers')
     });
 
     $scope.openPago = function(){
+        $scope.user.nombreCompleto = $scope.user.apellido + ', ' + $scope.user.nombre; 
         $scope.modalPago.show();
-    }
+    };
 
-    $scope.openReserva = function () {
-
-        $scope.reserva = {
-            fechaInicio: new Date(),
-            fechaFin: new Date(),
-            cancha: '',
-            permanente: false,
-            precio: 150,
-            pagado: 15
-        };
-
+    $scope.openReserva = function (r) {
+        $scope.reserva = r;
         $scope.reserva.importeAdeudado = ($scope.reserva.precio - $scope.reserva.pagado)
-
         $scope.modalReserva.show();
-
-      
-    }
+    };
 
     $scope.closeReserva = function () {
         $scope.modalReserva.hide();
@@ -44,6 +39,45 @@ angular.module('app.controllers')
 
     $scope.closePago = function () {
         $scope.modalPago.hide();
-    }
+    };
+
+    // Ir al servidor con el pago, volver a traer las reservas una vez que hizo el pago
+    $scope.pagarReserva = function(form){
+        
+            $ionicLoading.show();
+            
+            reservaService.completarPago($scope.reserva._id)
+                .then(function(d){
+                    $ionicLoading.hide();
+                    $scope.modalReserva.hide();
+                    $scope.modalPago.hide();
+                    $state.go('canchas');
+                    gralFactory.showMessage(d);
+                })
+                .catch(function(e){
+                    $ionicLoading.hide();
+                    gralFactory.showError(e);
+                })
+            
+                $scope.modalPago.hide();
+                $scope.modalReserva.hide();
+        
+    };
+    
+    function getReservas(){
+        
+        $ionicLoading.show();
+        var username = userServices.getUsuario().username;
+        reservaService.getReservasUsuario(username)
+            .then(function(d){
+                $ionicLoading.hide();
+                $scope.reservas = d;
+                console.log(d);
+            })
+            .catch(function(e){
+                $ionicLoading.hide();
+                console.log(e);
+            });
+    };
 
 }])

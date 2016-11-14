@@ -1,9 +1,13 @@
 <ion-view title="Perfil">
-    <ion-content>
+    <ion-content scroll="true">
+    
         <div class="hero slide-up" style="background: url('./img/1.jpg') no-repeat center center fixed;">
             <div class="content">
-                <div class="avatar" style="background-image: url('img/VTrEvT4I.jpeg');"></div>
-                <h3>Miguel piñeyro</h3>
+                <div class="avatar">
+                  <img src="http://localhost:3001/img/{{usuario.foto}}" width="100%" height="auto" style="display: block; margin-left: auto; margin-right: auto;">
+                </div>
+                <h3><b>{{usuario.nombre}} {{usuario.apellido}}</b></h3>
+                
                 <h4>&nbsp;</h4>
             </div>
         </div>
@@ -13,9 +17,6 @@
             </ion-tab>
             <ion-tab title="Mis Equipos" icon="ion-ionic" href="#/perfil/misequipos">
                 <ion-nav-view name="misequipos-tab"></ion-nav-view>
-            </ion-tab>
-            <ion-tab title="Mis Grupos" icon="ion-android-people" href="#/perfil/misgrupos">
-                <ion-nav-view name="misgrupos-tab"></ion-nav-view>
             </ion-tab>
         </ion-tabs>
     </ion-content>

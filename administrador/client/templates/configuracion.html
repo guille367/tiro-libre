@@ -1,37 +1,46 @@
+<div style="width:100%;"> 
 <h1>Configuración</h1>
-<form id="form" name="form" role="form" data-toggle="validator">
+<div style="float:left; width:50%;">
+
+ <form id="form" name="form" role="form" data-toggle="validator">
 <div class="container">
-	<div class="row">
-		<div class='col-sm-3 form-group-conf'>
-    	    <label for="cierre">Horario de apertura</label>
-		    <div class="input-group clockpicker1" data-placement="right" data-align="top" data-autoclose="true">
-    			<input type="text" class="form-control" value="09:00" ng-model="configuracion.horaApertura" placeholder="hora apertura" ng-disabled="read" required="">
-    			<span class="input-group-addon" ng-show="!read">
-        		<span class="glyphicon glyphicon-time"></span>
-    			</span>
-			</div>
+    <div class="row">
+        <div class='col-sm-3 form-group-conf'>
+            <label for="nombreComplejo">Nombre del Complejo</label>
+            <input type="text" class="form-control" name="nombreComplejo" ng-model="configuracion.nombre" placeholder="Nombre del complejo" ng-disabled="read" required="">
         </div>
     </div>
     <div class="row">
         <div class='col-sm-3 form-group-conf'>
-    	    <label for="txtdni">Horario de cierre</label>
-		    <div class="input-group clockpicker2" data-placement="right" data-align="top" data-autoclose="true">
-    			<input type="text" class="form-control" value="23:30" ng-model="configuracion.horaCierre" placeholder="Hora de cierre" ng-disabled="read" required="">
-    			<span class="input-group-addon" ng-show="!read">
-        		<span class="glyphicon glyphicon-time"></span>
-    			</span>
-			</div>
+            <label for="cierre">Horario de apertura</label>
+            <div class="input-group clockpicker1" data-placement="right" data-align="top" data-autoclose="true">
+                <input type="text" class="form-control" value="09:00" ng-model="configuracion.horaApertura" placeholder="hora apertura" ng-disabled="read" required="">
+                <span class="input-group-addon" ng-show="!read">
+                <span class="glyphicon glyphicon-time"></span>
+                </span>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class='col-sm-3 form-group-conf'>
+            <label for="txtdni">Horario de cierre</label>
+            <div class="input-group clockpicker2" data-placement="right" data-align="top" data-autoclose="true">
+                <input type="text" class="form-control" value="23:30" ng-model="configuracion.horaCierre" placeholder="Hora de cierre" ng-disabled="read" required="">
+                <span class="input-group-addon" ng-show="!read">
+                <span class="glyphicon glyphicon-time"></span>
+                </span>
+            </div>
         </div>
     </div>
     <div class="row">    
         <div class='col-sm-3 form-group-conf'>
-    	    <label for="txtdni">Inicio hora noctura</label>
-		    <div class="input-group clockpicker3"  data-placement="right" data-align="top" data-autoclose="true">
-    			<input type="text" class="form-control" value="19:00" ng-model="configuracion.horaNocturna" placeholder="Inicio hora nocturna" ng-disabled="read" required="">
-    			<span class="input-group-addon" ng-show="!read">
-        		<span class="glyphicon glyphicon-time"></span>
-    			</span>
-			</div>
+            <label for="txtdni">Inicio hora noctura</label>
+            <div class="input-group clockpicker3"  data-placement="right" data-align="top" data-autoclose="true">
+                <input type="text" class="form-control" value="19:00" ng-model="configuracion.horaNocturna" placeholder="Inicio hora nocturna" ng-disabled="read" required="">
+                <span class="input-group-addon" ng-show="!read">
+                <span class="glyphicon glyphicon-time"></span>
+                </span>
+            </div>
         </div>
     </div>
     <div class="row">    
@@ -59,11 +68,11 @@
         </div>
     </div>    
     <div class="row">
-    	<div class='col-sm-1 form-group-conf'>
-    	    <label for="btn"></label>
-		    <div class="input-group" data-placement="right" data-align="top">
-    			<button type="submit" id="btn" ng-click="guardar(configuracion, form)" ng-disabled="read" class="btn btn-info" >Guardar</button></p>
-			</div>
+        <div class='col-sm-1 form-group-conf'>
+            <label for="btn"></label>
+            <div class="input-group" data-placement="right" data-align="top">
+                <button type="submit" id="btn" ng-click="guardar(configuracion, form)" ng-disabled="read" class="btn btn-info" >Guardar</button></p>
+            </div>
         </div> 
         <div class='col-sm-1 form-group-conf'>
             <label for="btn"></label>
@@ -79,7 +88,63 @@
         </div>    
     </div>   
 </div>
-</form>     
+</form> 
+
+</div>
+<div style="float:right; width:50%; ">
+    <div class="row">    
+        <div class="col-sm-12 form-group-conf">
+            <H3><b>Logo del club</b></H3>
+        </div>
+    </div>
+     <div class="row">    
+        <div class="col-sm-12 form-group-conf">
+            <img src="../img/{{configuracion.imagen}}" class="img-rounded"  width="70%" height="70%">
+        </div>
+    </div>
+     <div class="row">    
+        <div class="col-sm-9">
+            <h1></h1>
+            <input id="input-1" type="file" accept=".jpg" name="input-1" class="file" data-show-preview="false" data-file="configuracion.imagen" ng-disabled="read">
+        </div>
+    </div>
+
+ 
+</div>
+ 
+</div>
+
+<script type="text/javascript">
+        $("#input-1").fileinput({
+        language: "es",
+        uploadUrl: "/api/photo",
+        uploadAsync: true,
+        previewFileType: "image",
+        browseClass: "btn btn-success",
+        browseLabel: "Elegir foto",
+        browseIcon: "<i class=\"glyphicon glyphicon-picture\"></i> ",
+        removeClass: "btn btn-danger",
+        removeLabel: "Borrar",
+        removeIcon: "<i class=\"glyphicon glyphicon-trash\"></i> ",
+        uploadClass: "btn btn-info",
+        uploadLabel: "Upload",
+        uploadIcon: "<i class=\"glyphicon glyphicon-upload\"></i> ",
+
+         });
+
+
+        </script>
+
+
+
+
+
+
+
+
+
+
+    
 
 
 <script type="text/javascript">

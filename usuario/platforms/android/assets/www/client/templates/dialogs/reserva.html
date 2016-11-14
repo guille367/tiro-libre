@@ -1,38 +1,18 @@
-<ion-modal-view class="fondo">
-	<ion-content class="colorText">
+<ion-modal-view>
+	<ion-content scroll="true">
 
 			<md-subheader class="md-no-sticky colorText fondoReserva">Fecha</md-subheader>
 			<div layout="row" layout-align="center center" class="padding">
 				<b>Día: </b>
-				<md-datepicker ng-model="reserva.fechaInicio" disabled ></md-datepicker>
+				<md-datepicker ng-model="fechaSeleccionada" disabled ></md-datepicker>
 			</div>
+			
+			<div layout="row" layout-align="center center" class="block">
 
-			<div layout="row" layout-align="center center"  class="padding">
+				<div rg-range-picker="horario"></div>
 
-				<div layout="column" layout-align="center center">
-					<label class="colorText">Inicio: </label>
-				</div>
-				<div layout="column" layout-align="center center">
-			        <input requiwhite type="number" min="9" max="24" style="border-color: white; color: white; background-color: transparent" />
-				</div>
-				<div layout="column" layout-align="center center">
-					<label class="colorText">hs</label>
-				</div>
-
-				<div layout="column" flex="33" layout-align="center center">
-					
-				</div>
-
-				<div layout="column" layout-align="center center">
-					<label class="colorText">Fín: </label>
-				</div>
-				<div layout="column" layout-align="center center">
-			        <input requiwhite type="number" min="9" max="24" style="border-color: white; color: white; background-color: transparent" />
-				</div>
-				<div layout="column" layout-align="center center">
-					<label class="colorText">hs</label>
-				</div>
       		</div>
+
 
       		<md-subheader class="md-no-sticky colorText fondoReserva">Cancha</md-subheader>
   			<!-- Cancha [Nombre,tipo,jugadores,luz (s/n)] -->
@@ -40,13 +20,13 @@
   				<div layout="column" flex="50">
 					<md-input-container >
 				        <label>Cancha</label>
-				        <input style="border-color: white; color: white; background-color: transparent;font-weight:bold;" disabled value="Cancha 3">
+				        <input disabled value="{{cancha.nombre}}">
 			      	</md-input-container>
   				</div>
   				<div layout="column"  flex="50">
   					<md-input-container>
 				        <label>Tipo</label>
-				        <input style="border-color: white; color: white; background-color: transparent; font-weight:bold;" disabled value="Césped sintético">
+				        <input disabled value="{{cancha.piso}}">
 			      	</md-input-container>
   				</div>
   			</div>
@@ -54,12 +34,12 @@
   				<div layout="column" flex="50">
 					<md-input-container>
 				        <label>Cantidad de jugadores</label>
-				        <input style="border-color: white; color: white; background-color: transparent; font-weight:bold;" disabled value="7">
+				        <input disabled value="{{cancha.cantJug}}">
 			      	</md-input-container>
   				</div>
   				<div layout="column"  flex="50">
 			        <label class="colorText">Iluminación</label>
-			        <md-checkbox aria-label="Close" class="dotted" disabled checked="true"></md-checkbox>
+			        <md-checkbox aria-label="Close" class="dotted" disabled ng-checked="{{cancha.luz}}"></md-checkbox>
   				</div>
   			</div>
 
@@ -68,19 +48,19 @@
   				<div layout="column" flex="33">
 					<md-input-container>
 				        <label>Importe total</label>
-				        <input style="width: 100px; border-color: white; color: white; background-color: transparent; font-weight:bold;" disabled value="$500.00">
+				        <input disabled value="${{ fechaSeleccionada.getHours() <= 18 ? cancha.pDiurno : + cancha.pNocturno }}">
 			      	</md-input-container>
   				</div>
   				<div layout="column"  flex="33">
   					<md-input-container>
 				        <label>Importe reserva</label>
-				        <input style="width: 100px; border-color: white; color: white; background-color: transparent; font-weight:bold;" disabled value="$100.00">
+				        <input disabled value="${{ fechaSeleccionada.getHours() <= 18 ? (cancha.pDiurno * 0.10) : (cancha.pNocturno * 0.10) }}">
 			      	</md-input-container>
   				</div>
 
   				<div layout="column" flex="33">
 					<button style="margin-top:15px" 
-						class="button button-positive" ng-click="modalPago.show()">Pagar</button>
+						class="button button-positive" ng-click="openPago()">Pagar</button>
   				</div>
   			</div>
 
@@ -88,31 +68,3 @@
 
 	</ion-content>
 </ion-modal-view>
-
-<style type="text/css">
-	.colorText{
-		color:white;	
-		font-weight:bold;
-	}
-	.md-datepicker-input{
-  		color: white;
-  		background-color: transparent;
-  		font-weight:bold;	
-	}
-	.md-datepicker{
-		background-color: transparent;
-	}
-	.fondoReserva{
-		background-color: green;
-	}
-	.dotted {
-		background-color: white;
-		width: 10px;
-	}
-	path{
-		color:white;
-	}
-	button[disabled], html input[disabled] {
-		background-color: transparent;	
-	}
-</style>

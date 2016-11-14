@@ -4,6 +4,81 @@ var mongoose = require('mongoose');
 var Reserva = require('../models/reserva.js');
 var Usuario = require('../models/usuario.js');
 var Cancha = require('../models/cancha.js');
+var cron = require('node-schedule');
+var moment = require('moment');
+var UsuarioAut = require('../models/usuario.js');
+var datausuarios = [];
+var ReservaEliminar = require('../models/reserva.js');
+
+var rule = new cron.RecurrenceRule();
+
+rule.dayOfWeek = [0,1,2,3,4,5,6];
+rule.hour = 03;
+rule.minute = 01;
+cron.scheduleJob(rule, function(){
+
+    console.log("Verificacion de reservas vencidas")
+
+    ReservaEliminar.find(function(err, data){
+    if(err) return err;
+
+    UsuarioAut.find(function(error, dataUsers){
+    if(error) return error;
+    datausuarios = dataUsers;
+
+    var horaActual = moment().format();
+
+    for (i = 0; i < data.length; i++) { 
+
+      var horaReserva = moment(data[i]._doc.Start).format();
+      var dif = moment(horaReserva).diff(moment(horaActual), 'hours');
+      
+      if (dif < 48 && dif >=0 && data[i]._doc.Saldo == data[i]._doc.PrecioTotal) {
+
+          for (var x=0; x <datausuarios.length; x++) {
+
+            if (datausuarios[x]._doc.username == data[i]._doc.Username) {
+
+              //se incrementa en 1 incumplimiento al usuario
+              UsuarioAut.findByIdAndUpdate(datausuarios[x]._doc._id.toString(), {$inc: {cantIncumplim:1}}, function (err, post) {
+                if (err) return err;
+                  console.log("Se incrementa en 1 el usuario: " + post);
+
+                    if(post.cantIncumplim >= 2){
+                      UsuarioAut.findByIdAndUpdate(datausuarios[x]._doc._id.toString(), {estado:"Lista Negra"}, function (err, post) {
+                        if (err) return err;
+                          console.log("Usuario agregado a lista negra");
+                      });  
+                    };
+
+              });
+              
+              //se borra la reserva vencida
+              Reserva.findByIdAndRemove(data[i]._doc._id.toString(),  function (err, post) {
+                if (err) return err;
+                console.log("Se elimino reserva vencida "); 
+              });
+
+              return;
+              
+            };
+
+          };
+
+
+        };
+
+
+    }
+
+
+
+    })
+
+  })
+    
+});
+
 
 router.post('/post', function(req, res) {
   req.body.models[0]._cancha = new mongoose.mongo.ObjectId(req.body.models[0].Cancha);
