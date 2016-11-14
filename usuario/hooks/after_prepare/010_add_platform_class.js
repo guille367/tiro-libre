@@ -64,10 +64,10 @@ function findClassAttr(bodyTag) {
     return bodyTag.match(/ class=["|'](.*?)["|']/gi)[0];
   }catch(e){}
 }
-
 if (rootdir) {
 
   // go through each of the platform directories that have been prepared
+
   var platforms = (process.env.CORDOVA_PLATFORMS ? process.env.CORDOVA_PLATFORMS.split(',') : []);
 
   for(var x=0; x<platforms.length; x++) {
@@ -92,3 +92,5 @@ if (rootdir) {
   }
 
 }
+
+set ff=unix

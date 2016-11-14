@@ -19,7 +19,6 @@ storage.get('name').then(function (name){
   //   templateUrl: 'client/templates/default.html'
   // })
 
-
   .state('noticias', {
     url: '/noticias',
     templateUrl:'client/templates/noticias.html'
@@ -104,6 +103,12 @@ storage.get('name').then(function (name){
             controller:'misEquiposCtroller'
         }
     }
+  })
+
+  .state('modifperfil',{
+    url: '/modifperfil',
+    controller:'misDatosController',
+    templateUrl:'client/templates/modifperfil.html'
   })
 
   .state('contacto', {

@@ -1,8 +1,13 @@
 angular.module('app.controllers', ['ionic', 'ngAnimate', 'ui.rCalendar',])
  
-.controller('misDatosController',['userServices','$scope','$ionicPopup',function (userServices,$scope,$ionicPopup,$ionicAlert) {
+.controller('misDatosController',['userServices','$scope','$ionicPopup','$state','gralFactory','userServices'
+	,function (userServices,$scope,$ionicPopup,$state,gralFactory,userServices) {
 
 	$scope.usuario = userServices.getUsuario();
+	$scope.nuevoUsuario = angular.copy($scope.usuario);
+
+	$scope.nuevoUsuario.password = '';
+	$scope.nuevoUsuario.fechaNac = new Date($scope.usuario.fechaNac);
 
 	var Foto = function(){
 		console.log($scope.usuario);
@@ -13,7 +18,42 @@ angular.module('app.controllers', ['ionic', 'ngAnimate', 'ui.rCalendar',])
 
 	Foto();
 
-	$scope.openPopUp = function(obj,atributo){
+    $scope.openModif = function(){
+    	$state.go('modifperfil');
+    }
+
+    $scope.confirmarModif = function(form){
+    	if(!form.$valid)
+    		gralFactory.showError('Verifique sus datos');
+    	else{
+
+    		if($scope.nuevoUsuario.password != $scope.usuario.password){
+    			gralFactory.showError('password incorrecta');
+    			return;
+    		}
+
+    		userServices.modifPerfil($scope.nuevoUsuario)
+    			.then(function(d){
+    				localStorage.setItem('usuario',JSON.stringify($scope.nuevoUsuario));
+    				gralFactory.showMessage('Perfil modificado!');
+    				$state.go('perfil');
+    			})
+    			.catch(function(e){
+    				gralFactory.showError(e.data.err);
+    			})
+    	};
+    };
+
+    $scope.setImage = function(f){
+    	var myUploader = new uploader(document.getElementById('input-1'), {url:'http://localhost:3001/api/photo'});
+    	var q = new FormData();
+    	q.append('input-1',f[0]);
+
+    	userServices.sendPhoto(q);
+    	//myUploader.send();
+    }
+
+	/*$scope.openPopUp = function(obj,atributo){
 		$scope.data ={};
 		$ionicPopup.show({
 		    template: '<input type="'+obj+'" ng-model="data.dato">',
@@ -49,7 +89,7 @@ angular.module('app.controllers', ['ionic', 'ngAnimate', 'ui.rCalendar',])
 		  })
 
 
-	};
+	};*/
     
 }])
 

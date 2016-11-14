@@ -20,6 +20,28 @@ angular.module('app.services')
 			});
 	}
 
+	this.modifPerfil = function(user){
+		return $http.put(generalServices.urlUsuarios + '/modifperfil',user)
+			.then(function(d){
+				return d;
+			})
+			.catch(function(e){
+				throw e;
+			})
+	}
+
+	this.sendPhoto = function(f){
+		$http.post("http://localhost:3001/api/photo",f)
+		.then(function(d){
+			alert("see");
+			console.log(d);
+		})
+		.catch(function(e){
+			alert("not");
+			console.log(e);
+		})
+	}
+
 	this.registrarUsuario = function(user){
 		return $http.post(generalServices.urlUsuarios + '/register', user)
 			.then(function(d){

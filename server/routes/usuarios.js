@@ -41,6 +41,16 @@ router.post('/register', function(req, res) {
     });
   });
 
+router.put('/modifperfil',function(req,res){
+
+  Usuario.findByIdAndUpdate(req.body._id, req.body, function (err, post) {
+    if (err) 
+      return res.status(500).json({err:err});
+    
+      res.status(200).json(post);
+  });
+
+});
 
 router.post('/login', function(req, res, next) {
   passport.authenticate('usuario', function(err, user, info) {
