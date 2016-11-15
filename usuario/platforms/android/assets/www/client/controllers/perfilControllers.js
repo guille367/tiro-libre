@@ -1,8 +1,13 @@
 angular.module('app.controllers', ['ionic', 'ngAnimate', 'ui.rCalendar',])
  
-.controller('misDatosController',['userServices','$scope','$ionicPopup',function (userServices,$scope,$ionicPopup,$ionicAlert) {
+.controller('misDatosController',['userServices','$scope','$ionicPopup','$state','gralFactory','userServices','generalServices','$ionicLoading'
+	,function (userServices,$scope,$ionicPopup,$state,gralFactory,userServices,generalServices,$ionicLoading) {
 
 	$scope.usuario = userServices.getUsuario();
+	$scope.nuevoUsuario = angular.copy($scope.usuario);
+
+	$scope.nuevoUsuario.password = '';
+	$scope.nuevoUsuario.fechaNac = new Date($scope.usuario.fechaNac);
 
 	var Foto = function(){
 		console.log($scope.usuario);
@@ -13,45 +18,72 @@ angular.module('app.controllers', ['ionic', 'ngAnimate', 'ui.rCalendar',])
 
 	Foto();
 
-	$scope.openPopUp = function(obj,atributo){
-		$scope.data ={};
-		$ionicPopup.show({
-		    template: '<input type="'+obj+'" ng-model="data.dato">',
-		    title: 'Modificación de ' + atributo,
-		    subTitle: 'Ingrese el nuevo ' + atributo,
-		    scope: $scope,
-		    buttons: [
-		      {
-		        text: '<b>Guardar</b>',
-		        type: 'button-positive',
-		        onTap: function(e) {
+    $scope.openModif = function(){
+    	$state.go('modifperfil');
+    }
 
-		          if (atributo == "teléfono"){
-		          	if($scope.data.dato >= 10000000 && $scope.data.dato <= 99999999999){
-		          		$scope.usuario.telefono = $scope.data.dato;
-		          		userServices.update($scope.usuario);
-		          		$ionicPopup.alert({template:'Modificación exitosa!'});	
-		          	}else{
-		          		$ionicPopup.alert({title: 'Error',template:'Verificar el número'});
-		          	};					        
+    $scope.closeModif = function(){
+    	$state.go('perfil');
+    }
 
-		          };
-		          if (atributo == "mail"){
-		          	$scope.usuario.mail = $scope.data.dato;
-		          	userServices.update($scope.usuario);
-		          };
+    $scope.confirmarModif = function(form){
+    	if(!form.$valid)
+    		gralFactory.showError('Verifique sus datos');
+    	else{
+            
+            if($scope.usuario.password != $scope.nuevoUsuario.password){
+            	gralFactory.showError('Password incorrecta');
+            	return;
+            }
 
-		          	
-		        }
-		      },
-		      { text: 'Cerrar'}
-		    ]
-		  })
+            $ionicLoading.show();
+            
+            var myUploader = new uploader(document.getElementById('input-1'));
+            var archivo = myUploader.input.files[0];
 
+            var q = new FormData();
+            q.append('input-1',archivo);
 
-	};
+            generalServices.uploadImage(q)
+            .then(function(d){
+                $scope.nuevoUsuario.foto = archivo.name; 
+            })
+            .catch(function(e){
+                if(archivo){
+                    console.log(e);
+                    gralFactory.showError('Ocurrio un error al subir la imagen');
+                }
+                $scope.nuevoUsuario.foto = 'logo_default.png';
+            })
+            .then(function(){
+                userServices.modifPerfil($scope.nuevoUsuario)
+    			.then(function(d){
+                    $ionicLoading.hide();
+    				localStorage.setItem('usuario',JSON.stringify($scope.nuevoUsuario));
+    				gralFactory.showMessage('Perfil modificado!');
+    				$state.go('perfil');
+    			})
+    			.catch(function(e){
+                    $ionicLoading.hide();
+    				gralFactory.showError(e.data.err);
+    			});
+                
+            });
+            
+    	};
+    };
+
+    $scope.setImage = function(f){
+    	var myUploader = new uploader(document.getElementById('input-1'));
+    	var q = new FormData();
+    	q.append('input-1',f[0]);
+
+    	userServices.sendPhoto(q);
+    	//myUploader.send();
+    }
     
 }])
+
 
 
 .controller('misEquiposCtroller', ['$scope','$ionicModal', '$stateParams','torneosService', 'userServices','gralFactory','$ionicPopup','equiposService',function($scope,$ionicModal,$stateParams,torneosService, userServices,gralFactory, $ionicPopup,equiposService){

@@ -1,0 +1,86 @@
+<ion-view class="fondo">
+    <ion-content padding="true" scroll="true" class="has-header">
+
+        <md-content layout-padding>
+            <form name="form" role="form" enctype="multipart/form-data">
+
+                <md-input-container class="md-block">
+                    <label>Nombre</label>
+                    <input required md-no-asterisk name="nombre" ng-model="nuevoUsuario.nombre">
+                    <div ng-messages="projectForm.description.$error">
+                        <div ng-message="required">Campo obligatorio</div>
+                    </div>
+                </md-input-container>
+
+                <md-input-container class="md-block">
+                    <label>Apellido</label>
+                    <input required md-no-asterisk name="apellido" ng-model="nuevoUsuario.apellido">
+                    <div ng-messages="projectForm.description.$error">
+                        <div ng-message="required">Campo obligatorio</div>
+                    </div>
+                </md-input-container>
+
+                <md-input-container class="md-block">
+                    <label>DNI</label>
+                    <input required md-no-asterisk minlength="5" maxlength="12" name="dni" ng-model="nuevoUsuario.dni">
+                    <div ng-messages="projectForm.description.$error">
+                        <div ng-message="required">Campo obligatorio</div>
+                    </div>
+                </md-input-container>
+
+                <md-input-container class="md-block">
+                  <label>Email</label>
+                  <input name="email" ng-model="nuevoUsuario.mail"
+                         required minlength="10" maxlength="100" ng-pattern="/^.+@.+\..+$/" />
+                </md-input-container> 
+                
+                <md-input-container class="md-block">
+                    <label>Telefono</label>
+                    <input md-no-asterisk minlength="5" maxlength="14" name="telefono" ng-model="nuevoUsuario.telefono">
+                </md-input-container>
+                
+                <md-input-container>    
+                    <label>Fecha de Nacimiento</label>
+                    <md-datepicker  name="fechaNac" ng-model="nuevoUsuario.fechaNac"></md-datepicker>
+                </md-input-container>
+
+                <md-input-container class="md-block">
+                    <label>Confirmar Contrasena</label>
+                    <input required type="password" md-no-asterisk ng-model="nuevoUsuario.password">
+                    <div ng-messages="projectForm.description.$error">
+                        <div ng-message="required">Campo obligatorio</div>
+                    </div>
+                </md-input-container>    
+
+
+                
+                Foto de perfil:
+                <input type="file" id="input-1" name="input-1">
+
+                <div class="md-block">
+                    <button class="btn btn-primary" type="submit" ng-click="confirmarModif(form)">Confirmar modificaciones</button>
+                    <button class="btn btn-danger" type="button" ng-click="closeModif()">Cancelar modificaciones</button>
+                 </div>
+
+            </form>
+        </md-content>
+       
+    </ion-content>
+</ion-view>
+
+
+
+<style type="text/css">
+.registracion{
+   background-color: white;
+   opacity: 0.9;  
+   color: red;    
+}
+
+
+.buttonReg{
+    background-color: green;
+    border-color: green;
+    color: white;
+}
+</style>

@@ -20,6 +20,16 @@ angular.module('app.services')
 			});
 	}
 
+	this.modifPerfil = function(user){
+		return $http.put(generalServices.urlUsuarios + '/modifperfil',user)
+			.then(function(d){
+				return d;
+			})
+			.catch(function(e){
+				throw e;
+			})
+	}
+
 	this.registrarUsuario = function(user){
 		return $http.post(generalServices.urlUsuarios + '/register', user)
 			.then(function(d){

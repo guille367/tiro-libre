@@ -24,10 +24,11 @@ angular.module('app.services', [])
     
 }])
 
-.service('generalServices', ['$http',function($http){
+.service('generalServices', ['$http','$rootScope',function($http,$rootScope){
 
 	var url = "http://localhost:3001";
 
+    $rootScope.urlImagenes = url + '/img//';
 	this.urlUsuarios = url + '/usuario';
 	this.urlReservas = url + '/reserva';
 	this.urlCanchas = url + '/cancha';
@@ -42,5 +43,17 @@ angular.module('app.services', [])
 						console.log(e);
 					})
 	}
+    
+    this.uploadImage = function(form){
+        return $http.post(url + '/api/photo',form,
+                    {transformRequest: angular.identity,
+                    headers: {'Content-Type': undefined}})
+					then(function(d){
+						return d.data[0];
+					})
+					.catch(function(e){
+						throw e.data;
+					})
+    }
     
 }]);

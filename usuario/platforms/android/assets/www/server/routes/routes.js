@@ -19,12 +19,6 @@ storage.get('name').then(function (name){
   //   templateUrl: 'client/templates/default.html'
   // })
 
-
-  .state('noticias', {
-    url: '/noticias',
-    templateUrl:'client/templates/noticias.html'
-  })
-
   .state('resetpass', {
     url: '/resetcontrasena',
     cache:false,
@@ -61,7 +55,6 @@ storage.get('name').then(function (name){
   
   .state('perfil', {
     url: '/perfil',
-    cache:false,
     controller:'misDatosController',
     templateUrl:'client/templates/perfil.html'
   })
@@ -88,15 +81,6 @@ storage.get('name').then(function (name){
         }
     })
 
-  .state('perfil.misgrupos', {
-    url: '/misgrupos',
-    views:{
-        'misgrupos-tab':{
-            templateUrl:'client/templates/misgrupos.html'
-        }
-    }
-  })
-  
   .state('perfil.misequipos', {
     url: '/misequipos',
     views:{
@@ -105,6 +89,12 @@ storage.get('name').then(function (name){
             controller:'misEquiposCtroller'
         }
     }
+  })
+
+  .state('modifperfil',{
+    url: '/modifperfil',
+    controller:'misDatosController',
+    templateUrl:'client/templates/modifperfil.html'
   })
 
   .state('contacto', {

@@ -9,7 +9,7 @@ angular.module('app.controllers')
         $scope.reservasDia = {};
         $scope.modo = 'mes';
         $scope.fechaSeleccionada = new Date();
-        $scope.habilitarReserva = false;
+        $scope.deshabilitarReserva = false;
         $scope.datosClub = {};
         $scope.calendar.eventSource = {};
 
@@ -120,8 +120,15 @@ angular.module('app.controllers')
                 //$scope.horario.time.to = selectedTime
             }
 
-            $scope.habilitarReserva = (events !== undefined && events.length !== 0)
-                || selectedTime.getTime() <= ( new Date().getTime() + 360000 );
+            $scope.deshabilitarReserva = ( events !== undefined && events.length !== 0)
+                || selectedTime.getTime() <= ( new Date().getTime() + 360000 ) || $scope.user == undefined;
+
+            console.log("1ra exp")
+            console.log(( events !== undefined && events.length !== 0))
+            console.log("segunda exp")
+            console.log(selectedTime.getTime() <= ( new Date().getTime() + 360000 ))
+            console.log("tercera exp")
+            console.log($scope.user != undefined)
         };
 
         function createRandomEvents() {
