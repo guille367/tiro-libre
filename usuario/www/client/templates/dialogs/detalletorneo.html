@@ -1,87 +1,107 @@
 <ion-modal-view>
 	<ion-content scroll="true">
 		<form name="form" role="form">
-			<md-divider></md-divider>
-			<md-subheader class="md-no-sticky fondoDTorneo"><b>{{torneo.nombre}}</b></md-subheader>
-			<div class="row" layout="row" layout-align="center center">
-				<div class="col-25" style="text-align:center" layout="column">
-					<b>Inicio</b>
-				</div>
-				<div class="col">
-					<b>{{torneo.fechaInicio | date:'dd/MM/yyyy'}}</b>
-				</div>
-				<div class="col-25" style="text-align:center" layout="column">
-				<b>Fín</b>
-				</div>
-				<div class="col">
-					<b>{{torneo.fechaFin | date:'dd/MM/yyyy'}}</b>
-				</div>
+
+		<md-divider></md-divider>
+		<md-subheader class="md-no-sticky fondoDTorneo"><b>{{torneo.nombre}}</b></md-subheader>
+		<div class="row" layout="row" layout-align="center center">
+			<div class="col-25" style="text-align:center" layout="column">
+				<b>Fecha Inicio</b>
 			</div>
-
-			<div class="row" layout="row" layout-align="center center">
-
-				<div class="col-25" style="text-align:center" layout="column">
-					<b>Jugadores: </b>
-				</div>
-				<div class="col" layout="column">
-					<b>{{torneo.jugTitulares + torneo.jugSuplentes}}</b>
-				</div>
-				<div class="col-25" style="text-align:center" layout="column">
-					<b>Inscripción: </b>
-				</div>
-				<div class="col" layout="column">
-					<b>${{torneo.valorInscripcion}}</b>
-				</div>
-
+			<div class="col">
+				<b>{{torneo.fechaInicio | date:'dd/MM/yyyy'}}</b>
 			</div>
-
-			<div class="row" layout="row" layout-align="center center" >
-
-				<div class="col-25" style="text-align:center" layout="column">
-					<b>Titulares</b>
-				</div>
-				<div class="col" layout="column">
-					<b>{{torneo.jugTitulares}}</b>
-				</div>
-				<div class="col-25" style="text-align:center" layout="column">
-					<b>Por partido: </b>
-				</div>
-				<div class="col" layout="column">
-					<b>${{torneo.valorPorPartido}}</b>
-				</div>
-
+			<div class="col-25" style="text-align:center" layout="column">
+			<b>Fecha Fín</b>
 			</div>
-
-			<div class="row" layout="row" layout-align="center center">
-
-				<div class="col-25" style="text-align:center" layout="column">
-					<b>Suplentes</b>
-				</div>
-				<div class="col" layout="column">
-					<b>{{torneo.jugSuplentes}}</b>
-				</div>
-				<div class="col-25" style="text-align:center" layout="column">
-					<b>Formato: </b>
-				</div>
-				<div class="col" layout="column">
-					<b>{{torneo.tipo}}</b>
-				</div>
-
+			<div class="col">
+				<b>{{torneo.fechaFin | date:'dd/MM/yyyy'}}</b>
 			</div>
+		</div>
 
-			<div class="row" layout="row" layout-align="center center">
+		<div class="row" layout="row" layout-align="center center">
 
-				<div class="col-25" style="text-align:center" layout="column">
-					<b>Equipos</b>
-				</div>
-				<div class="col" layout="column">
-					<b>{{torneo.cantEquipos}}</b>
-				</div>
-
+			<div class="col-25" style="text-align:center" layout="column">
+				<b>Jugadores: </b>
 			</div>
+			<div class="col" layout="column">
+				<b>{{torneo.jugTitulares + torneo.jugSuplentes}}</b>
+			</div>
+			<div class="col-25" style="text-align:center" layout="column">
+				<b>Cierre Inscrip.: </b>
+			</div>
+			<div class="col" layout="column">
+				<b>{{torneo.fechaCierreInscripcion | date: 'dd/MM/yyyy'}}</b>
+			</div>
+	
+
+		</div>
+
+		<div class="row" layout="row" layout-align="center center" >
+
+			<div class="col-25" style="text-align:center" layout="column">
+				<b>Titulares</b>
+			</div>
+			<div class="col" layout="column">
+				<b>{{torneo.jugTitulares}}</b>
+			</div>
+			<div class="col-25" style="text-align:center" layout="column">
+				<b>Inscripción: </b>
+			</div>
+			<div class="col" layout="column">
+				<b>${{torneo.valorInscripcion}}</b>
+			</div>					
+
+
+		</div>
+
+		<div class="row" layout="row" layout-align="center center">
+
+			<div class="col-25" style="text-align:center" layout="column">
+				<b>Suplentes</b>
+			</div>
+			<div class="col" layout="column">
+				<b>{{torneo.jugSuplentes}}</b>
+			</div>
+			<div class="col-25" style="text-align:center" layout="column">
+				<b>Por partido: </b>
+			</div>
+			<div class="col" layout="column">
+				<b>${{torneo.valorPorPartido}}</b>
+			</div>			
+
+		</div>
+
+		<div class="row" layout="row" layout-align="center center">
+
+			<div class="col-25" style="text-align:center" layout="column">
+				<b>Equipos</b>
+			</div>
+			<div class="col" layout="column">
+				<b>{{torneo.cantEquipos}}</b>
+			</div>
+			<div class="col-25" style="text-align:center" layout="column">
+				<b>Formato: </b>
+			</div>
+			<div class="col" layout="column">
+				<b>{{torneo.tipo}}</b>
+			</div>			
+
+		</div>
+
+		<div class="row" layout="row" layout-align="center center" ng-if="torneo.tipo == 'Liga'">
+
+			<div class="col-25" style="text-align:center" layout="column">
+				<b>Ida/Vuelta</b>
+			</div>
+			<div class="col" layout="column">
+				<b>{{torneo.idaVuelta}}</b>
+			</div>		
+
+		</div> 
 	        
 			<div ng-show="loggeado">
-			            
+	            <div ng-show="usuarioEq">
 					<md-divider></md-divider>
 					<md-subheader class="md-no-sticky fondoDTorneo"><b>Equipo</b></md-subheader>
 					
@@ -187,11 +207,11 @@
 						<div class="col" layout="column">
 							<button class="button button-block button-positive4" ng-minlength="7" ng-minlength="10" ng-click="openPago(form)" ng-disabled="bloqBtnPagar">Pagar con tarjeta</button>
 						</div>
-
-						<div class="col" layout="column">
+				</div>
+			</div>
+					<div class="col" layout="column">
 						<button class="button button-block button-assertive" ng-click="closeTorneo()">Cerrar</button>
 					</div>
-			</div>
 		</form>
 	</ion-content>
     

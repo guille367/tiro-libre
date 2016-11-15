@@ -1,7 +1,7 @@
 angular.module('app.controllers', ['ionic', 'ngAnimate', 'ui.rCalendar',])
  
 .controller('misDatosController',['userServices','$scope','$ionicPopup','$state','gralFactory','userServices','generalServices','$ionicLoading'
-	,function (userServices,$scope,$ionicPopup,$state,gralFactory,userServices,generalServices) {
+	,function (userServices,$scope,$ionicPopup,$state,gralFactory,userServices,generalServices,$ionicLoading) {
 
 	$scope.usuario = userServices.getUsuario();
 	$scope.nuevoUsuario = angular.copy($scope.usuario);
@@ -22,17 +22,21 @@ angular.module('app.controllers', ['ionic', 'ngAnimate', 'ui.rCalendar',])
     	$state.go('modifperfil');
     }
 
+    $scope.closeModif = function(){
+    	$state.go('perfil');
+    }
+
     $scope.confirmarModif = function(form){
     	if(!form.$valid)
     		gralFactory.showError('Verifique sus datos');
     	else{
+            
+            if($scope.usuario.password != $scope.nuevoUsuario.password){
+            	gralFactory.showError('Password incorrecta');
+            	return;
+            }
 
             $ionicLoading.show();
-            
-    		if($scope.nuevoUsuario.password != $scope.usuario.password){
-    			gralFactory.showError('password incorrecta');
-    			return;
-    		}
             
             var myUploader = new uploader(document.getElementById('input-1'));
             var archivo = myUploader.input.files[0];

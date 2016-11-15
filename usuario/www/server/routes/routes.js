@@ -19,11 +19,6 @@ storage.get('name').then(function (name){
   //   templateUrl: 'client/templates/default.html'
   // })
 
-  .state('noticias', {
-    url: '/noticias',
-    templateUrl:'client/templates/noticias.html'
-  })
-
   .state('resetpass', {
     url: '/resetcontrasena',
     cache:false,
@@ -86,15 +81,6 @@ storage.get('name').then(function (name){
         }
     })
 
-  .state('perfil.misgrupos', {
-    url: '/misgrupos',
-    views:{
-        'misgrupos-tab':{
-            templateUrl:'client/templates/misgrupos.html'
-        }
-    }
-  })
-  
   .state('perfil.misequipos', {
     url: '/misequipos',
     views:{

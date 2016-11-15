@@ -1,11 +1,11 @@
 <ion-view title="Canchas" class="fondo">
     <ion-content padding="true" class="has-header">
-        <div class="list card" id="canchas-card21" ng-repeat="c in canchas">
+        <div class="list card" id="canchas-card21" ng-repeat="c in canchas" ng-show="c.estado == 'Disponible'">
             <ion-item class="item-icon-right" id="canchas-list-item1">{{c.nombre}}
                 <i class="icon ion-ios-football-outline"></i>
             </ion-item>
             <div class=" item item-image">
-                <img src="http://localhost:3001/img/{{c.foto}}" width="100%" height="auto" style="display: block; margin-left: auto; margin-right: auto;">
+                <img src="{{urlImagenes}}{{c.foto}}" width="100%" height="auto" style="display: block; margin-left: auto; margin-right: auto;">
             </div>
             <div id="canchas-markdown1" style="color:#000000;text-align:center;" class="padding-top">
                 <p>

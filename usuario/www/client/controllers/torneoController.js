@@ -9,7 +9,7 @@ angular.module('app.controllers')
     $scope.checked = false;
     $scope.jugadoresTitulares = [];
     $scope.jugadoresSuplentes = [];
-
+    $scope.usuarioEq = true;
     $scope.bloqBtnPagar = false;
 
     $scope.usuario = userServices.getUsuario();
@@ -26,7 +26,7 @@ angular.module('app.controllers')
             .then(function(d){
                 $ionicLoading.hide();
                 $scope.torneos = d.data;
-                //$scope.torneos = $scope.torneos.filter($scope.quitarCancha);
+                $scope.torneos = $scope.torneos.filter($scope.quitarTorneo);
             })  
             .catch(function(e){
                 $ionicLoading.hide();
@@ -35,6 +35,16 @@ angular.module('app.controllers')
             });
 
     };
+
+  $scope.quitarTorneo = function(objeto){
+    var dif = moment(objeto.fechaFin).diff(moment($scope.fechaActual), 'day');
+    if(dif < 0){
+      return false;
+    }else{
+      return true;
+    };
+
+  };  
 
     $scope.openPago = function(form){
 
@@ -115,25 +125,44 @@ angular.module('app.controllers')
         $scope.jugadoresTitulares = [];
         $scope.jugadoresSuplentes = [];
 
-        console.log(r);
-
+        $ionicLoading.show();
         torneosService.getTorneo($scope.torneo._id)
         .then(function(t){
             torneo = t;
             $scope.torneo = t;
+            if($rootScope.loggeado == true){                
+                angular.forEach($scope.torneo.equipos, function(value, key){
+                    if(value.usuarioResp == $scope.usuario.username){
+                        $scope.usuarioEq = false;
+                        gralFactory.showMessage('Ya se encuentra anotado para este torneo');
+                        $ionicLoading.hide();
+                    };
+                });
+            };
+            if ($scope.torneo.cantFechas > $scope.torneo.cantEquipos) {
+              $scope.torneo.idaVuelta = "Si";
+            }else{
+              $scope.torneo.idaVuelta = "No";
+            };
+            $ionicLoading.hide();
           })
         .catch(function(e){
         alert(e);
+        $ionicLoading.hide();
         });
 
-        if($scope.torneo.equipos.length != $scope.torneo.cantEquipos){
+        var difInsc = moment($scope.torneo.fechaCierreInscripcion).diff(moment($scope.fechaActual), 'day');
+
+        if($scope.torneo.equipos.length != $scope.torneo.cantEquipos && difInsc >= 0){
             
             for(var i = 0 ; i < $scope.torneo.jugTitulares ; i ++){
                 $scope.jugadoresTitulares.push({});
+
             } 
 
         }else{
-            $scope.bloqBtnPagar = true;
+            
+            $scope.usuarioEq = false;
         };
 
         $scope.modalTorneo.show();
@@ -156,7 +185,8 @@ angular.module('app.controllers')
                  torneosService.save($scope.torneo,equipo)
                     .then(function(res){
                         $state.go('torneos');
-                        $scope.modalPago.show();
+                        $scope.modalPago.hide();
+                        $scope.modalTorneo.hide();
                         gralFactory.showMessage('Muchas gracias por anotarse!');
                         getTorneos();
                     })
@@ -169,6 +199,7 @@ angular.module('app.controllers')
 
     $scope.closeTorneo = function () {
         $scope.modalTorneo.hide();
+        $scope.usuarioEq = true;
         getTorneos();
     };
 

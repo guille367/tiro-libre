@@ -30,20 +30,6 @@ angular.module('app.services')
 			})
 	}
 
-	this.sendPhoto = function(f){
-		$http.post("http://localhost:3001/api/photo",f,
-                  {transformRequest: angular.identity,
-   headers: {'Content-Type': undefined}})
-		.then(function(d){
-			alert("see");
-			console.log(d);
-		})
-		.catch(function(e){
-			alert("not");
-			console.log(e);
-		})
-	}
-
 	this.registrarUsuario = function(user){
 		return $http.post(generalServices.urlUsuarios + '/register', user)
 			.then(function(d){

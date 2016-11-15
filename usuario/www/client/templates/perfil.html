@@ -3,9 +3,8 @@
 
         <div class="hero slide-up" style="background: url('./img/1.jpg') no-repeat center center fixed;">
             <div class="content">
-                <div class="avatar">
-                  <img src="http://localhost:3001/img/{{usuario.foto}}" width="100%" height="auto" style="display: block; margin-left: auto; margin-right: auto;">
-                </div>
+                <span class="avatar" style="background-size: cover; background-image: url('{{urlImagenes}}{{usuario.foto}}')"></span>
+                <span>
                 <h3><b>{{usuario.nombre}} {{usuario.apellido}}</b></h3>
                 
                 <h4>&nbsp;</h4>

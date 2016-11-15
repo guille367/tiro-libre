@@ -146,12 +146,13 @@
             </ion-side-menu-content>
             <ion-side-menu side="left" enable-menu-with-back-views="false">
                 <ion-header-bar style="position:relative;display:table;color:white;background-color:grey" ng-show="loggeado">
-                    <span class="avatar" style="background: url(img/VTrEvT4I.jpeg); background-size: cover;"></span>
+                    <span class="avatar" style="background-size: cover; background-image: url('{{urlImagenes}}{{usuario.foto}}')"></span>
                     <span>
-                        <h3>Miguel Piñeyro</h3>
+                        <h3>{{usuario.username}}</h3>
+                        
                     </span>
                     <span>
-                        <h4>miguel@tirolibre.com</h4>
+                        <h4>{{usuario.mail}}</h4>
                     </span>
                 </ion-header-bar>
                 <ion-header-bar class="bar-stable" style="position:relative;" ng-show="!loggeado">

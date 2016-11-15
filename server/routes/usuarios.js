@@ -174,6 +174,7 @@ router.put('/recover:token', function(req, res) {
             if(err)
                 res.send(err);
             
+            user.password = req.body.password;
             user.tokenPwReset = undefined;
             user.resetPwVencimiento = undefined;
             

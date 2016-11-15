@@ -1,6 +1,6 @@
 angular.module('app.controllers')
 
-.controller('loginCtroller',['$scope','$rootScope','$state','userServices','$ionicLoading','gralFactory',function($scope,$rootScope,$state,userServices,$ionicLoading,gralFactory){
+.controller('loginCtroller',['$scope','$rootScope','$state','userServices','$ionicLoading','gralFactory','generalServices',function($scope,$rootScope,$state,userServices,$ionicLoading,gralFactory,generalServices){
     
     var user = {};
     $scope.nuevoUsuario = {};
@@ -101,6 +101,7 @@ angular.module('app.controllers')
                 $ionicLoading.hide();
                 $scope.error = false;
                 $rootScope.loggeado = true;
+                $rootScope.usuario = userServices.getUsuario();
                 gralFactory.showMessage('Bienvenido!');
                 $state.go('canchas');
             })
