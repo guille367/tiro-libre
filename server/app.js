@@ -137,7 +137,18 @@ app.post('/enviarmail', function(req,res){
     console.log('req.body');
     console.log(req.body.foto);
     var fs = require('fs');
-    var mailOptions={
+
+    if (req.body.foto == "") {
+      var mailOptions={
+        from : req.body.mail,
+        to : req.body.mail,
+        subject : req.body.asunto,
+        text : req.body.texto,
+        html: req.body.texto + '<img src="cid:unique@kreata.ee"/>'
+      }
+
+    }else{
+      var mailOptions={
         from : req.body.mail,
         to : req.body.mail,
         subject : req.body.asunto,
@@ -147,9 +158,10 @@ app.post('/enviarmail', function(req,res){
         path: path.join(__dirname, '../administrador/client/img/', req.body.foto),
         cid: 'unique@kreata.ee'
         }]
+      }
+
     }
 
-    console.log(mailOptions);
     smtpTransport.sendMail(mailOptions, function(error, response){
         if(error){
             console.log(error);

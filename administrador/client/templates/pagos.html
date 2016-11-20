@@ -125,7 +125,7 @@ myApp.filter('yesNo', function () {
                         <div class="controls">
                           <div class="row">
                             <div class="col-md-8">
-                              <input type="text" class="form-control" id="cardNumber" cc-number cc-eager-type name="ccNumber" ng-model="card.number" cc-format required="true">
+                              <input type="text" class="form-control" id="cardNumber" cc-number cc-eager-type name="ccNumber" ng-model="card.number" cc-format ng-required="true">
                             </div>
                             <div class="col-xs-3">
                               <label label-default="" class="control-label">{{ccForm.ccNumber.$ccEagerType || 'Unknown'}} : {{ccForm.ccNumber.$valid | yesNo}}</label>

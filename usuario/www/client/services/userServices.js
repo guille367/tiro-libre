@@ -3,7 +3,7 @@ angular.module('app.services')
 .service('userServices',['$http','generalServices',function($http,generalServices){
 
 	
-	this.estaLoggeado = function(){getUsuario
+	this.estaLoggeado = function(){
 		if(localStorage.getItem('usuario') != null)
 			return true;
 		else

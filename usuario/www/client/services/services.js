@@ -26,13 +26,15 @@ angular.module('app.services', [])
 
 .service('generalServices', ['$http','$rootScope',function($http,$rootScope){
 
-	var url = "http://localhost:3001";
-
+	//var url = "http://localhost:3001";
+    var url = "http://192.168.43.208:3001";
+    
     $rootScope.urlImagenes = url + '/img//';
 	this.urlUsuarios = url + '/usuario';
 	this.urlReservas = url + '/reserva';
 	this.urlCanchas = url + '/cancha';
-    this.urlTorneos = url + '/torneos';
+    this.urlTorneos = url + '/torneo';
+    this.urlEquipos = url + '/equipo';
     
 	this.getDatosClub = function (){
 		return $http.get(url + '/configuracion/get')

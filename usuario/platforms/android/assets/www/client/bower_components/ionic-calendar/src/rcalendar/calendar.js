@@ -1098,7 +1098,7 @@ angular.module('ui.rCalendar', [])
                             }
 
                             var timeDifferenceStart;
-                            if (eventStartTime <= startTime) {
+                            if (eventStartTime.getHours() <= startTime) {
                                 timeDifferenceStart = 0;
                             } else {
                                 timeDifferenceStart = (eventStartTime.getHours() - startTime);

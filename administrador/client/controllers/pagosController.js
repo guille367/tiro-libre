@@ -92,6 +92,8 @@ angular.module('myApp').controller('pagoTorneoController', function($scope, ngDi
     $scope.equipo = equipo;
     $scope.usuario = usuario;
     $scope.cantFechasPagar = 0;
+    $scope.pago = [];
+    
 
     $scope.opcionesConcepto= [];
 
@@ -116,7 +118,9 @@ angular.module('myApp').controller('pagoTorneoController', function($scope, ngDi
             });
 
 
-        };
+        }else{
+          return;
+        }
 
         $timeout(function() {
             $uibModalInstance.dismiss('cancel');

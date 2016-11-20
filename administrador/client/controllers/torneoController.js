@@ -24,10 +24,11 @@ angular.module('myApp').controller('torneoController',
       torneoServices.getAll()
         .then(function(res){
            
+           var torneosFiltrados = [];
           for (var i = 0; i < res.length; i++) {
-            $scope.torneos.push(cambioEstado(res[i]));
+            torneosFiltrados.push(cambioEstado(res[i]));
           }
-
+          $scope.torneos = torneosFiltrados;
         });
     }
     getTorneos();
@@ -89,7 +90,6 @@ angular.module('myApp').controller('torneoController',
         $scope.selected = selectedItem;
         }, function () {
           $log.info('Modal dismissed at: ' + new Date());
-          getTorneos();
         });
     };
 
@@ -146,8 +146,6 @@ angular.module('myApp').controller('torneoController',
 
     //detalles del torneo
     $scope.detalles = function (torneo) {
-
-      
 
             var modalInstance = $uibModal.open({
             animation: true,
@@ -303,11 +301,19 @@ angular.module('myApp').controller('modalTorneoController', function($scope, ngD
 
   $scope.enviar = function (newInvitacion, form) {
         console.log("invitar");
+
+        if (!form.$valid) {
+          return;
+        }
+
+
+
         $scope.newInvitacion = newInvitacion;
-        console.log($scope.newInvitacion);
-        console.log($scope.newInvitacion.foto);
-        console.log("invitar");
         bsLoadingOverlayService.start();
+
+        if (newInvitacion.foto == null) {
+          newInvitacion.foto = "";
+        }
         //$scope.sendMail(newInvitacion.mail,"nlmancuso@hotmail.com","aaaaa");
         //Request
         $http.post('/enviarmail', $scope.newInvitacion) 
@@ -336,7 +342,7 @@ angular.module('myApp').controller('modalTorneoController', function($scope, ngD
 });
 
 angular.module('myApp').controller('modalDetalleController', function($scope, ngDialog, $uibModalInstance, $timeout,
- test, list, $http, bsLoadingOverlayService, $uibModal){
+ test, list, $http, bsLoadingOverlayService, $uibModal, $log){
 
   $scope.usuarios = list;
   $scope.equipos = test.equipos;
@@ -373,6 +379,9 @@ angular.module('myApp').controller('modalDetalleController', function($scope, ng
           },
           usuarios: function(){
             return $scope.usuarios;
+          },
+          torneo: function(){
+            return test;
           }
         }
       });
@@ -380,7 +389,7 @@ angular.module('myApp').controller('modalDetalleController', function($scope, ng
         $scope.selected = selectedItem;
         }, function () {
           $log.info('Modal dismissed at: ' + new Date());
-          getTorneos();
+          
         });
     };
     
@@ -401,17 +410,39 @@ angular.module('myApp').controller('modalDetalleController', function($scope, ng
 
 
 angular.module('myApp').controller('cambioCapitanController', function($scope, $uibModalInstance, $timeout,
- test, usuarios, $log, equipoServices){
+ test, usuarios, $log, equipoServices, torneo){
 
   $scope.equipo = test;
   $scope.usuarios = usuarios;
   $scope.selected = {};
+  $scope.torneo = torneo;
+  $scope.seleccionNombre = false;
+  $scope.capitanEnUso = false
 
   console.log(usuarios);
 
 
-  $scope.guardar = function(nuevoCapitan){
+  $scope.guardar = function(nuevoCapitan, form){
       
+      if (form.$valid) {
+        $scope.seleccionNombre = false;
+
+        //verificar si el usuario seleccionado ya está en otro equipo
+        for (var i = 0; i < $scope.torneo.equipos.length -1; i++) {
+          if ($scope.torneo.equipos[i].usuarioResp == nuevoCapitan) {
+            $scope.capitanEnUso = true;
+            return;
+          }else{
+            $scope.capitanEnUso = false;
+          }
+        }
+
+      }else{
+        $scope.seleccionNombre = true;
+        return;
+      }
+
+
        if(nuevoCapitan == null){
           return;
        }else{

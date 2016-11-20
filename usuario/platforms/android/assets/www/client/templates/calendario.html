@@ -25,26 +25,10 @@
 
 		</div>
 
-			<!-- <div style="background-color:red;height:100px;position:static">
-
-			</div> -->
-<!-- <div id="botonera">
-		<div layout="fondoDIV" align="center">
-			<button class="button button-positive2 button-block fondoButton" ng-click="changeMode()">Ir a {{modo}}</button>
-		</div>
-		<div layout="row fondoButton">
-			<button class="button button-positive2 button-block" ng-click="changeMode('month')">Ir a mes</button>
-		</div>
-		<div layout="fondoDIV">
-			<button class="button button-positive2 button-block fondoButton" ng-click="loadEvents()">Cargar eventos de prueba</button>
-		</div>
-<div> -->
-
 
 <div class="button-bar botonera">
   <a class="button button-balanced" ng-click="changeMode()">Ir a {{modo}}</a>
-  <a class="button button-balanced" ng-click="openReserva()" ng-show="modo=='dia'" ng-disabled="deshabilitarReserva">Reservar</a>
-  <a class="button button-balanced" ng-click="loadEvents()" ng-show="modo=='dia'">Cargar eventos de prueba</a>
+  <a class="button button-balanced" ng-click="openReserva()" ng-show="calendar.mode==='day'" ng-disabled="deshabilitarReserva">Reservar</a>
 </div>
     </ion-content>
 

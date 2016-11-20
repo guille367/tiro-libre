@@ -50,5 +50,12 @@ router.get('/getreservas/:id', function(req,res){
 });
 
 
+router.put('/update/state', function(req, res, next) {
+  Cancha.update({ }, { locked: req.body.locked }, { multi: true }, function (err, raw) {
+  if (err) return handleError(err);
+});
+});
+
+
 
 module.exports = router;

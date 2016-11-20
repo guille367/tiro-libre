@@ -7,7 +7,7 @@ angular.module('app.controllers')
         $scope.cancha = canchaService.getCancha();
         $scope.calendar = {};
         $scope.reservasDia = {};
-        $scope.modo = 'mes';
+        $scope.modo = 'dia';
         $scope.fechaSeleccionada = new Date();
         $scope.deshabilitarReserva = false;
         $scope.datosClub = {};
@@ -50,9 +50,9 @@ angular.module('app.controllers')
         $scope.changeMode = function () {
 
             $scope.calendar.mode = $scope.calendar.mode == 'month' ? 'day' : 'month';
-            $scope.modo = $scope.calendar.mode === 'day' ? 'dia' : 'mes';
+            $scope.modo = $scope.calendar.mode === 'day' ? 'mes' : 'dia';
             console.log($scope.calendar.eventSource);
-            if($scope.modo == 'dia'){
+            if($scope.calendar.mode === 'day'){
                 reservasDelDia = 
                 $scope.calendar.eventSource.filter(function(d){
                     return (d.startTime.getDate() == $scope.fechaSeleccionada.getDate()) && 
@@ -105,7 +105,7 @@ angular.module('app.controllers')
             $scope.horario.time.dFrom = $scope.horario.time.from;
             var to;
 
-            if($scope.modo == 'dia' && reservasDelDia.length > 0){
+            if($scope.calendar.mode === 'day' && reservasDelDia.length > 0){
                 to = reservasDelDia.find(function(e){
                     return selectedTime.getHours() < (e.startTime.getHours())
                 })
@@ -221,9 +221,9 @@ angular.module('app.controllers')
             var saldo = $scope.reserva.abonaTotal ? 0 : $scope.reserva.PrecioTotal - $scope.reserva.PrecioReserva;
             
             $scope.reserva.TaskID = uuid.v4();
-            $scope.reserva.Username = usuarioActual.username;
+            $scope.reserva.Username = $scope.user.username;
             $scope.reserva.Cancha = $scope.cancha._id;
-            $scope.reserva.Description = 'Reserva ' + usuarioActual.username;
+            $scope.reserva.Description = 'Reserva ' + $scope.user.username;
             $scope.reserva.Start = fechaInicio;
             $scope.reserva.End = fechaFin;
             $scope.reserva.Saldo = saldo;

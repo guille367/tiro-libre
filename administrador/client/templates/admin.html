@@ -37,7 +37,7 @@
             <div class="row">
             <div class='col-sm-12'>
               <div class="form-group">
-                <label for="admin">Administrador:</label>
+                <label for="admin">Nombre:</label>
                 <input type="text" class="form-control" id="admin" ng-model="userAdmin.name" readonly="true">
               </div>
             </div>
@@ -50,23 +50,7 @@
               </div>
             </div>
          	</div>
-         	<div class="row">
-            <div class='col-sm-12'>
-              <div class="form-group">
-                <label for="admin">Password:</label>
-                <input type="Password" name="password" ng-model="userAdmin.password" class="form-control" data-ng-class="{'ng-invalid':myForm.confirmPassword.$error.match}" required="">
-              </div>
-            </div>
-         	</div>
-         	<div class="row">
-            <div class='col-sm-12'>
-              <div class="form-group">
-                <label for="admin">Repetir pass:</label>
-                <input type="Password" ng-model="userAdmin.passwordConfirm" data-match="userAdmin.password" class="form-control" name="confirmPassword" required="">
-                <div data-ng-show="myForm.confirmPassword.$error.match"  style="color:#FF0000"> <b>Los passwords no coinciden</b></div>
-              </div>
-            </div>
-         	</div>
+         	
          	<div class="row">
             <div class='col-sm-12'>
               <div class="form-group">

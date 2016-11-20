@@ -7,20 +7,20 @@ angular.module('app.services')
     };
 
 	this.getAll = function(){
-		return $http.get("http://localhost:3001/equipo/get").then(function(d){
+		return $http.get(generalServices.urlEquipos + "/get").then(function(d){
 			return d;
 		});
 	}
 
     var create = function(equipo){
       console.log(equipo);
-      return $http.post("http://localhost:3001/equipo/post", equipo)
+      return $http.post(generalServices.urlEquipos + "/post", equipo)
         .then(extraerData);
     };
 
 	var update = function(equipo){
 		
-      return $http.put("http://localhost:3001/equipo/update" + equipo._id, equipo)
+      return $http.put(generalServices.urlEquipos + "/update" + equipo._id, equipo)
         .then(extraerData);
         console.log('extraerData');
     console.log(extraerData);
